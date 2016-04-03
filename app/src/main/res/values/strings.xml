@@ -4,5 +4,6 @@
     <string name="button_login">Sign in</string>
     <string name="user_login">Username/Email</string>
     <string name="user_pass">Password</string>
+    <string name="api_address">localhost:8080</string>
     <string name="title_activity_http">HttpActivity</string>
 </resources>

@@ -11,17 +11,23 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
     public final static String EXTRA_USERLOGIN = "com.tallerii.match.USERLOGIN";
     public final static String EXTRA_USERPASS = "com.tallerii.match.USERPASS";
+    private static final String DEBUG_TAG = "HttpLoginRequestDebug";
+    private static final String INFO_TAG = "HttpLoginRequestInfo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,20 +111,44 @@ public class MainActivity extends AppCompatActivity {
 
     private class HttpLoginRequestTask extends AsyncTask<String, Void, String> {
         @Override
-        protected String doInBackground(String... urls) {
+        protected String doInBackground(String... params) {
 
-            // params comes from the execute() call: params[0] is the url.
-        //    try {
-      //          return ""/*downloadUrl(urls[0])*/;
-    //        } catch (IOException e) {
-  //              return "Unable to retrieve web page. URL may be invalid.";
-//            }
-            return "";
+            try {
+                return sendLoginRequest(params[0], params[1]);
+            } catch (IOException e) {
+                return "Unable to process login";
+            }
         }
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
             //textView.setText(result);
+        }
+
+        private String sendLoginRequest(String userlogin, String userpass) throws IOException {
+            InputStream is = null;
+            String loginReqEP = "/users/auth";
+            Log.i(INFO_TAG, "Attempting login request for " + userlogin + " with " + userpass);
+            String apiAddress = getResources().getString(R.string.api_address);
+            String requestUrl = apiAddress + loginReqEP
+                    + "?user=" + userlogin + "&password=" + userpass;
+            try {
+                URL url = new URL(requestUrl);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("GET");
+                conn.setDoInput(true);
+                conn.connect();
+                int response = conn.getResponseCode();
+                Log.d(DEBUG_TAG, "The response code is: " + response);
+                is = conn.getInputStream();
+                return is.toString(); // To change
+            } finally {
+                if (is != null) {
+                    is.close();
+                }
+            }
         }
     }
 }
