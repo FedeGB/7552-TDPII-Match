@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -122,28 +123,33 @@ public class MainActivity extends AppCompatActivity {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-            //textView.setText(result);
+
         }
 
         private String sendLoginRequest(String userlogin, String userpass) throws IOException {
             InputStream is = null;
-            String loginReqEP = "/users/auth";
+            String loginReqEP = ""; //"/users/auth";
             Log.i(INFO_TAG, "Attempting login request for " + userlogin + " with " + userpass);
             String apiAddress = getResources().getString(R.string.api_address);
-            String requestUrl = apiAddress + loginReqEP
-                    + "?user=" + userlogin + "&password=" + userpass;
+            String credentials = userlogin + ":" + userpass;
+            String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+            String requestAddress = apiAddress + loginReqEP;
             try {
-                URL url = new URL(requestUrl);
+                URL url = new URL(requestAddress);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestMethod("GET");
                 conn.setDoInput(true);
+                conn.setRequestProperty("Authorization", "basic " + base64EncodedCredentials);
                 conn.connect();
                 int response = conn.getResponseCode();
                 Log.d(DEBUG_TAG, "The response code is: " + response);
                 is = conn.getInputStream();
                 return is.toString(); // To change
+            } catch(Exception e) {
+                e.getMessage();
+                return "";
             } finally {
                 if (is != null) {
                     is.close();
