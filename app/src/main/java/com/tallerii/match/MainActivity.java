@@ -2,6 +2,7 @@ package com.tallerii.match;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -18,8 +19,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -29,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_USERPASS = "com.tallerii.match.USERPASS";
     private static final String DEBUG_TAG = "HttpLoginRequestDebug";
     private static final String INFO_TAG = "HttpLoginRequestInfo";
+    private static final String ERROR_TAG = "HttpLoginRequestError";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +131,19 @@ public class MainActivity extends AppCompatActivity {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
+            JSONObject jObject = null;
+            try {
+                jObject = new JSONObject(result);
 
+                if(jObject != null) {
+                    boolean auth = jObject.getBoolean("autentication");
+                }
+            } catch (JSONException e) {
+                Log.e(ERROR_TAG, "Unable to handle Json: " + result);
+            }
+            //Context context = MainActivity.this;
+            //SharedPreferences sharedPref = context.getSharedPreferences(
+              //      getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         }
 
         private String sendLoginRequest(String userlogin, String userpass) throws IOException {
@@ -136,17 +156,31 @@ public class MainActivity extends AppCompatActivity {
             String requestAddress = apiAddress + loginReqEP;
             try {
                 URL url = new URL(requestAddress);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                HttpURLConnection conn = null;
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestMethod("GET");
                 conn.setDoInput(true);
                 conn.setRequestProperty("Authorization", "basic " + base64EncodedCredentials);
+                conn.disconnect();
                 conn.connect();
                 int response = conn.getResponseCode();
+                if(response != 200) {
+                    String error = "Failed with response: " + response
+                            + " request was: " + conn.getRequestMethod();
+                    Log.e(ERROR_TAG, error);
+                    throw new IOException(error);
+                }
                 Log.d(DEBUG_TAG, "The response code is: " + response);
                 is = conn.getInputStream();
-                return is.toString(); // To change
+                BufferedReader r = new BufferedReader(new InputStreamReader(is));
+                StringBuilder total = new StringBuilder();
+                String line;
+                while ((line = r.readLine()) != null) {
+                    total.append(line);
+                }
+                return total.toString();
             } catch(Exception e) {
                 e.getMessage();
                 return "";

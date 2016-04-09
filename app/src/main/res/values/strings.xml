@@ -6,4 +6,5 @@
     <string name="user_pass">Password</string>
     <string name="api_address">https://echo.getpostman.com/basic-auth</string>
     <string name="title_activity_http">HttpActivity</string>
+    <string name="preference_file_key">preferences</string>
 </resources>
