@@ -93,6 +93,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void registerActivity(View view) {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
     public void sendLoginRequest(View view) {
         // Gets the URL from the UI's text field.
         //String stringUrl = urlText.getText().toString();
