@@ -32,8 +32,8 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    public final static String EXTRA_USERLOGIN = "com.tallerii.match.USERLOGIN";
-    public final static String EXTRA_USERPASS = "com.tallerii.match.USERPASS";
+    //public final static String EXTRA_USERLOGIN = "com.tallerii.match.USERLOGIN";
+    //public final static String EXTRA_USERPASS = "com.tallerii.match.USERPASS";
     private static final String DEBUG_TAG = "HttpLoginRequestDebug";
     private static final String INFO_TAG = "HttpLoginRequestInfo";
     private static final String ERROR_TAG = "HttpLoginRequestError";
@@ -41,18 +41,34 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Context context = MainActivity.this;
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        String apiToken = sharedPref.getString(getString(R.string.api_credential), "");
+        if(!apiToken.isEmpty()) {
+            Intent intent = new Intent(this, MatchActivity.class);
+            //EditText userloginEdit = (EditText) findViewById(R.id.user_login);
+            //EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
+            //String userlogin = userloginEdit.getText().toString();
+            //String userpass = userpassEdit.getText().toString();
+            //intent.putExtra(EXTRA_USERLOGIN, userlogin);
+            //intent.putExtra(EXTRA_USERPASS, userpass);
+            startActivity(intent);
+        }
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        //fab.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View view) {
+        //        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        //                .setAction("Action", null).show();
+        //    }
+        //});
     }
 
     @Override
@@ -78,17 +94,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendLoginRequest(View view) {
-        // Para llamar a otra actividad con la data entrante
-        // Ver si realmente el modulo que se va a comunicar con el server
-        // es un activity o que se usa
-        /*Intent intent = new Intent(this, HttpActivity.class);
-        EditText userloginEdit = (EditText) findViewById(R.id.user_login);
-        EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
-        String userlogin = userloginEdit.getText().toString();
-        String userpass = userpassEdit.getText().toString();
-        intent.putExtra(EXTRA_USERLOGIN, userlogin);
-        intent.putExtra(EXTRA_USERPASS, userpass);
-        startActivity(intent);*/
         // Gets the URL from the UI's text field.
         //String stringUrl = urlText.getText().toString();
         EditText userloginEdit = (EditText) findViewById(R.id.user_login);
@@ -121,38 +126,49 @@ public class MainActivity extends AppCompatActivity {
     private class HttpLoginRequestTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
-
+            JSONObject jObject = null;
+            String credentials = params[0] + ":" + params[1];
+            String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+            String response = "";
+            boolean auth;
             try {
-                return sendLoginRequest(params[0], params[1]);
+                response = sendLoginRequest(base64EncodedCredentials); // 0: user, 1: pass
+                jObject = new JSONObject(response);
+                auth = jObject.getBoolean("authenticated");
+            } catch (JSONException e) {
+                Log.e(ERROR_TAG, "Unable to handle Json: " + response, e);
+                return "";
             } catch (IOException e) {
-                return "Unable to process login";
+                Log.e(ERROR_TAG, "Unable to handle login: " + base64EncodedCredentials, e);
+                return "";
+            }
+            if(!auth) {
+                return base64EncodedCredentials;
+            } else {
+                return "";
             }
         }
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-            JSONObject jObject = null;
-            try {
-                jObject = new JSONObject(result);
-
-                if(jObject != null) {
-                    boolean auth = jObject.getBoolean("autentication");
-                }
-            } catch (JSONException e) {
-                Log.e(ERROR_TAG, "Unable to handle Json: " + result);
+            if(!result.isEmpty()) {
+                Context context = MainActivity.this;
+                SharedPreferences sharedPref = context.getSharedPreferences(
+                      getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(getString(R.string.api_credential), result);
+                editor.commit();
             }
-            //Context context = MainActivity.this;
-            //SharedPreferences sharedPref = context.getSharedPreferences(
-              //      getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
         }
 
-        private String sendLoginRequest(String userlogin, String userpass) throws IOException {
+        private String sendLoginRequest(String base64EncodedCredentials) throws IOException {
             InputStream is = null;
             String loginReqEP = ""; //"/users/auth";
-            Log.i(INFO_TAG, "Attempting login request for " + userlogin + " with " + userpass);
+            // Log.i(INFO_TAG, "Attempting login request for " + userlogin + " with " + userpass);
+            Log.i(INFO_TAG, "Attempting login request for credentials: " + base64EncodedCredentials);
             String apiAddress = getResources().getString(R.string.api_address);
-            String credentials = userlogin + ":" + userpass;
-            String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+
             String requestAddress = apiAddress + loginReqEP;
             try {
                 URL url = new URL(requestAddress);
