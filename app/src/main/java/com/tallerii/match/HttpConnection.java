@@ -4,13 +4,9 @@ import android.os.AsyncTask;
 import android.util.Pair;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,6 +23,7 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
     private String method;
     private String uri;
     private Vector<Pair<String, String>> customHeaders;
+    private Vector<Pair<String, String>> uriGetVariables;
     private ByteArrayOutputStream bodyStream;
 
     enum HttpMethod {
@@ -40,6 +37,7 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
         this.listener = listener;
         method = "GET";
         customHeaders = new Vector<>();
+        uriGetVariables = new Vector<>();
         uri = "NoUri";
         bodyStream = new ByteArrayOutputStream();
     }
@@ -55,6 +53,11 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
     void addHeader(String name, String content){
         Pair<String, String> header = new Pair<>(name, content);
         customHeaders.add(header);
+    }
+
+    void addUriVariable(String variableName, String value) {
+        Pair<String, String> variable = new Pair<>(variableName, value);
+        uriGetVariables.add(variable);
     }
 
     void setMethod(HttpMethod method){
@@ -79,7 +82,24 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
         InputStream resultStream = null;
 
         try {
-            URL PhyscUrl = new URL("http://" + serverIp + ":" + serverPort + "/" + uri);
+
+            String uriVariable = uri;
+
+            Iterator<Pair<String, String>> variableITerator = uriGetVariables.iterator();
+
+            if(uriGetVariables.size() > 0){
+                uriVariable += "?";
+            }
+
+            while (variableITerator.hasNext()){
+                Pair<String, String> vInfo = variableITerator.next();
+                uriVariable += vInfo.first + "=" + vInfo.second;
+                if(variableITerator.hasNext()){
+                    uriVariable += "&";
+                }
+            }
+
+            URL PhyscUrl = new URL("http://" + serverIp + ":" + serverPort + "/" + uriVariable);
             HttpURLConnection urlConnection = (HttpURLConnection) PhyscUrl.openConnection();
             urlConnection.setDoOutput(true);
 
@@ -96,7 +116,6 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
             urlConnection.connect();
 
             resultStream = new BufferedInputStream(urlConnection.getInputStream());
-
             urlConnection.disconnect();
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -108,7 +127,11 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
 
     @Override
     protected void onPostExecute(InputStream result) {
-        listener.handleHttpResponse(result, this);
+        if(result != null) {
+            listener.handleHttpResponse(result, this);
+        } else {
+            listener.httpRequestError(this);
+        }
     }
 
     public String getMethod() {

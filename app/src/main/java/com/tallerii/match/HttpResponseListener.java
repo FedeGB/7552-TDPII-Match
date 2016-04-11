@@ -7,4 +7,5 @@ import java.io.InputStream;
  */
 public interface HttpResponseListener {
     void handleHttpResponse(InputStream response, HttpConnection connection);
+    void httpRequestError(HttpConnection connection);
 }

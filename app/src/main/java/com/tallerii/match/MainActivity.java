@@ -14,10 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+
 import java.io.InputStream;
-import java.io.InputStreamReader;
+
 
 
 public class MainActivity extends AppCompatActivity implements HttpResponseListener {
@@ -78,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
 
         HttpConnection httpConnection = new HttpConnection("192.168.0.102", "1234", this);
 
-
         EditText userloginEdit = (EditText) findViewById(R.id.user_login);
         EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
         String userData = "{ \"User\":\"" + userloginEdit.getText().toString() + "\", \"Pass\":\"" +
@@ -89,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
         httpConnection.addHeader("UserData", userData);
 
         httpConnection.writeBody("Este es el cuerpo del httpp".getBytes());
+        httpConnection.addUriVariable("Nombre", "Jorge");
         httpConnection.execute();
     }
 
@@ -99,5 +98,10 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
             //Se puede armar un switch, o un hashmap que hashie la respuesta a otra cosa
             //Definir!
         }
+    }
+
+    @Override
+    public void httpRequestError(HttpConnection connection) {
+
     }
 }
