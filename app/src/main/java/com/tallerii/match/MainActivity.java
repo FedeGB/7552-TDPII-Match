@@ -3,34 +3,23 @@ package com.tallerii.match;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
-import android.util.Log;
+
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+
+
+public class MainActivity extends AppCompatActivity implements HttpResponseListener {
 
     //public final static String EXTRA_USERLOGIN = "com.tallerii.match.USERLOGIN";
     //public final static String EXTRA_USERPASS = "com.tallerii.match.USERPASS";
@@ -60,15 +49,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        //fab.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View view) {
-        //        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-        //                .setAction("Action", null).show();
-        //    }
-        //});
     }
 
     @Override
@@ -94,117 +74,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendLoginRequest(View view) {
-        // Gets the URL from the UI's text field.
-        //String stringUrl = urlText.getText().toString();
+
+        HttpConnection httpConnection = new HttpConnection("192.168.0.102", "1234", this);
+
         EditText userloginEdit = (EditText) findViewById(R.id.user_login);
         EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
-        String userlogin;
-        String userpass;
-        try {
-            userlogin = userloginEdit.getText().toString();
-            userpass = userpassEdit.getText().toString();
-        } catch(NullPointerException ex) {
-            userlogin = "";
-            userpass = "";
-        }
-        ConnectivityManager connMgr = (ConnectivityManager)
-        getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            if(userlogin.isEmpty() || userpass.isEmpty()) {
-                Snackbar.make(view, "Email or Password can't be empty.", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            } else {
-                new HttpLoginRequestTask().execute(userlogin, userpass);
-            }
-        } else {
-            Snackbar.make(view, "No network connection available.", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+        String userData = "{ \"User\":\"" + userloginEdit.getText().toString() + "\", \"Pass\":\"" +
+                userpassEdit.getText().toString() + "\"}";
+
+        httpConnection.setMethod(HttpConnection.HttpMethod.Post);
+        httpConnection.setUri("login");
+        httpConnection.addHeader("UserData", userData);
+
+        httpConnection.writeBody("Este es el cuerpo del httpp".getBytes());
+        httpConnection.addUriVariable("Nombre", "Jorge");
+        httpConnection.execute();
+    }
+
+    @Override
+    public void handleHttpResponse(InputStream response, HttpConnection connection) {
+        if(connection.getUri() == "login"){
+            //Aca llega la respuesta en un InputStream ya que no necesariamente puede ser texto!!!
+            //Se puede armar un switch, o un hashmap que hashie la respuesta a otra cosa
+            //Definir!
         }
     }
 
-    private class HttpLoginRequestTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            JSONObject jObject = null;
-            String credentials = params[0] + ":" + params[1];
-            String base64EncodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
-            String response = "";
-            boolean auth;
-            try {
-                response = sendLoginRequest(base64EncodedCredentials); // 0: user, 1: pass
-                jObject = new JSONObject(response);
-                auth = jObject.getBoolean("authenticated");
-            } catch (JSONException e) {
-                Log.e(ERROR_TAG, "Unable to handle Json: " + response, e);
-                return "";
-            } catch (IOException e) {
-                Log.e(ERROR_TAG, "Unable to handle login: " + base64EncodedCredentials, e);
-                return "";
-            }
-            if(!auth) {
-                return base64EncodedCredentials;
-            } else {
-                return "";
-            }
-        }
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String result) {
-            if(!result.isEmpty()) {
-                Context context = MainActivity.this;
-                SharedPreferences sharedPref = context.getSharedPreferences(
-                      getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(getString(R.string.api_credential), result);
-                editor.commit();
-            }
+    @Override
+    public void httpRequestError(HttpConnection connection) {
 
-        }
-
-        private String sendLoginRequest(String base64EncodedCredentials) throws IOException {
-            InputStream is = null;
-            String loginReqEP = ""; //"/users/auth";
-            // Log.i(INFO_TAG, "Attempting login request for " + userlogin + " with " + userpass);
-            Log.i(INFO_TAG, "Attempting login request for credentials: " + base64EncodedCredentials);
-            String apiAddress = getResources().getString(R.string.api_address);
-
-            String requestAddress = apiAddress + loginReqEP;
-            try {
-                URL url = new URL(requestAddress);
-                HttpURLConnection conn = null;
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000 /* milliseconds */);
-                conn.setConnectTimeout(15000 /* milliseconds */);
-                conn.setRequestMethod("GET");
-                conn.setDoInput(true);
-                conn.setRequestProperty("Authorization", "basic " + base64EncodedCredentials);
-                conn.disconnect();
-                conn.connect();
-                int response = conn.getResponseCode();
-                if(response != 200) {
-                    String error = "Failed with response: " + response
-                            + " request was: " + conn.getRequestMethod();
-                    Log.e(ERROR_TAG, error);
-                    throw new IOException(error);
-                }
-                Log.d(DEBUG_TAG, "The response code is: " + response);
-                is = conn.getInputStream();
-                BufferedReader r = new BufferedReader(new InputStreamReader(is));
-                StringBuilder total = new StringBuilder();
-                String line;
-                while ((line = r.readLine()) != null) {
-                    total.append(line);
-                }
-                return total.toString();
-            } catch(Exception e) {
-                e.getMessage();
-                return "";
-            } finally {
-                if (is != null) {
-                    is.close();
-                }
-            }
-        }
     }
 }
