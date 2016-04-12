@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     public void sendLoginRequest(View view) {
         // Gets the URL from the UI's text field.
         //String stringUrl = urlText.getText().toString();
-        EditText userloginEdit = (EditText) findViewById(R.id.user_login);
+        EditText userloginEdit = (EditText) findViewById(R.id.user_email);
         EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
         String userlogin;
         String userpass;
