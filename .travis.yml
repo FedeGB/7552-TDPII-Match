@@ -24,21 +24,15 @@ android:
         - sys-img-x86-android-23
 
     install:
-        - ./gradlew assembleDebug
+        - ./gradlew clean
+	- ./gradlew assembleDebug
+	- ./gradlew assembleDebugAndroidTest
+	- adb install app/build/outputs/apk/app-debug.apk
+	- adb install app/build/outputs/apk/app-debug-androidTest-unaligned.apk
+	- adb shell am instrument -w com.tallerii.match.test/android.support.test.runner.AndroidJUnitRunner
 
     before_script:
         - echo no | android create avd --force -n test -t android-23 --abi armeabi-v7a
         - emulator -avd test -no-audio -no-window &
         - android-wait-for-emulator
         - adb shell input keyevent 82 &
-	- ./gradlew assembleDebug -PdisablePreDex
-    	- ./gradlew assembleDebugAndroidTest -PdisablePreDex
-    	- adb install app/build/outputs/apk/app-debug.apk
-    	- adb install app/build/outputs/apk/app-debug-androidTest-unaligned.apk
-    	- adb shell pm grant com.tallerii.match android.permission.SET_ANIMATION_SCALE
-    	- adb shell am instrument -w  -e numShards 6 -e shardIndex 0 -e package com.tallerii.match com.tallerii.match.test/android.support.test.runner.AndroidJUnitRunner
-    	- adb shell am instrument -w  -e numShards 6 -e shardIndex 1 -e package com.tallerii.match com.tallerii.match.test/android.support.test.runner.AndroidJUnitRunner
-    	- adb shell am instrument -w  -e numShards 6 -e shardIndex 2 -e package com.tallerii.match com.tallerii.match.test/android.support.test.runner.AndroidJUnitRunner
-    	- adb shell am instrument -w  -e numShards 6 -e shardIndex 3 -e package com.tallerii.match com.tallerii.match.test/android.support.test.runner.AndroidJUnitRunner
-    	- adb shell am instrument -w  -e numShards 6 -e shardIndex 4 -e package com.tallerii.match com.tallerii.match.test/android.support.test.runner.AndroidJUnitRunner
-    	- adb shell am instrument -w  -e numShards 6 -e shardIndex 5 -e package com.tallerii.match com.tallerii.match.test/android.support.test.runner.AndroidJUnitRunner
