@@ -1,5 +1,8 @@
 package com.tallerii.match;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Pair;
 
@@ -140,5 +143,15 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
 
     public String getUri() {
         return uri;
+    }
+
+    public boolean isConnectionAvailable(Context context) {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        }
+        return false;
     }
 }

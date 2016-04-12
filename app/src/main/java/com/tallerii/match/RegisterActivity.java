@@ -10,7 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-public class RegisterActivity extends AppCompatActivity {
+import org.json.JSONObject;
+
+import java.io.InputStream;
+
+public class RegisterActivity extends AppCompatActivity implements HttpResponseListener {
 
     private static final String ERROR_TAG = "registerErrorTag";
     @Override
@@ -45,20 +49,38 @@ public class RegisterActivity extends AppCompatActivity {
         } catch (NullPointerException nullEx) {
             Log.e(ERROR_TAG, "Value was NULL", nullEx);
         }
-
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
+        HttpConnection httpConnection = new HttpConnection("192.168.0.102", "1234", this);
+        if (httpConnection.isConnectionAvailable(this.getApplicationContext())) {
             if(!error.isEmpty()) {
                 Snackbar.make(view, error + " required", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             } else {
-                //new HttpLoginRequestTask().execute(userlogin, userpass);
+                JSONObject params = new JSONObject();
+                // TODO: Set params to json
+                sendSignUpRequest(httpConnection, params);
             }
         } else {
             Snackbar.make(view, "No network connection available.", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }
+    }
+
+    public void sendSignUpRequest(HttpConnection httpConnection, JSONObject params) {
+        // Set request data for register
+        httpConnection.setMethod(HttpConnection.HttpMethod.Post);
+        httpConnection.setUri("/users/signup"); // TODO: Se puede cambiar, sacar hardcode
+        // TODO: httpConnection.addHeader("UserData", userData); Poner header application/json?
+        httpConnection.writeBody(params.toString().getBytes());
+        httpConnection.execute();
+    }
+
+    @Override
+    public void handleHttpResponse(InputStream response, HttpConnection connection) {
+        // TODO: Handle response success
+    }
+
+    @Override
+    public void httpRequestError(HttpConnection connection) {
+        // TODO: Handle response fail
     }
 }

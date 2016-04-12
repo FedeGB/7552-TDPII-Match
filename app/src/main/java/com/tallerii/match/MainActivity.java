@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import android.os.Bundle;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -80,18 +81,27 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
 
     public void sendLoginRequest(View view) {
         HttpConnection httpConnection = new HttpConnection("192.168.0.102", "1234", this);
-        EditText userloginEdit = (EditText) findViewById(R.id.user_email);
-        EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
-        String userData = "{ \"User\":\"" + userloginEdit.getText().toString() + "\", \"Pass\":\"" +
-                userpassEdit.getText().toString() + "\"}";
-
-        httpConnection.setMethod(HttpConnection.HttpMethod.Post);
-        httpConnection.setUri("login");
-        httpConnection.addHeader("UserData", userData);
-
-        httpConnection.writeBody("Este es el cuerpo del httpp".getBytes());
-        httpConnection.addUriVariable("Nombre", "Jorge");
-        httpConnection.execute();
+        if (httpConnection.isConnectionAvailable(this.getApplicationContext())) {
+            EditText userloginEdit = (EditText) findViewById(R.id.user_email);
+            EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
+            httpConnection.setMethod(HttpConnection.HttpMethod.Get);
+            if(!userloginEdit.getText().toString().isEmpty()
+                    || !userpassEdit.getText().toString().isEmpty()) {
+                httpConnection.setUri("/users/login");
+                //httpConnection.addHeader("UserData", userData);
+                // TODO: Para mi que lo mejor va a ser pasar algo encodeado entre user y pass para luego comparar con valor en DB del App Server
+                //httpConnection.writeBody("Este es el cuerpo del httpp".getBytes());
+                httpConnection.addUriVariable("username", userloginEdit.getText().toString());
+                httpConnection.addUriVariable("userpass", userpassEdit.getText().toString());
+                httpConnection.execute();
+            } else {
+                Snackbar.make(view, "User or pass can't be empty", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        } else {
+            Snackbar.make(view, "No network connection available.", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
     }
 
     @Override
@@ -99,12 +109,12 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
         if(connection.getUri() == "login"){
             //Aca llega la respuesta en un InputStream ya que no necesariamente puede ser texto!!!
             //Se puede armar un switch, o un hashmap que hashie la respuesta a otra cosa
-            //Definir!
+            // TODO: Definir!
         }
     }
 
     @Override
     public void httpRequestError(HttpConnection connection) {
-
+        // TODO: Handle request fail
     }
 }
