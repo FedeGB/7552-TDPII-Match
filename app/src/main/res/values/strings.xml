@@ -10,4 +10,17 @@
     <string name="api_credential">ApiCredentials</string>
     <string name="title_activity_match">MatchActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="Pe_persona_name">Unknow People</string>
+    <string name="Pe_persona_age"> Age: 23 </string>
+    <string name="Pe_persona_from_state"> Buenos Aires</string>
+    <string name="Pe_persona_from_country">Argentina</string>
+    <string name="Pe_persona_from_location">CABA</string>
+    <string name="Pe_title_about_me">Acerca de mi:</string>
+    <string name="Pe_persona_school">Estudia: Ing. Informática</string>
+    <string name="Pe_persona_favourite_movie">Pelicula: Star Wars</string>
+    <string name="Pe_persona_favourite_food">Comida: Pizza</string>
+    <string name="Pe_persona_favourite_animal">Animal: Perro</string>
+    <string name="Pe_persona_favourite_color">Color: Azul</string>
+    <string name="Pe_persona_hobby">Hobby: Natacion</string>
+    <string name="Pe_button_talkOrEdit">Conocer/Editar</string>
 </resources>

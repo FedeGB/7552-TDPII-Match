@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
     }
 
     public void sendLoginRequest(View view) {
+        startActivity(new Intent(MainActivity.this, PerfilActivity.class));
+        /*
 
         HttpConnection httpConnection = new HttpConnection("192.168.0.102", "1234", this);
 
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
         httpConnection.writeBody("Este es el cuerpo del httpp".getBytes());
         httpConnection.addUriVariable("Nombre", "Jorge");
         httpConnection.execute();
+        */
     }
 
     @Override
