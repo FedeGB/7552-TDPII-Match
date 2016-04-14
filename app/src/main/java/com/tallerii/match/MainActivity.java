@@ -10,14 +10,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
-
+import java.io.InputStreamReader;
 
 
 public class MainActivity extends AppCompatActivity implements HttpResponseListener {
@@ -38,12 +41,6 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
         String apiToken = sharedPref.getString(getString(R.string.api_credential), "");
         if(!apiToken.isEmpty()) {
             Intent intent = new Intent(this, MatchActivity.class);
-            //EditText userloginEdit = (EditText) findViewById(R.id.user_login);
-            //EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
-            //String userlogin = userloginEdit.getText().toString();
-            //String userpass = userpassEdit.getText().toString();
-            //intent.putExtra(EXTRA_USERLOGIN, userlogin);
-            //intent.putExtra(EXTRA_USERPASS, userpass);
             startActivity(intent);
         }
 
@@ -106,10 +103,25 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
 
     @Override
     public void handleHttpResponse(InputStream response, HttpConnection connection) {
-        if(connection.getUri() == "login"){
-            //Aca llega la respuesta en un InputStream ya que no necesariamente puede ser texto!!!
-            //Se puede armar un switch, o un hashmap que hashie la respuesta a otra cosa
-            // TODO: Definir!
+        if(connection.getUri().equals("/users/login")) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            try {
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+            } catch (IOException e) {
+                Log.e(ERROR_TAG,"Input stream read error on login request", e);
+            }
+            Context context = MainActivity.this;
+            SharedPreferences sharedPref = context.getSharedPreferences(
+                    getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            // TODO: GET API CREDENTIALS FORM INPUT STREAM OR NEGATIVE RESPONSE
+            String apiCred = "";
+            editor.putString(getString(R.string.api_credential), apiCred);
+            editor.apply();
         }
     }
 

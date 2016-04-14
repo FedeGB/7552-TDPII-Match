@@ -1,6 +1,8 @@
 package com.tallerii.match;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
@@ -12,7 +14,10 @@ import android.widget.EditText;
 
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class RegisterActivity extends AppCompatActivity implements HttpResponseListener {
 
@@ -76,7 +81,24 @@ public class RegisterActivity extends AppCompatActivity implements HttpResponseL
 
     @Override
     public void handleHttpResponse(InputStream response, HttpConnection connection) {
-        // TODO: Handle response success
+        if(connection.getUri().equals("/users/signup")) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            try {
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+            } catch (IOException e) {
+                Log.e(ERROR_TAG,"Input stream read error on register request", e);
+            }
+            // TODO: GET RESPONSE STATUS, IF IT WAS CREATED OR NOT
+            // if success send to login for login
+            // Intent intent = new Intent(this, MainActivity.class);
+            // startActivity(intent);
+
+            // if error register, show specific error.
+        }
     }
 
     @Override
