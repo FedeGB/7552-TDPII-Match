@@ -84,11 +84,9 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
             String pass = userpassEdit != null ? userpassEdit.getText().toString() : "";
             if(!user.isEmpty() && !pass.isEmpty()) {
                 httpConnection.setUri(getString(R.string.signin_uri));
-                //httpConnection.addHeader("UserData", userData);
-                // TODO: Para mi que lo mejor va a ser pasar algo encodeado entre user y pass para luego comparar con valor en DB del App Server
-                //httpConnection.writeBody("Este es el cuerpo del httpp".getBytes());
-                httpConnection.addUriVariable("username", user);
-                httpConnection.addUriVariable("userpass", pass);
+                httpConnection.addHeader("Content-Type", "application/json");
+                httpConnection.addUriVariable("user", user);
+                httpConnection.addUriVariable("password", pass);
                 httpConnection.execute();
             } else {
                 Snackbar.make(view, "User or pass can't be empty", Snackbar.LENGTH_LONG)
