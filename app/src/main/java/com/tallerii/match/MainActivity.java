@@ -25,8 +25,6 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity implements HttpResponseListener {
 
-    //public final static String EXTRA_USERLOGIN = "com.tallerii.match.USERLOGIN";
-    //public final static String EXTRA_USERPASS = "com.tallerii.match.USERPASS";
     private static final String DEBUG_TAG = "HttpLoginRequestDebug";
     private static final String INFO_TAG = "HttpLoginRequestInfo";
     private static final String ERROR_TAG = "HttpLoginRequestError";
@@ -82,14 +80,15 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
             EditText userloginEdit = (EditText) findViewById(R.id.user_email);
             EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
             httpConnection.setMethod(HttpConnection.HttpMethod.Get);
-            if(!userloginEdit.getText().toString().isEmpty()
-                    || !userpassEdit.getText().toString().isEmpty()) {
+            String user = userloginEdit != null ? userloginEdit.getText().toString() : "";
+            String pass = userpassEdit != null ? userpassEdit.getText().toString() : "";
+            if(!user.isEmpty() && !pass.isEmpty()) {
                 httpConnection.setUri(getString(R.string.signin_uri));
                 //httpConnection.addHeader("UserData", userData);
                 // TODO: Para mi que lo mejor va a ser pasar algo encodeado entre user y pass para luego comparar con valor en DB del App Server
                 //httpConnection.writeBody("Este es el cuerpo del httpp".getBytes());
-                httpConnection.addUriVariable("username", userloginEdit.getText().toString());
-                httpConnection.addUriVariable("userpass", userpassEdit.getText().toString());
+                httpConnection.addUriVariable("username", user);
+                httpConnection.addUriVariable("userpass", pass);
                 httpConnection.execute();
             } else {
                 Snackbar.make(view, "User or pass can't be empty", Snackbar.LENGTH_LONG)
@@ -104,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
     @Override
     public void handleHttpResponse(InputStream response, HttpConnection connection) {
         if(connection.getUri().equals(getString(R.string.signin_uri))) {
+            Log.i(INFO_TAG, "Parsing login response: " + response.toString());
             BufferedReader reader = new BufferedReader(new InputStreamReader(response));
             StringBuilder stringBuilder = new StringBuilder();
             String line;

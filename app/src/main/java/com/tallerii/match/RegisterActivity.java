@@ -1,10 +1,5 @@
 package com.tallerii.match;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,19 +30,19 @@ public class RegisterActivity extends AppCompatActivity implements HttpResponseL
         EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
         String error = "";
         try {
-            String email = useremailEdit.getText().toString();
+            String email = useremailEdit != null ? useremailEdit.getText().toString() : "";
             if(email.isEmpty()) {
                 error = "Email ";
             }
-            String firstname = userfirstEdit.getText().toString();
+            String firstname = userfirstEdit != null ? userfirstEdit.getText().toString() : "";
             if(firstname.isEmpty()) {
                 error += "First Name ";
             }
-            String lastname = userlastEdit.getText().toString();
+            String lastname = userlastEdit != null ? userlastEdit.getText().toString() : "";
             if(lastname.isEmpty()) {
                 error += "Last Name ";
             }
-            String password = userpassEdit.getText().toString();
+            String password = userpassEdit != null ? userpassEdit.getText().toString() : "";
             if(password.isEmpty()) {
                 error += "Password";
             }
