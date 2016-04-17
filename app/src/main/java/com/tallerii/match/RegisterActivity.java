@@ -54,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity implements HttpResponseL
         } catch (NullPointerException nullEx) {
             Log.e(ERROR_TAG, "Value was NULL", nullEx);
         }
-        HttpConnection httpConnection = new HttpConnection("192.168.0.102", "1234", this);
+        HttpConnection httpConnection = new HttpConnection(getString(R.string.server_address), getString(R.string.server_port), this);
         if (httpConnection.isConnectionAvailable(this.getApplicationContext())) {
             if(!error.isEmpty()) {
                 Snackbar.make(view, error + " required", Snackbar.LENGTH_LONG)
@@ -73,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity implements HttpResponseL
     public void sendSignUpRequest(HttpConnection httpConnection, JSONObject params) {
         // Set request data for register
         httpConnection.setMethod(HttpConnection.HttpMethod.Post);
-        httpConnection.setUri("/users/signup"); // TODO: Se puede cambiar, sacar hardcode
+        httpConnection.setUri(getString(R.string.signup_uri));
         // TODO: httpConnection.addHeader("UserData", userData); Poner header application/json?
         httpConnection.writeBody(params.toString().getBytes());
         httpConnection.execute();
@@ -81,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity implements HttpResponseL
 
     @Override
     public void handleHttpResponse(InputStream response, HttpConnection connection) {
-        if(connection.getUri().equals("/users/signup")) {
+        if(connection.getUri().equals(getString(R.string.signup_uri))) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(response));
             StringBuilder stringBuilder = new StringBuilder();
             String line;

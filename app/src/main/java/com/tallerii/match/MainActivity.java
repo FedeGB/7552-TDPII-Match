@@ -77,14 +77,14 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
     }
 
     public void sendLoginRequest(View view) {
-        HttpConnection httpConnection = new HttpConnection("192.168.0.102", "1234", this);
+        HttpConnection httpConnection = new HttpConnection(getString(R.string.server_address), getString(R.string.server_port), this);
         if (httpConnection.isConnectionAvailable(this.getApplicationContext())) {
             EditText userloginEdit = (EditText) findViewById(R.id.user_email);
             EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
             httpConnection.setMethod(HttpConnection.HttpMethod.Get);
             if(!userloginEdit.getText().toString().isEmpty()
                     || !userpassEdit.getText().toString().isEmpty()) {
-                httpConnection.setUri("/users/login");
+                httpConnection.setUri(getString(R.string.signin_uri));
                 //httpConnection.addHeader("UserData", userData);
                 // TODO: Para mi que lo mejor va a ser pasar algo encodeado entre user y pass para luego comparar con valor en DB del App Server
                 //httpConnection.writeBody("Este es el cuerpo del httpp".getBytes());
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
 
     @Override
     public void handleHttpResponse(InputStream response, HttpConnection connection) {
-        if(connection.getUri().equals("/users/login")) {
+        if(connection.getUri().equals(getString(R.string.signin_uri))) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(response));
             StringBuilder stringBuilder = new StringBuilder();
             String line;
