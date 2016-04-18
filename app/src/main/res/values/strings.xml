@@ -20,4 +20,20 @@
     <string name="pe_persona_email">jorgepe@gmail.com</string>
     <string name="pe_persona_title_interes">Intereses</string>
     <string name="pe_persona_button_t_e">Editar/Conocer</string>
+    <string name="et_title">Titulo</string>
+    <string name="et_button_cancel">Cancelar</string>
+    <string name="et_button_accept">Aceptar</string>
+    <string name="ep_text_nickname">Alias</string>
+    <string name="ep_tv_nombre">Nombre y Apellido</string>
+    <string name="ep_tv_email">email@email.a</string>
+    <string name="ep_tv_interes">Intereses</string>
+    <string name="ep_tv_interest">music</string>
+    <string name="ep_tv_interest_music">music</string>
+    <string name="ep_tv_interest_music_band">music/band</string>
+    <string name="ep_tv_interest_sport">sport</string>
+    <string name="ep_tv_interest_sex">sex</string>
+    <string name="ep_tv_interest_outdoors">outdoors</string>
+    <string name="ep_tv_interest_travel">travel</string>
+    <string name="ep_tv_interest_food">food</string>
+
 </resources>

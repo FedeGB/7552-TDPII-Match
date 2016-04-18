@@ -30,7 +30,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tallerii.match.MainActivity" />
         </activity>
-        <activity android:name=".PerfilActivity"></activity>
+        <activity android:name=".PerfilActivity" />
+        <activity android:name=".EditPerfilActivity" />
+        <activity android:name=".EditTextActivity"></activity>
     </application>
 
 </manifest>

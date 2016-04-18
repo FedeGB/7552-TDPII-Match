@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
     }
 
     public void sendLoginRequest(View view) {
-        startActivity(new Intent(MainActivity.this, PerfilActivity.class));
+        startActivity(new Intent(MainActivity.this, EditPerfilActivity.class));
         /*
 
         HttpConnection httpConnection = new HttpConnection("192.168.0.102", "1234", this);
