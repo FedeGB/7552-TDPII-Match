@@ -28,7 +28,7 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
     private Vector<Pair<String, String>> customHeaders;
     private Vector<Pair<String, String>> uriGetVariables;
     private ByteArrayOutputStream bodyStream;
-    private int responseCode;
+    private int response;
 
     enum HttpMethod {
         Get,
@@ -44,7 +44,7 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
         uriGetVariables = new Vector<>();
         uri = "NoUri";
         bodyStream = new ByteArrayOutputStream();
-        responseCode = -1;
+        response = -1;
     }
 
     void writeBody(byte[] bytes){
@@ -119,7 +119,7 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
 
             urlConnection.setRequestMethod(method);
             urlConnection.connect();
-            responseCode = urlConnection.getResponseCode();
+            //this.response = urlConnection.getResponseCode();
             resultStream = new BufferedInputStream(urlConnection.getInputStream());
             urlConnection.disconnect();
         } catch (MalformedURLException e) {
@@ -148,7 +148,7 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
     }
 
     public int getResponseCode() {
-        return responseCode;
+        return response;
     }
     public boolean isConnectionAvailable(Context context) {
         ConnectivityManager connMgr = (ConnectivityManager)

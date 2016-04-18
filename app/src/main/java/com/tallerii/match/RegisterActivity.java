@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity implements HttpResponseL
             } else {
                 JSONObject params = new JSONObject();
                 try {
-                    params.put("user", email);
+                    params.put("username", email);
                     params.put("name", firstname + " " + lastname);
                     params.put("password", password);
                 } catch (JSONException e) {
