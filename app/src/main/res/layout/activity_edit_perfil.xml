@@ -17,7 +17,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        android:id="@+id/EP_LL_parentLL">
 
     <TextView
         android:layout_width="wrap_content"
@@ -89,7 +90,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:id="@+id/EP_LL_interest">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -109,153 +111,9 @@
                 android:text="New Button"
                 android:id="@+id/button6"
                 android:background="@mipmap/plus"
-                android:layout_gravity="center_vertical" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.95"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/ep_tv_interest_music_band"
-                android:id="@+id/textView11"
                 android:layout_gravity="center_vertical"
-                android:textStyle="bold|italic" />
-
-            <ImageButton
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="0.05"
-                android:text="New Button"
-                android:id="@+id/button7"
-                android:background="@mipmap/plus"
-                android:layout_gravity="center_vertical" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.95"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/ep_tv_interest_sport"
-                android:id="@+id/textView12"
-                android:layout_gravity="center_vertical"
-                android:textStyle="bold|italic" />
-
-            <ImageButton
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="0.05"
-                android:text="New Button"
-                android:id="@+id/button8"
-                android:background="@mipmap/plus"
-                android:layout_gravity="center_vertical" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.95"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/ep_tv_interest_sex"
-                android:id="@+id/textView13"
-                android:layout_gravity="center_vertical"
-                android:textStyle="bold|italic" />
-
-            <ImageButton
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="0.05"
-                android:text="New Button"
-                android:id="@+id/button9"
-                android:background="@mipmap/plus"
-                android:layout_gravity="center_vertical" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.95"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/ep_tv_interest_outdoors"
-                android:id="@+id/textView14"
-                android:layout_gravity="center_vertical"
-                android:textStyle="bold|italic" />
-
-            <ImageButton
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="0.05"
-                android:text="New Button"
-                android:id="@+id/button10"
-                android:background="@mipmap/plus"
-                android:layout_gravity="center_vertical" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.95"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/ep_tv_interest_travel"
-                android:id="@+id/textView15"
-                android:layout_gravity="center_vertical"
-                android:textStyle="bold|italic" />
-
-            <ImageButton
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="0.05"
-                android:text="New Button"
-                android:id="@+id/button11"
-                android:background="@mipmap/plus"
-                android:layout_gravity="center_vertical" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.95"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/ep_tv_interest_food"
-                android:id="@+id/textView16"
-                android:layout_gravity="center_vertical"
-                android:textStyle="bold|italic" />
-
-            <ImageButton
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="0.05"
-                android:text="New Button"
-                android:id="@+id/button12"
-                android:background="@mipmap/plus"
-                android:layout_gravity="center_vertical" />
+                android:tag="music"
+                android:onClick="OnAddInterest" />
         </LinearLayout>
 
     </LinearLayout>
