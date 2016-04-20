@@ -17,6 +17,9 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -102,24 +105,37 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
     public void handleHttpResponse(InputStream response, HttpConnection connection) {
         if(connection.getUri().equals(getString(R.string.signin_uri))) {
             Log.i(INFO_TAG, "Parsing login response: " + response.toString());
+            View view = findViewById(R.id.register_view);
             BufferedReader reader = new BufferedReader(new InputStreamReader(response));
             StringBuilder stringBuilder = new StringBuilder();
             String line;
+            String message = "";
+            JSONObject jsonResp = null;
             try {
                 while ((line = reader.readLine()) != null) {
                     stringBuilder.append(line);
                 }
+                jsonResp = new JSONObject(stringBuilder.toString());
+                if(jsonResp.getInt("errorNum") != 0) {
+                    message = jsonResp.getString("message");
+                }
+                if(message.isEmpty()) {
+                    Context context = MainActivity.this;
+                    SharedPreferences sharedPref = context.getSharedPreferences(
+                            getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    String apiCred = jsonResp.getJSONObject("payload").getString("token");
+                    editor.putString(getString(R.string.api_credential), apiCred);
+                    editor.apply();
+                } else {
+                    Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             } catch (IOException e) {
                 Log.e(ERROR_TAG,"Input stream read error on login request", e);
+            } catch (JSONException e) {
+                Log.e(ERROR_TAG, "Unable to handle json creation", e);
             }
-            Context context = MainActivity.this;
-            SharedPreferences sharedPref = context.getSharedPreferences(
-                    getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            // TODO: GET API CREDENTIALS FORM INPUT STREAM OR NEGATIVE RESPONSE
-            String apiCred = "";
-            editor.putString(getString(R.string.api_credential), apiCred);
-            editor.apply();
         }
     }
 
