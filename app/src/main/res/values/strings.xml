@@ -35,5 +35,8 @@
     <string name="ep_tv_interest_outdoors">outdoors</string>
     <string name="ep_tv_interest_travel">travel</string>
     <string name="ep_tv_interest_food">food</string>
+    <string name="epa_b_agregar_interes">Agregar</string>
+    <string name="eia_et_newInterest">Ingrese nuevo interes</string>
+    <string name="eia_b_aceptarCambios">Guardar y Volver</string>
 
 </resources>
