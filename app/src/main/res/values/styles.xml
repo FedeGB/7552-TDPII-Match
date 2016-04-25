@@ -17,4 +17,12 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="NormalTextView" parent="@android:style/TextAppearance.Large">
+        <item name="android:layout_marginLeft">15dp</item>
+    </style>
+
+    <style name="NormalBoldTextView" parent="@android:style/TextAppearance.Large">
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+
 </resources>
