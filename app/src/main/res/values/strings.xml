@@ -47,4 +47,16 @@
     <string name="eia_et_newInterest">Ingrese nuevo interes</string>
     <string name="eia_b_aceptarCambios">Guardar y Volver</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fmr_tv_interesados">Recomendado</string>
+    <string name="fmpi_tv_nombre_persona">Nombre</string>
+    <string name="fmpi_tv_alias_persona">Alias</string>
+    <string name="fmpi_tv_mail_persona">email</string>
+    <string name="fmpi_tv_sex_persona">sex</string>
+    <string name="fmfc_tv_chat">Conversaciones</string>
+    <string name="fmfs_tv_settings">Configuracion</string>
+    <string name="fcci_tv_nombre">Unknow</string>
+    <string name="fcci_tv_last_message">Unknow: Hi there!</string>
+
 </resources>

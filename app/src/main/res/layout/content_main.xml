@@ -43,4 +43,5 @@
         android:layout_gravity="center"
         android:hint="@string/button_register"
         android:onClick="registerActivity"/>
+
 </LinearLayout>

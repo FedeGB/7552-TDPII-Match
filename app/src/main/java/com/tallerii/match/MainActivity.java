@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
     }
 
     public void sendLoginRequest(View view) {
+        startActivity(new Intent(this, MatchActivity.class));
+        /*
         HttpConnection httpConnection = new HttpConnection(getString(R.string.server_address), getString(R.string.server_port), this);
         if (httpConnection.isConnectionAvailable(this.getApplicationContext())) {
             EditText userloginEdit = (EditText) findViewById(R.id.user_email);
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
             Snackbar.make(view, "No network connection available.", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }
+        */
     }
 
     @Override

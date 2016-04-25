@@ -9,10 +9,8 @@ import android.widget.TextView;
 
 import org.json.*;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 
@@ -33,16 +31,16 @@ public class PerfilActivity extends AppCompatActivity {
         LinearLayout llInterest = (LinearLayout) findViewById(R.id.PE_LL_interest);
 
         try {
-            UserPerfil userPerfil = new UserPerfil();
-            userPerfil.jsonDeserialize(new JSONObject(jSon));
+            UserProfile userProfile = new UserProfile();
+            userProfile.jsonDeserialize(new JSONObject(jSon));
 
-            ((TextView)(findViewById(R.id.PE_TV_pSex))).setText(userPerfil.getSex());
-            ((TextView)(findViewById(R.id.PE_TV_alias))).setText(userPerfil.getAlias());
-            ((TextView)(findViewById(R.id.PE_TV_email))).setText(userPerfil.getMail());
-            ((TextView)(findViewById(R.id.PE_TV_realName))).setText(userPerfil.getName());
+            ((TextView)(findViewById(R.id.PE_TV_pSex))).setText(userProfile.getSex());
+            ((TextView)(findViewById(R.id.PE_TV_alias))).setText(userProfile.getAlias());
+            ((TextView)(findViewById(R.id.PE_TV_email))).setText(userProfile.getMail());
+            ((TextView)(findViewById(R.id.PE_TV_realName))).setText(userProfile.getName());
 
 
-            Map<String, InterestCategory> interestCategories = userPerfil.getInterestCategories();
+            Map<String, InterestCategory> interestCategories = userProfile.getInterestCategories();
 
             Iterator<InterestCategory> interestCategoryIterator = interestCategories.values().iterator();
 

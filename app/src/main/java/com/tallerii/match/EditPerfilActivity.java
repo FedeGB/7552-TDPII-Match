@@ -7,23 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
-import java.util.concurrent.SynchronousQueue;
 
 public class EditPerfilActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    UserPerfil userPerfil;
+    UserProfile userProfile;
     ArrayAdapter<InterestCategory> listAdapter;
 
     @Override
@@ -31,7 +21,7 @@ public class EditPerfilActivity extends AppCompatActivity implements AdapterView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_perfil);
 
-        userPerfil = new UserPerfil();
+        userProfile = new UserProfile();
 
         ListView interestListView = (ListView) findViewById(R.id.EP_LV_interestList);
         listAdapter = new EditPerfilInterestListAdapter(this);
@@ -44,7 +34,7 @@ public class EditPerfilActivity extends AppCompatActivity implements AdapterView
     private void buildInterestList(){
         listAdapter.clear();
 
-        Iterator<InterestCategory> interestCategoryIterator = userPerfil.getInterestCategories().values().iterator();
+        Iterator<InterestCategory> interestCategoryIterator = userProfile.getInterestCategories().values().iterator();
 
         while (interestCategoryIterator.hasNext()){
             listAdapter.add(interestCategoryIterator.next());
@@ -56,7 +46,7 @@ public class EditPerfilActivity extends AppCompatActivity implements AdapterView
         Intent i = new Intent(this, EditInterestActivity.class);
 
         String categoryName = view.getTag().toString();
-        InterestCategory interestCategory = userPerfil.getInterestCategories().get(categoryName);
+        InterestCategory interestCategory = userProfile.getInterestCategories().get(categoryName);
         i.putExtra("interest", interestCategory);
         startActivityForResult(i, position);
     }
@@ -66,7 +56,7 @@ public class EditPerfilActivity extends AppCompatActivity implements AdapterView
         if(resultCode == Activity.RESULT_OK){
             InterestCategory interestCategory = (InterestCategory) data.getSerializableExtra("interest");
             Iterator<String> a = interestCategory.getDetails().iterator();
-            userPerfil.getInterestCategories().put(interestCategory.getName(), interestCategory);
+            userProfile.getInterestCategories().put(interestCategory.getName(), interestCategory);
             buildInterestList();
         }
     }

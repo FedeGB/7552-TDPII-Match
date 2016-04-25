@@ -11,12 +11,17 @@ import java.util.Vector;
 /**
  * Created by Demian on 24/04/2016.
  */
-public class UserPerfil implements JsonSerializable{
+public class UserProfile implements JsonSerializable{
     private Map<String, InterestCategory> interestCategories;
     private String name;
     private String alias;
     private String mail;
     private String sex;
+    private String photo;
+
+    public String getPhoto() {
+        return photo;
+    }
 
     public String getName() {
         return name;
@@ -34,7 +39,7 @@ public class UserPerfil implements JsonSerializable{
         return sex;
     }
 
-    public UserPerfil() {
+    public UserProfile() {
         setDefaultSettings();
     }
 
