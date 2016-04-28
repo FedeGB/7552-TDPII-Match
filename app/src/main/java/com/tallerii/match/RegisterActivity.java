@@ -94,27 +94,22 @@ public class RegisterActivity extends AppCompatActivity implements HttpResponseL
             View view = findViewById(R.id.register_view);
             String message = "";
             boolean registered = true;
-            if(connection.getResponseCode() == 200) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(response));
-                StringBuilder stringBuilder = new StringBuilder();
-                String line;
-                try {
-                    while ((line = reader.readLine()) != null) {
-                        stringBuilder.append(line);
-                    }
-                    JSONObject jsonResp = new JSONObject(stringBuilder.toString());
-                    if(jsonResp.getInt("errorNum") != 0) {
-                        message = jsonResp.getString("message");
-                        registered = false;
-                    }
-                } catch (IOException e) {
-                    Log.e(ERROR_TAG, "Input stream read error on register request", e);
-                } catch (JSONException e) {
-                    Log.e(ERROR_TAG, "Unable to handle json creation", e);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            try {
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
                 }
-            } else {
-                message = "Failed request with server";
-                registered = false;
+                JSONObject jsonResp = new JSONObject(stringBuilder.toString());
+                if(jsonResp.getInt("errorNum") != 0) {
+                    message = jsonResp.getString("message");
+                    registered = false;
+                }
+            } catch (IOException e) {
+                Log.e(ERROR_TAG, "Input stream read error on register request", e);
+            } catch (JSONException e) {
+                Log.e(ERROR_TAG, "Unable to handle json creation", e);
             }
             if(registered) {
                 Intent intent = new Intent(this, MainActivity.class);

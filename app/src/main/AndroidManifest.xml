@@ -33,6 +33,7 @@
         <activity android:name=".PerfilActivity" />
         <activity android:name=".EditPerfilActivity" />
         <activity android:name=".EditTextActivity" />
+        <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".EditInterestActivity"></activity>
     </application>
 
