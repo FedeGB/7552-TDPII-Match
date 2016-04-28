@@ -17,6 +17,9 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,11 +36,12 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Context context = MainActivity.this;
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        String apiToken = sharedPref.getString(getString(R.string.api_credential), "");
-        if(!apiToken.isEmpty()) {
+        PreferencesManager prefs = new PreferencesManager(this);
+        String apiToken = prefs.getString(getString(R.string.api_credential));
+        String apiUser = prefs.getString(getString(R.string.api_username));
+        String apiPass = prefs.getString(getString(R.string.api_password));
+        if(!apiToken.isEmpty() && !apiUser.isEmpty() && !apiPass.isEmpty()) {
+            // TODO: volver hacer login y verificar credencial? O
             Intent intent = new Intent(this, MatchActivity.class);
             startActivity(intent);
         }
@@ -45,6 +49,13 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            View view = findViewById(R.id.register_view);
+            String message = extras.getString(getString(R.string.registered_response));
+            Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }
     }
 
     @Override
@@ -70,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
     }
 
     public void registerActivity(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
+        Intent intentRegister = new Intent(this, RegisterActivity.class);
+        startActivity(intentRegister);
     }
 
     public void sendLoginRequest(View view) {
@@ -85,8 +96,11 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
             String user = userloginEdit != null ? userloginEdit.getText().toString() : "";
             String pass = userpassEdit != null ? userpassEdit.getText().toString() : "";
             if(!user.isEmpty() && !pass.isEmpty()) {
+                PreferencesManager prefs = new PreferencesManager(this);
+                prefs.saveString(getString(R.string.api_username), user);
+                prefs.saveString(getString(R.string.api_password), pass);
                 httpConnection.setUri(getString(R.string.signin_uri));
-                httpConnection.addHeader("Content-Type", "application/json");
+                //httpConnection.addHeader("Content-Type", "application/json");
                 httpConnection.addUriVariable("user", user);
                 httpConnection.addUriVariable("password", pass);
                 httpConnection.execute();
@@ -105,29 +119,45 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
     public void handleHttpResponse(InputStream response, HttpConnection connection) {
         if(connection.getUri().equals(getString(R.string.signin_uri))) {
             Log.i(INFO_TAG, "Parsing login response: " + response.toString());
+            View view = findViewById(R.id.main_view);
             BufferedReader reader = new BufferedReader(new InputStreamReader(response));
             StringBuilder stringBuilder = new StringBuilder();
             String line;
+            String message = "";
+            JSONObject jsonResp = null;
             try {
                 while ((line = reader.readLine()) != null) {
                     stringBuilder.append(line);
                 }
+                jsonResp = new JSONObject(stringBuilder.toString());
+                if(jsonResp.getInt("errorNum") != 0) {
+                    message = jsonResp.getString("message");
+                }
+                PreferencesManager prefs = new PreferencesManager(this);
+                if(message.isEmpty()) {
+                    String apiCred = jsonResp.getJSONObject("payload").getString("token");
+                    prefs.saveString(getString(R.string.api_credential), apiCred);
+                    // TODO: Go to MatchActivity
+                } else {
+                    prefs.deleteKey(getString(R.string.api_username));
+                    prefs.deleteKey(getString(R.string.api_password));
+                    Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             } catch (IOException e) {
                 Log.e(ERROR_TAG,"Input stream read error on login request", e);
+            } catch (JSONException e) {
+                Log.e(ERROR_TAG, "Unable to handle json creation", e);
             }
-            Context context = MainActivity.this;
-            SharedPreferences sharedPref = context.getSharedPreferences(
-                    getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            // TODO: GET API CREDENTIALS FORM INPUT STREAM OR NEGATIVE RESPONSE
-            String apiCred = "";
-            editor.putString(getString(R.string.api_credential), apiCred);
-            editor.apply();
         }
     }
 
     @Override
     public void httpRequestError(HttpConnection connection) {
         // TODO: Handle request fail
+        View view = findViewById(R.id.register_view);
+        String message = "Unable to connect to API";
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 }

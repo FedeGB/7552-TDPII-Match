@@ -93,32 +93,32 @@ public class RegisterActivity extends AppCompatActivity implements HttpResponseL
         if(connection.getUri().equals(getString(R.string.signup_uri))) {
             View view = findViewById(R.id.register_view);
             String message = "";
-            boolean registered = false;
-            if(connection.getResponseCode() == 200) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(response));
-                StringBuilder stringBuilder = new StringBuilder();
-                String line;
-                try {
-                    while ((line = reader.readLine()) != null) {
-                        stringBuilder.append(line);
-                    }
-                    JSONObject jsonResp = new JSONObject(stringBuilder.toString());
-                    if(jsonResp.getInt("errorNum") != 0) {
-                        message = jsonResp.getString("message");
-                    }
-                } catch (IOException e) {
-                    Log.e(ERROR_TAG, "Input stream read error on register request", e);
-                } catch (JSONException e) {
-                    Log.e(ERROR_TAG, "Unable to handle json creation", e);
+            boolean registered = true;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            try {
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line);
                 }
-                registered = true;
-            } else {
-                message = "Failed request with server";
+                JSONObject jsonResp = new JSONObject(stringBuilder.toString());
+                if(jsonResp.getInt("errorNum") != 0) {
+                    message = jsonResp.getString("message");
+                    registered = false;
+                }
+            } catch (IOException e) {
+                Log.e(ERROR_TAG, "Input stream read error on register request", e);
+            } catch (JSONException e) {
+                Log.e(ERROR_TAG, "Unable to handle json creation", e);
             }
             if(registered) {
-                Intent intent = new Intent(this, MainActivity.class);
-                // TODO: Put in extra for intent message that it was registered successfully to show on MainActivity Snackbar later
-                startActivity(intent);
+                // TODO: Corregir intent - startActivity que pincha. Sacar mensaje de aca una vez arreglado (si se puede mandar al Main)
+                //Intent intent = new Intent(this, MainActivity.class);
+                message = "Sign Up Successfully";
+                Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                //intent.putExtra(getString(R.string.registered_response), message);
+                //startActivity(intent);
             } else {
                 Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();

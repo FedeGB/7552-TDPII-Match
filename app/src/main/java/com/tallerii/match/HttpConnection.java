@@ -106,7 +106,7 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
 
             URL PhyscUrl = new URL("http://" + serverIp + ":" + serverPort + "/" + uriVariable);
             HttpURLConnection urlConnection = (HttpURLConnection) PhyscUrl.openConnection();
-            urlConnection.setDoOutput(true);
+            urlConnection.setRequestMethod(method);
 
             Iterator<Pair<String, String>> headerIterator = customHeaders.iterator();
 
@@ -114,14 +114,17 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
                 Pair<String, String> headerInfo = headerIterator.next();
                 urlConnection.setRequestProperty (headerInfo.first, headerInfo.second);
             }
+            if(method.equals("POST")) {
+                urlConnection.setDoOutput(true);
+                urlConnection.getOutputStream().write(bodyStream.toByteArray());
+                urlConnection.connect();
+            }
 
-            urlConnection.getOutputStream().write(bodyStream.toByteArray());
-
-            urlConnection.setRequestMethod(method);
-            urlConnection.connect();
             //this.response = urlConnection.getResponseCode();
             resultStream = new BufferedInputStream(urlConnection.getInputStream());
-            urlConnection.disconnect();
+            if(method.equals("POST")) {
+                urlConnection.disconnect();
+            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
