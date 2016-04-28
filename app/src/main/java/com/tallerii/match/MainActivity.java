@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
     private static final String INFO_TAG = "HttpLoginRequestInfo";
     private static final String ERROR_TAG = "HttpLoginRequestError";
 
+    private View view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +87,7 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
     }
 
     public void sendLoginRequest(View view) {
-        startActivity(new Intent(this, MatchActivity.class));
-        /*
+
         HttpConnection httpConnection = new HttpConnection(getString(R.string.server_address), getString(R.string.server_port), this);
         if (httpConnection.isConnectionAvailable(this.getApplicationContext())) {
             EditText userloginEdit = (EditText) findViewById(R.id.user_email);
@@ -112,11 +112,12 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
             Snackbar.make(view, "No network connection available.", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }
-        */
+
     }
 
     @Override
     public void handleHttpResponse(InputStream response, HttpConnection connection) {
+
         if(connection.getUri().equals(getString(R.string.signin_uri))) {
             Log.i(INFO_TAG, "Parsing login response: " + response.toString());
             View view = findViewById(R.id.main_view);
@@ -137,7 +138,8 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
                 if(message.isEmpty()) {
                     String apiCred = jsonResp.getJSONObject("payload").getString("token");
                     prefs.saveString(getString(R.string.api_credential), apiCred);
-                    // TODO: Go to MatchActivity
+                    startActivity(new Intent(this, MatchActivity.class));
+
                 } else {
                     prefs.deleteKey(getString(R.string.api_username));
                     prefs.deleteKey(getString(R.string.api_password));
@@ -157,7 +159,10 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
         // TODO: Handle request fail
         View view = findViewById(R.id.register_view);
         String message = "Unable to connect to API";
-        Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+    }
+
+    public void debugMenuOnGoToMatchClick(MenuItem menuItem){
+        startActivity(new Intent(this, MatchActivity.class));
+
     }
 }

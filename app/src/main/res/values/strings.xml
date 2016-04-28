@@ -1,18 +1,18 @@
 <resources>
     <string name="app_name">Match</string>
-    <string name="server_address">192.168.1.132</string>
+    <string name="server_address">localhost</string>
     <string name="server_port">8000</string>
     <string name="signup_uri">users/create</string>
     <string name="signin_uri">users/login</string>
     <string name="action_settings">Settings</string>
-    <string name="button_login">Sign in</string>
-    <string name="button_register">Register</string>
+    <string name="button_login">Ingresar</string>
+    <string name="button_register">Registro</string>
     <string name="user_email">Email</string>
-    <string name="user_pass">Password</string>
+    <string name="user_pass">Clave</string>
     <string name="register_head">Register</string>
-    <string name="user_firstname">First Name</string>
-    <string name="user_lastname">Last Name</string>
-    <string name="button_signup">Sign Up</string>
+    <string name="user_firstname">Nombre</string>
+    <string name="user_lastname">Apellido</string>
+    <string name="button_signup">Registrar</string>
     <string name="title_activity_http">HttpActivity</string>
     <string name="preference_file_key">MatchPreferences</string>
     <string name="api_credential">ApiCredentials</string>
@@ -61,5 +61,8 @@
     <string name="fmfs_tv_settings">Configuracion</string>
     <string name="fcci_tv_nombre">Unknow</string>
     <string name="fcci_tv_last_message">Unknow: Hi there!</string>
+
+
+    <string name="ma_menu_ir_a_match">Ir a match</string>
 
 </resources>

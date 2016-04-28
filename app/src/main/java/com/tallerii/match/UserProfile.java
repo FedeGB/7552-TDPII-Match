@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -11,7 +12,7 @@ import java.util.Vector;
 /**
  * Created by Demian on 24/04/2016.
  */
-public class UserProfile implements JsonSerializable{
+public class UserProfile implements JsonSerializable, Serializable{
     private Map<String, InterestCategory> interestCategories;
     private String name;
     private String alias;

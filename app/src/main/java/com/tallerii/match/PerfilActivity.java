@@ -22,7 +22,16 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
 
         String jSonTest = "{ \"user\":{ \"name\":\"jorge\", \"sex\":\"Hombre\", \"alias\":\"jRop\", \"mail\":\"jor@gmail.com\", \"interests\":[{\"category\":\"music/band\", \"value\":\"aasds\"}, {\"category\":\"music/band\", \"value\":\"aasds\"}, {\"category\":\"outdoors\", \"value\":\"run\"}] } }";
-        this.getContent(jSonTest);
+
+        UserProfile userProfile = (UserProfile) getIntent().getSerializableExtra("profile");
+        this.getContent(userProfile);
+    }
+
+    public void getContent(UserProfile userProfile){
+        ((TextView)(findViewById(R.id.PE_TV_pSex))).setText(userProfile.getSex());
+        ((TextView)(findViewById(R.id.PE_TV_alias))).setText(userProfile.getAlias());
+        ((TextView)(findViewById(R.id.PE_TV_email))).setText(userProfile.getMail());
+        ((TextView)(findViewById(R.id.PE_TV_realName))).setText(userProfile.getName());
     }
 
     @TargetApi(Build.VERSION_CODES.M)

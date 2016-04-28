@@ -134,14 +134,6 @@
                 android:layout_height="match_parent"
                 android:id="@+id/PE_LL_interest"></LinearLayout>
 
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/pe_persona_button_t_e"
-                android:id="@+id/button"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp" />
-
         </LinearLayout>
     </ScrollView>
 
