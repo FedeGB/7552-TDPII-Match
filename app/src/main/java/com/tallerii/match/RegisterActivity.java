@@ -112,10 +112,13 @@ public class RegisterActivity extends AppCompatActivity implements HttpResponseL
                 Log.e(ERROR_TAG, "Unable to handle json creation", e);
             }
             if(registered) {
-                Intent intent = new Intent(this, MainActivity.class);
+                // TODO: Corregir intent - startActivity que pincha. Sacar mensaje de aca una vez arreglado (si se puede mandar al Main)
+                //Intent intent = new Intent(this, MainActivity.class);
                 message = "Sign Up Successfully";
-                intent.putExtra(getString(R.string.registered_response), message);
-                startActivity(intent);
+                Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                //intent.putExtra(getString(R.string.registered_response), message);
+                //startActivity(intent);
             } else {
                 Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
