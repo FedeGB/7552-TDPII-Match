@@ -1,13 +1,14 @@
 package com.tallerii.match;
 
-import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
+
+import com.tallerii.match.core.http.HttpConnection;
+import com.tallerii.match.core.http.HttpResponseListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,8 +58,8 @@ public class RegisterActivity extends AppCompatActivity implements HttpResponseL
         } catch (NullPointerException nullEx) {
             Log.e(ERROR_TAG, "Value was NULL", nullEx);
         }
-        HttpConnection httpConnection = new HttpConnection(getString(R.string.server_address), getString(R.string.server_port), this);
-        if (httpConnection.isConnectionAvailable(this.getApplicationContext())) {
+        HttpConnection httpConnection = new HttpConnection(this);
+
             if(!error.isEmpty()) {
                 Snackbar.make(view, error + " required", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -73,10 +74,6 @@ public class RegisterActivity extends AppCompatActivity implements HttpResponseL
                 }
                 sendSignUpRequest(httpConnection, params);
             }
-        } else {
-            Snackbar.make(view, "No network connection available.", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-        }
     }
 
     public void sendSignUpRequest(HttpConnection httpConnection, JSONObject params) {

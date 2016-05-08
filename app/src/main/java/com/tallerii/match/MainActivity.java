@@ -1,8 +1,6 @@
 package com.tallerii.match;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 
 import android.os.Bundle;
 
@@ -17,6 +15,12 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 
+import com.tallerii.match.core.ResponseListener;
+import com.tallerii.match.core.UserProfile;
+import com.tallerii.match.core.http.HttpConnection;
+import com.tallerii.match.core.http.HttpResponseListener;
+import com.tallerii.match.core.http.HttpUserProfileRequester;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,7 +30,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 
-public class MainActivity extends AppCompatActivity implements HttpResponseListener {
+public class MainActivity extends AppCompatActivity implements ResponseListener<UserProfile> {
 
     private static final String DEBUG_TAG = "HttpLoginRequestDebug";
     private static final String INFO_TAG = "HttpLoginRequestInfo";
@@ -87,8 +91,10 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
     }
 
     public void sendLoginRequest(View view) {
-
-        HttpConnection httpConnection = new HttpConnection(getString(R.string.server_address), getString(R.string.server_port), this);
+        HttpUserProfileRequester httpUserProfileRequester = new HttpUserProfileRequester(this);
+        httpUserProfileRequester.getSerializedUserProfile(1);
+        /*
+        HttpConnection httpConnection = new HttpConnection(this);
         if (httpConnection.isConnectionAvailable(this.getApplicationContext())) {
             EditText userloginEdit = (EditText) findViewById(R.id.user_email);
             EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
@@ -112,10 +118,11 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
             Snackbar.make(view, "No network connection available.", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }
+        */
 
     }
 
-    @Override
+
     public void handleHttpResponse(InputStream response, HttpConnection connection) {
 
         if(connection.getUri().equals(getString(R.string.signin_uri))) {
@@ -154,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
         }
     }
 
-    @Override
+
     public void httpRequestError(HttpConnection connection) {
         // TODO: Handle request fail
         View view = findViewById(R.id.register_view);
@@ -163,6 +170,11 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
 
     public void debugMenuOnGoToMatchClick(MenuItem menuItem){
         startActivity(new Intent(this, MatchActivity.class));
+
+    }
+
+    @Override
+    public void response(UserProfile response) {
 
     }
 }

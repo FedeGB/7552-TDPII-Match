@@ -1,4 +1,6 @@
-package com.tallerii.match;
+package com.tallerii.match.core;
+
+import com.tallerii.match.JsonSerializable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -7,7 +9,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * Created by Demian on 24/04/2016.

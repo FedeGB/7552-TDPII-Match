@@ -1,4 +1,4 @@
-package com.tallerii.match;
+package com.tallerii.match.core;
 
 import java.io.Serializable;
 import java.util.Vector;

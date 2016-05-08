@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tallerii.match.core.InterestCategory;
+import com.tallerii.match.core.UserProfile;
+
 import org.json.*;
 
 import java.util.Iterator;

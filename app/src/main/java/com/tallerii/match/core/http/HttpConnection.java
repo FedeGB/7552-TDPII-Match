@@ -1,10 +1,12 @@
-package com.tallerii.match;
+package com.tallerii.match.core.http;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Pair;
+
+import com.tallerii.match.core.SystemData;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,14 +32,15 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
     private ByteArrayOutputStream bodyStream;
     private int response;
 
-    enum HttpMethod {
+    public enum HttpMethod {
         Get,
         Post
     }
 
-    HttpConnection(String serverIp, String serverPort, HttpResponseListener listener){
-        this.serverIp = serverIp;
-        this.serverPort = serverPort;
+    public HttpConnection(HttpResponseListener listener){
+        SystemData systemData = SystemData.getInstance();
+        this.serverIp = systemData.getIp();
+        this.serverPort = systemData.getPort();
         this.listener = listener;
         method = "GET";
         customHeaders = new Vector<>();
@@ -47,7 +50,7 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
         response = -1;
     }
 
-    void writeBody(byte[] bytes){
+    public void writeBody(byte[] bytes){
         try {
             bodyStream.write(bytes);
         } catch (IOException e) {
@@ -55,17 +58,17 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
         }
     }
 
-    void addHeader(String name, String content){
+    public void addHeader(String name, String content){
         Pair<String, String> header = new Pair<>(name, content);
         customHeaders.add(header);
     }
 
-    void addUriVariable(String variableName, String value) {
+    public void addUriVariable(String variableName, String value) {
         Pair<String, String> variable = new Pair<>(variableName, value);
         uriGetVariables.add(variable);
     }
 
-    void setMethod(HttpMethod method){
+    public void setMethod(HttpMethod method){
         switch (method) {
             case Get:
                 this.method = "GET";
@@ -121,10 +124,11 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
             }
 
             //this.response = urlConnection.getResponseCode();
+            System.out.println("preConnect");
             resultStream = new BufferedInputStream(urlConnection.getInputStream());
-            if(method.equals("POST")) {
-                urlConnection.disconnect();
-            }
+            System.out.println("postConect");
+            urlConnection.disconnect();
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -152,14 +156,5 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
 
     public int getResponseCode() {
         return response;
-    }
-    public boolean isConnectionAvailable(Context context) {
-        ConnectivityManager connMgr = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            return true;
-        }
-        return false;
     }
 }

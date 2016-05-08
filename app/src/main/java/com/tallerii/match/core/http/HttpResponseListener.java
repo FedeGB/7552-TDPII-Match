@@ -1,4 +1,6 @@
-package com.tallerii.match;
+package com.tallerii.match.core.http;
+
+import com.tallerii.match.core.http.HttpConnection;
 
 import java.io.InputStream;
 

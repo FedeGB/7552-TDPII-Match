@@ -11,8 +11,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.tallerii.match.core.InterestCategory;
+
 import java.util.Iterator;
-import java.util.Vector;
 
 public class EditInterestActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 

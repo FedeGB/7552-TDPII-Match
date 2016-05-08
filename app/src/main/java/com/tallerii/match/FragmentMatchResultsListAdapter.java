@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.tallerii.match.core.UserProfile;
+
 /**
  * Created by Demian on 24/04/2016.
  */
