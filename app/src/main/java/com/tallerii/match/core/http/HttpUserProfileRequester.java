@@ -1,16 +1,12 @@
 package com.tallerii.match.core.http;
 
 import com.tallerii.match.core.ResponseListener;
-import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.UserProfile;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
-
-/**
- * Created by Demian on 07/05/2016.
- */
 public class HttpUserProfileRequester extends HttpRequester {
     ResponseListener<UserProfile> responseListener;
 
@@ -30,9 +26,29 @@ public class HttpUserProfileRequester extends HttpRequester {
 
     @Override
     protected void responseArrival(JSONObject jsonObject) {
-        //TODO DESEREALIZAR ESTO
+        try {
+            UserProfile userProfile = new UserProfile();
+            userProfile.setName(jsonObject.getString("name"));
+            userProfile.setAlias(jsonObject.getString("alias"));
+            userProfile.setSex(jsonObject.getString("sex"));
+            userProfile.setMail(jsonObject.getString("email"));
 
-        //TODO Devolver el userProfile deserializado!
-        responseListener.response(new UserProfile());
+            JSONObject location = jsonObject.getJSONObject("location");
+            userProfile.setLatitude(location.getInt("latitude"));
+            userProfile.setLongitude(location.getInt("longitude"));
+
+            JSONArray interestArray = jsonObject.getJSONArray("interests");
+            for(int i = 0; i < interestArray.length(); i++){
+                JSONObject interest = interestArray.getJSONObject(i);
+                String category = interest.getString("category");
+                String value = interest.getString("value");
+
+                userProfile.addOnInterestCategory(category, value);
+            }
+
+            responseListener.response(userProfile);
+        }  catch (JSONException e) {
+            endWithError("Parsing userProfile: " + e.getMessage());
+        }
     }
 }

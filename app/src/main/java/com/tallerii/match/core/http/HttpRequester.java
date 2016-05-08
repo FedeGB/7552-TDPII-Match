@@ -23,17 +23,30 @@ public abstract class HttpRequester implements HttpResponseListener {
             while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line);
             }
-            this.responseArrival(new JSONObject(stringBuilder.toString()));
+            this.checkAndExtractPayload(new JSONObject(stringBuilder.toString()));
         } catch (IOException e) {
-            e.printStackTrace();
+            endWithError("IOException");
         } catch (JSONException e) {
-            e.printStackTrace();
+            endWithError("CreatingJsonObject: " + e.getMessage());
         }
     }
 
     @Override
     public void httpRequestError(HttpConnection connection) {
-        System.out.println("error");
+        endWithError("TimeOut");
+    }
+
+    private void checkAndExtractPayload(JSONObject jsonObject){
+        try {
+            JSONObject response = jsonObject.getJSONObject("payload");
+            this.responseArrival(response);
+        } catch (JSONException e) {
+            endWithError("GettingPayload: " + e.getMessage());
+        }
+    }
+
+    protected void endWithError(String errorMessage){
+        System.out.println(errorMessage);
     }
 
     protected abstract void responseArrival(JSONObject jsonObject);

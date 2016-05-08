@@ -1,7 +1,5 @@
 package com.tallerii.match.core;
 
-import com.tallerii.match.JsonSerializable;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,13 +11,16 @@ import java.util.Map;
 /**
  * Created by Demian on 24/04/2016.
  */
-public class UserProfile implements JsonSerializable, Serializable{
+public class UserProfile implements Serializable{
     private Map<String, InterestCategory> interestCategories;
     private String name;
     private String alias;
     private String mail;
     private String sex;
     private String photo;
+
+    private int latitude;
+    private int longitude;
 
     public String getPhoto() {
         return photo;
@@ -49,6 +50,10 @@ public class UserProfile implements JsonSerializable, Serializable{
         return interestCategories;
     }
 
+    public void addOnInterestCategory(String category, String interest){
+        interestCategories.get(category).addDetail(interest);
+    }
+
     private void setDefaultSettings(){
         interestCategories = new HashMap<>();
         setDefaultInterestCategories();
@@ -56,6 +61,8 @@ public class UserProfile implements JsonSerializable, Serializable{
         alias = "Unknow";
         mail = "Unknow@Unknow.com";
         sex = "Unknow";
+        latitude = 0;
+        longitude = 0;
     }
 
     private void setDefaultInterestCategories(){
@@ -65,45 +72,46 @@ public class UserProfile implements JsonSerializable, Serializable{
         this.addInterestCategory("food");
         this.addInterestCategory("travel");
         this.addInterestCategory("hobby");
+        this.addInterestCategory("outdoors");
     }
 
     private void addInterestCategory(String category){
         interestCategories.put(category, new InterestCategory(category));
     }
 
-    @Override
-    public JSONObject jsonSerialize() {
-        return null;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override
-    public void jsonDeserialize(JSONObject jsonObject) {
-        try {
-            JSONObject user = jsonObject.getJSONObject("user");
-            sex = user.getString("sex");
-            alias = user.getString("alias");
-            name = user.getString("name");
-            mail = user.getString("mail");
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
-            JSONArray interests = user.getJSONArray("interests");
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 
-            for(int i = 0; i < interests.length(); i++){
-                JSONObject interest = interests.getJSONObject(i);
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
-                String category = interest.getString("category");
-                String value = interest.getString("value");
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
-                if(interestCategories.containsKey(category)){
-                    interestCategories.get(category).addDetail(value);
-                } else {
-                    InterestCategory newCategory = new InterestCategory(category);
-                    newCategory.addDetail(value);
-                    interestCategories.put(category, newCategory);
-                }
-            }
+    public int getLatitude() {
+        return latitude;
+    }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void setLatitude(int latitude) {
+        this.latitude = latitude;
+    }
+
+    public int getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(int longitude) {
+        this.longitude = longitude;
     }
 }

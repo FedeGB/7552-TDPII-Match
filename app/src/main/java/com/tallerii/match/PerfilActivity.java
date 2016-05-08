@@ -42,9 +42,8 @@ public class PerfilActivity extends AppCompatActivity {
 
         LinearLayout llInterest = (LinearLayout) findViewById(R.id.PE_LL_interest);
 
-        try {
+
             UserProfile userProfile = new UserProfile();
-            userProfile.jsonDeserialize(new JSONObject(jSon));
 
             ((TextView)(findViewById(R.id.PE_TV_pSex))).setText(userProfile.getSex());
             ((TextView)(findViewById(R.id.PE_TV_alias))).setText(userProfile.getAlias());
@@ -76,9 +75,7 @@ public class PerfilActivity extends AppCompatActivity {
             }
 
             //String photoProfile = user.getString("photo_profile");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
     }
 }
 
