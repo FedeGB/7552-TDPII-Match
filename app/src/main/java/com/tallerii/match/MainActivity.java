@@ -15,10 +15,11 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 
-import com.tallerii.match.core.ResponseListener;
+import com.tallerii.match.core.SystemData;
+import com.tallerii.match.core.http.HttpLoginRequester;
+import com.tallerii.match.core.http.ResponseListener;
 import com.tallerii.match.core.UserProfile;
 import com.tallerii.match.core.http.HttpConnection;
-import com.tallerii.match.core.http.HttpResponseListener;
 import com.tallerii.match.core.http.HttpUserProfileRequester;
 
 import org.json.JSONException;
@@ -30,13 +31,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 
-public class MainActivity extends AppCompatActivity implements ResponseListener<UserProfile> {
+public class MainActivity extends AppCompatActivity {
 
     private static final String DEBUG_TAG = "HttpLoginRequestDebug";
     private static final String INFO_TAG = "HttpLoginRequestInfo";
     private static final String ERROR_TAG = "HttpLoginRequestError";
 
     private View view;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,90 +93,17 @@ public class MainActivity extends AppCompatActivity implements ResponseListener<
     }
 
     public void sendLoginRequest(View view) {
-        HttpUserProfileRequester httpUserProfileRequester = new HttpUserProfileRequester(this);
-        httpUserProfileRequester.getSerializedUserProfile(1);
-        /*
-        HttpConnection httpConnection = new HttpConnection(this);
-        if (httpConnection.isConnectionAvailable(this.getApplicationContext())) {
-            EditText userloginEdit = (EditText) findViewById(R.id.user_email);
-            EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
-            httpConnection.setMethod(HttpConnection.HttpMethod.Get);
-            String user = userloginEdit != null ? userloginEdit.getText().toString() : "";
-            String pass = userpassEdit != null ? userpassEdit.getText().toString() : "";
-            if(!user.isEmpty() && !pass.isEmpty()) {
-                PreferencesManager prefs = new PreferencesManager(this);
-                prefs.saveString(getString(R.string.api_username), user);
-                prefs.saveString(getString(R.string.api_password), pass);
-                httpConnection.setUri(getString(R.string.signin_uri));
-                //httpConnection.addHeader("Content-Type", "application/json");
-                httpConnection.addUriVariable("user", user);
-                httpConnection.addUriVariable("password", pass);
-                httpConnection.execute();
-            } else {
-                Snackbar.make(view, "User or pass can't be empty", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        } else {
-            Snackbar.make(view, "No network connection available.", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-        }
-        */
+        EditText userloginEdit = (EditText) findViewById(R.id.user_email);
+        EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
 
-    }
+        String userName = userloginEdit.getText().toString();
+        String userPassword = userpassEdit.getText().toString();
 
-
-    public void handleHttpResponse(InputStream response, HttpConnection connection) {
-
-        if(connection.getUri().equals(getString(R.string.signin_uri))) {
-            Log.i(INFO_TAG, "Parsing login response: " + response.toString());
-            View view = findViewById(R.id.main_view);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(response));
-            StringBuilder stringBuilder = new StringBuilder();
-            String line;
-            String message = "";
-            JSONObject jsonResp = null;
-            try {
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-                jsonResp = new JSONObject(stringBuilder.toString());
-                if(jsonResp.getInt("errorNum") != 0) {
-                    message = jsonResp.getString("message");
-                }
-                PreferencesManager prefs = new PreferencesManager(this);
-                if(message.isEmpty()) {
-                    String apiCred = jsonResp.getJSONObject("payload").getString("token");
-                    prefs.saveString(getString(R.string.api_credential), apiCred);
-                    startActivity(new Intent(this, MatchActivity.class));
-
-                } else {
-                    prefs.deleteKey(getString(R.string.api_username));
-                    prefs.deleteKey(getString(R.string.api_password));
-                    Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            } catch (IOException e) {
-                Log.e(ERROR_TAG,"Input stream read error on login request", e);
-            } catch (JSONException e) {
-                Log.e(ERROR_TAG, "Unable to handle json creation", e);
-            }
-        }
-    }
-
-
-    public void httpRequestError(HttpConnection connection) {
-        // TODO: Handle request fail
-        View view = findViewById(R.id.register_view);
-        String message = "Unable to connect to API";
+        SystemData.getInstance().logIn(userName, userPassword);
     }
 
     public void debugMenuOnGoToMatchClick(MenuItem menuItem){
         startActivity(new Intent(this, MatchActivity.class));
-
-    }
-
-    @Override
-    public void response(UserProfile response) {
 
     }
 }

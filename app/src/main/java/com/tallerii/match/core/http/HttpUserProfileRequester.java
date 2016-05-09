@@ -1,6 +1,5 @@
 package com.tallerii.match.core.http;
 
-import com.tallerii.match.core.ResponseListener;
 import com.tallerii.match.core.UserProfile;
 
 import org.json.JSONArray;
@@ -8,9 +7,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class HttpUserProfileRequester extends HttpRequester {
-    ResponseListener<UserProfile> responseListener;
+    public static String TAG = "USER_PROFILE";
+    ResponseListener responseListener;
 
-    public HttpUserProfileRequester(ResponseListener<UserProfile> responseListener){
+    public HttpUserProfileRequester(ResponseListener responseListener){
         this.responseListener = responseListener;
     }
 
@@ -46,7 +46,7 @@ public class HttpUserProfileRequester extends HttpRequester {
                 userProfile.addOnInterestCategory(category, value);
             }
 
-            responseListener.response(userProfile);
+            responseListener.httpRequestFinish(HttpUserProfileRequester.TAG);
         }  catch (JSONException e) {
             endWithError("Parsing userProfile: " + e.getMessage());
         }

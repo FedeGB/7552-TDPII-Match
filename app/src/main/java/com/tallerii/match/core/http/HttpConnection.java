@@ -124,9 +124,7 @@ public class HttpConnection extends AsyncTask<Void, Void, InputStream> {
             }
 
             //this.response = urlConnection.getResponseCode();
-            System.out.println("preConnect");
             resultStream = new BufferedInputStream(urlConnection.getInputStream());
-            System.out.println("postConect");
             urlConnection.disconnect();
 
         } catch (MalformedURLException e) {
