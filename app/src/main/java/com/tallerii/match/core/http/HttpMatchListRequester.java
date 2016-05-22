@@ -14,14 +14,14 @@ import java.util.ArrayList;
 public class HttpMatchListRequester extends HttpRequester {
 
     public void getMatchList(){
-        HttpConnection httpConnection = new HttpConnection(this);
+        HttpGetConnection httpConnection = new HttpGetConnection(this);
         if(hasValidConnection()){
             SystemData systemData = SystemData.getInstance();
             String userId = systemData.getUserId();
             String token = systemData.getToken();
 
             httpConnection.setUri("users/getMatches");
-            httpConnection.addUriVariable("user", userId);
+            httpConnection.addVariable("user", userId);
             httpConnection.addHeader("token", token);
         }
     }

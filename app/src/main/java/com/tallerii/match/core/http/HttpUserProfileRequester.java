@@ -8,18 +8,17 @@ import org.json.JSONObject;
 
 public class HttpUserProfileRequester extends HttpRequester {
     public static String TAG = "USER_PROFILE";
-    ResponseListener responseListener;
 
-    public HttpUserProfileRequester(ResponseListener responseListener){
-        this.responseListener = responseListener;
+
+    public HttpUserProfileRequester(){
+
     }
 
     public void getSerializedUserProfile(String userId){
-        HttpConnection httpConnection = new HttpConnection(this);
+        HttpGetConnection httpConnection = new HttpGetConnection(this);
         if(hasValidConnection()){
-            httpConnection.setMethod(HttpConnection.HttpMethod.Get);
             httpConnection.setUri("users");
-            httpConnection.addUriVariable("username", userId);
+            httpConnection.addVariable("username", userId);
             httpConnection.execute();
         }
     }
@@ -46,7 +45,7 @@ public class HttpUserProfileRequester extends HttpRequester {
                 userProfile.addOnInterestCategory(category, value);
             }
 
-            responseListener.httpRequestFinish(HttpUserProfileRequester.TAG);
+            //responseListener.httpRequestFinish(HttpUserProfileRequester.TAG);
         }  catch (JSONException e) {
             endWithError("Parsing userProfile: " + e.getMessage());
         }

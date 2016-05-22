@@ -17,13 +17,11 @@ public class HttpLoginRequester extends HttpRequester {
     }
 
     public void sendLoginRequest(String username, String password){
-        HttpConnection httpConnection = new HttpConnection(this);
+        HttpGetConnection httpConnection = new HttpGetConnection(this);
         if(hasValidConnection()){
-            httpConnection.setMethod(HttpConnection.HttpMethod.Get);
             httpConnection.setUri("users/login");
-            httpConnection.addHeader("token", SystemData.getInstance().getToken());
-            httpConnection.addUriVariable("user", username);
-            httpConnection.addUriVariable("password", password);
+            httpConnection.addVariable("user", username);
+            httpConnection.addVariable("password", password);
             httpConnection.execute();
         }
     }

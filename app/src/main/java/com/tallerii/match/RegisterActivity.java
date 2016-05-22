@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity implements HttpResponseL
     }
 
     public void sendSignUp(View view) {
-        EditText useremailEdit = (EditText) findViewById(R.id.user_email);
+       /*EditText useremailEdit = (EditText) findViewById(R.id.user_email);
         EditText userfirstEdit = (EditText) findViewById(R.id.user_firstname);
         EditText userlastEdit = (EditText) findViewById(R.id.user_lastname);
         EditText userpassEdit = (EditText) findViewById(R.id.user_pass);
@@ -73,16 +73,17 @@ public class RegisterActivity extends AppCompatActivity implements HttpResponseL
                     Log.e(ERROR_TAG, "Unable to add parameter to json", e);
                 }
                 sendSignUpRequest(httpConnection, params);
-            }
+            }*/
     }
 
     public void sendSignUpRequest(HttpConnection httpConnection, JSONObject params) {
-        // Set request data for register
+       /* // Set request data for register
         httpConnection.setMethod(HttpConnection.HttpMethod.Post);
         httpConnection.setUri(getString(R.string.signup_uri));
         httpConnection.addHeader("Content-Type", "application/json");
         httpConnection.writeBody(params.toString().getBytes());
         httpConnection.execute();
+        */
     }
 
     @Override

@@ -16,8 +16,8 @@ public class SystemData {
     private boolean isLoged = false;
     private String ip = "192.168.0.103";
     private String port = "1234";
-    private String token = "";
-    private String userId = "";
+    private String token = "NONTOKEN";
+    private String userId = "NONID";
 
     private HttpLoginRequester loginRequester;
 
@@ -30,7 +30,7 @@ public class SystemData {
     }
 
     private SystemData() {
-        //loginRequester = new HttpLoginRequester(this);
+        loginRequester = new HttpLoginRequester(null);
     }
 
     public String getToken() {

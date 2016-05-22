@@ -10,17 +10,17 @@ import org.json.JSONObject;
 public class HttpLikeRequester extends HttpRequester {
 
     public void sendLikeToUser(String userLikedId, boolean liked){
-        HttpConnection httpConnection = new HttpConnection(this);
+        HttpPostConnection httpConnection = new HttpPostConnection(this);
         if(hasValidConnection()) {
             SystemData systemData = SystemData.getInstance();
             String userSenderId = systemData.getUserId();
             String authToken = systemData.getToken();
 
             httpConnection.setUri("users");
-            httpConnection.setMethod(HttpConnection.HttpMethod.Post);
-            httpConnection.addUriVariable("user1", userSenderId);
-            httpConnection.addUriVariable("user2", userLikedId);
-            httpConnection.addUriVariable("like", Boolean.toString(liked));
+
+            httpConnection.addVariable("user1", userSenderId);
+            httpConnection.addVariable("user2", userLikedId);
+            httpConnection.addVariable("like", Boolean.toString(liked));
             httpConnection.addHeader("token", authToken);
             httpConnection.execute();
         }

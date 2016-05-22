@@ -16,6 +16,7 @@ import android.widget.EditText;
 
 
 import com.tallerii.match.core.SystemData;
+import com.tallerii.match.core.http.HttpLikeRequester;
 import com.tallerii.match.core.http.HttpLoginRequester;
 import com.tallerii.match.core.http.ResponseListener;
 import com.tallerii.match.core.UserProfile;
@@ -99,11 +100,12 @@ public class MainActivity extends AppCompatActivity {
         String userName = userloginEdit.getText().toString();
         String userPassword = userpassEdit.getText().toString();
 
+        HttpUserProfileRequester likeRequester = new HttpUserProfileRequester();
+        likeRequester.getSerializedUserProfile("l@jgmail.com");
         SystemData.getInstance().logIn(userName, userPassword);
     }
 
     public void debugMenuOnGoToMatchClick(MenuItem menuItem){
         startActivity(new Intent(this, MatchActivity.class));
-
     }
 }
