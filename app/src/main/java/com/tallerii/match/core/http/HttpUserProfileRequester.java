@@ -14,12 +14,12 @@ public class HttpUserProfileRequester extends HttpRequester {
         this.responseListener = responseListener;
     }
 
-    public void getSerializedUserProfile(int userId){
+    public void getSerializedUserProfile(String userId){
         HttpConnection httpConnection = new HttpConnection(this);
         if(hasValidConnection()){
             httpConnection.setMethod(HttpConnection.HttpMethod.Get);
             httpConnection.setUri("users");
-            httpConnection.addUriVariable("username", Integer.toString(userId));
+            httpConnection.addUriVariable("username", userId);
             httpConnection.execute();
         }
     }

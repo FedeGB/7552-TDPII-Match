@@ -6,18 +6,18 @@ import com.tallerii.match.core.http.ResponseListener;
 /**
  * Created by Demian on 07/05/2016.
  */
-public class SystemData  implements ResponseListener {
+public class SystemData {
     private static SystemData ourInstance = new SystemData();
 
     public static SystemData getInstance() {
         return ourInstance;
     }
 
-    private DataCallback currentCallback;
     private boolean isLoged = false;
     private String ip = "192.168.0.103";
     private String port = "1234";
     private String token = "";
+    private String userId = "";
 
     private HttpLoginRequester loginRequester;
 
@@ -30,7 +30,7 @@ public class SystemData  implements ResponseListener {
     }
 
     private SystemData() {
-        loginRequester = new HttpLoginRequester(this);
+        //loginRequester = new HttpLoginRequester(this);
     }
 
     public String getToken() {
@@ -50,18 +50,7 @@ public class SystemData  implements ResponseListener {
         loginRequester.sendLoginRequest(name, password);
     }
 
-    @Override
-    public void httpRequestFinish(String responseTag) {
-        if(currentCallback != null) {
-            currentCallback.callback(responseTag);
-        }
-    }
-
-    public DataCallback getCurrentCallback() {
-        return currentCallback;
-    }
-
-    public void setCurrentCallback(DataCallback currentCallback) {
-        this.currentCallback = currentCallback;
+    public String getUserId() {
+        return userId;
     }
 }
