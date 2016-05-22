@@ -53,7 +53,6 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, InputStream> 
             httpURLConnection.setConnectTimeout(5000);
 
             Iterator<Pair<String, String>> headerIterator = customHeaders.iterator();
-
             while (headerIterator.hasNext()){
                 Pair<String, String> headerInfo = headerIterator.next();
                 httpURLConnection.setRequestProperty (headerInfo.first, headerInfo.second);
@@ -100,9 +99,5 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, InputStream> 
 
     public String getUri() {
         return uri;
-    }
-
-    public int getResponseCode() {
-        return response;
     }
 }

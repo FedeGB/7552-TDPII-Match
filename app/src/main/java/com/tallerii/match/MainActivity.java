@@ -100,8 +100,8 @@ public class MainActivity extends AppCompatActivity {
         String userName = userloginEdit.getText().toString();
         String userPassword = userpassEdit.getText().toString();
 
-        HttpUserProfileRequester likeRequester = new HttpUserProfileRequester();
-        likeRequester.getSerializedUserProfile("l@jgmail.com");
+        HttpLikeRequester likeRequester = new HttpLikeRequester();
+        likeRequester.sendLikeToUser("caca", true);
         SystemData.getInstance().logIn(userName, userPassword);
     }
 
