@@ -31,16 +31,6 @@ public class MatchFragmentMatchResults extends Fragment implements AdapterView.O
         // Inflate the layout for this fragment
         View fragmentView = inflater.inflate(R.layout.fragment_match_fragment_match_results, container, false);
 
-        ListView matchResults = (ListView) fragmentView.findViewById(R.id.fmr_lv_match_results);
-        FragmentMatchResultsListAdapter adapter = new FragmentMatchResultsListAdapter(getContext());
-        matchResults.setAdapter(adapter);
-
-        for(int i = 0; i < 10; i++) {
-            adapter.add(new UserProfile());
-            adapter.add(new UserProfile());
-        }
-
-        matchResults.setOnItemClickListener(this);
         return fragmentView;
     }
 

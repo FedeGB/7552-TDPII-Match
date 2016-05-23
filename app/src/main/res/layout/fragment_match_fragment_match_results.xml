@@ -10,17 +10,40 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="5"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/fmr_tv_interesados"
-        android:id="@+id/textView"
+        android:id="@+id/fmfmr_textView_personName"
         android:layout_gravity="center_horizontal|top"
         android:textStyle="bold|italic"
         android:textSize="25dp" />
 
-    <ListView
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/fmr_lv_match_results"
+        android:layout_weight="85"
+        android:id="@+id/imageView3"
         android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:layout_weight="10"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="No Like"
+            android:id="@+id/button" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Like"
+            android:id="@+id/button7" />
+    </LinearLayout>
 
 </LinearLayout>
