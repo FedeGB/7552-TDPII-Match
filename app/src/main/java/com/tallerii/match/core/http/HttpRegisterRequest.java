@@ -12,7 +12,7 @@ public class HttpRegisterRequest extends HttpRequester {
 
         if(hasValidConnection()){
             httpConnection.setUri("users");
-            
+
             httpConnection.addVariable("username", user);
             httpConnection.addVariable("name", name);
             httpConnection.addVariable("password", password);
