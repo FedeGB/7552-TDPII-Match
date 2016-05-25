@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements HttpResponseListe
     }
 
     public void debugMenuOnGoToMatchClick(MenuItem menuItem){
-        startActivity(new Intent(this, SelectImageActivity.class));
+        startActivity(new Intent(this, MatchActivity.class));
 
     }
 
