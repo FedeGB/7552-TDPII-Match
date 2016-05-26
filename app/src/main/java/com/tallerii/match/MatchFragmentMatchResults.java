@@ -76,15 +76,8 @@ public class MatchFragmentMatchResults extends Fragment implements RequesterList
 
     @Override
     public void proccesRequest(Object returnedObject, String request) {
-        if(request.compareTo("MATCH")== 0){
-            String match = (String) returnedObject;
-            DataFacade.getInstance().getUserProfile(match, this);
-            likeButton.setEnabled(true);
-            unlikeButton.setEnabled(true);
-            return;
-        }
 
-        if(request.compareTo("PROFILE")== 0){
+        if(request.compareTo("MATCH")== 0){
            setUserOnMatch((UserProfile) returnedObject);
             return;
         }

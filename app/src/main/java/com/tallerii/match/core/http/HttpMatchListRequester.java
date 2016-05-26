@@ -2,6 +2,7 @@ package com.tallerii.match.core.http;
 
 import com.tallerii.match.core.RequesterListener;
 import com.tallerii.match.core.SystemData;
+import com.tallerii.match.core.UserProfile;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,8 +24,7 @@ public class HttpMatchListRequester extends HttpRequester {
             String userId = systemData.getUserId();
             String token = systemData.getToken();
 
-            httpConnection.setUri("users/getMatches");
-            httpConnection.addVariable("user", userId);
+            httpConnection.setUri("candidates/" + userId);
             httpConnection.addHeader("token", token);
 
             httpConnection.execute();
@@ -39,14 +39,18 @@ public class HttpMatchListRequester extends HttpRequester {
     @Override
     protected void responseArrival(JSONObject jsonObject) {
         try {
-            ArrayList<String> userMatches = new ArrayList<>();
-            JSONArray matchesList = jsonObject.getJSONArray("matches");
+            ArrayList<UserProfile> candidatesList = new ArrayList<>();
+            JSONArray matchesList = jsonObject.getJSONArray("candidates");
             for (int i = 0; i < matchesList.length(); i++){
-                String match = matchesList.getString(i);
-                userMatches.add(match);
+                JSONObject user = matchesList.getJSONObject(i);
+                UserProfile userProfile = new UserProfile(user.getString("id"));
+                userProfile.setName(user.getString("name"));
+                userProfile.setAlias(user.getString("alias"));
+                userProfile.setPhoto(user.getString("photo_profile"));
+                candidatesList.add(userProfile);
             }
 
-            requesterListener.proccesRequest(userMatches, "MATCH");
+            requesterListener.proccesRequest(candidatesList, "MATCH");
         } catch (JSONException e) {
             endWithError("Parsing matchesList: " + e.getMessage());
         }
