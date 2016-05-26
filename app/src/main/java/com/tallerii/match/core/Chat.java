@@ -6,13 +6,13 @@ import java.util.ArrayList;
 /**
  * Created by Demian on 24/04/2016.
  */
-public class Chat implements Serializable {
+public class Chat {
 
     ArrayList<ChatMessage> messageList = new ArrayList<>();
-    String talkingUserId = "";
+    UserProfile talkinUserProfile;
 
-    public Chat() {
-
+    public Chat(UserProfile talkinUserProfile) {
+        this.talkinUserProfile = talkinUserProfile;
     }
 
     public void addMessageToChat(ChatMessage message){
@@ -21,5 +21,9 @@ public class Chat implements Serializable {
 
     public ArrayList<ChatMessage> getMessageList() {
         return messageList;
+    }
+
+    public UserProfile getTalkingUserProfile() {
+        return talkinUserProfile;
     }
 }

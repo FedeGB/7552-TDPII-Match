@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:id="@+id/imageView4"
+            android:id="@+id/fmfc_iv_userimage"
             android:background="@mipmap/im_no_profile_image" />
 
         <TextView
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
-            android:id="@+id/textView"
+            android:id="@+id/fmfc_tv_username"
             android:layout_marginLeft="10dp" />
     </LinearLayout>
     <LinearLayout

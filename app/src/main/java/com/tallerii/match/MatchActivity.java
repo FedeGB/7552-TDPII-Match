@@ -42,7 +42,11 @@ public class MatchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             // Create the adapter that will return a fragment for each of the three
             // primary sections of the activity.
-        if(!isTabletDevice) {
+        if(isTabletDevice) {
+            MatchFragmentChat matchFragmentChat = (MatchFragmentChat) getSupportFragmentManager().findFragmentById(R.id.fragment2);
+            MatchFragmentConversation matchFragmentConversation = (MatchFragmentConversation) getSupportFragmentManager().findFragmentById(R.id.fragment3);
+            matchFragmentChat.setMatchFragmentConversation(matchFragmentConversation);
+        } else {
             MatchActivityFragmentAdapter matchActivityFragmentAdapter = new MatchActivityFragmentAdapter(getSupportFragmentManager());
             mViewPager.setAdapter(matchActivityFragmentAdapter);
             mViewPager.setCurrentItem(1);

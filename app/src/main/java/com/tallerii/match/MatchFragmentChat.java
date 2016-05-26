@@ -10,12 +10,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.tallerii.match.core.Chat;
+import com.tallerii.match.core.ChatMessage;
+import com.tallerii.match.core.DataFacade;
+import com.tallerii.match.core.RequesterListener;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 
-public class MatchFragmentChat extends Fragment implements AdapterView.OnItemClickListener {
+public class MatchFragmentChat extends Fragment implements AdapterView.OnItemClickListener, RequesterListener {
 
     private boolean isPhone = false;
     private FragmentChatListAdapter fragmentChatListAdapter;
+    MatchFragmentConversation matchFragmentConversation = null;
 
     public MatchFragmentChat() {
         // Required empty public constructor
@@ -38,8 +45,14 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
         chat.setOnItemClickListener(this);
 
         chat.setAdapter(fragmentChatListAdapter);
-        fragmentChatListAdapter.add(new Chat());
+
+        DataFacade.getInstance().getChatList(this);
+
         return fragmentView;
+    }
+
+    public void setMatchFragmentConversation(MatchFragmentConversation matchFragmentConversation) {
+        this.matchFragmentConversation = matchFragmentConversation;
     }
 
     public void setIsPhone(){
@@ -52,8 +65,28 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
 
         if(isPhone){
             Intent i = new Intent(getActivity(), ConversationActivity.class);
-            i.putExtra("chat", chatItem);
+            i.putExtra("chat", position);
             startActivity(i);
+        } else {
+            selectChat(chatItem);
+        }
+    }
+
+    private void selectChat(Chat chat){
+        if(matchFragmentConversation != null){
+            matchFragmentConversation.setChat(chat);
+        }
+    }
+
+    @Override
+    public void proccesRequest(Object returnedObject, String request) {
+        ArrayList<Chat> chatArrayList = (ArrayList<Chat>) returnedObject;
+
+        Iterator<Chat> chatIterator = chatArrayList.iterator();
+        fragmentChatListAdapter.clear();
+
+        while (chatIterator.hasNext()) {
+            fragmentChatListAdapter.add(chatIterator.next());
         }
     }
 }
