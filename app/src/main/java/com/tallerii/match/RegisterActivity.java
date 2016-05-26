@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.tallerii.match.core.DataFacade;
 import com.tallerii.match.core.RequesterListener;
+import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.http.HttpConnection;
 import com.tallerii.match.core.http.HttpResponseListener;
 
@@ -39,8 +40,13 @@ public class RegisterActivity extends AppCompatActivity implements RequesterList
         String name = userfirstEdit.getText().toString() + " " + userlastEdit.getText().toString();
         String password = userpassEdit.getText().toString();
 
-        DataFacade.getInstance().registerUser(email, name, password, this);
+        String serverIp = ((EditText)findViewById(R.id.cr_et_ip)).getText().toString();
 
+        String[] splittedIp = serverIp.split(":");
+
+        SystemData.getInstance().setIp(splittedIp[0]);
+        SystemData.getInstance().setPort(splittedIp[1]);
+        DataFacade.getInstance().registerUser(email, name, password, this);
     }
 
     @Override

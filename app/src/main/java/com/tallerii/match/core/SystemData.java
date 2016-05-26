@@ -21,6 +21,14 @@ public class SystemData {
     private String userId = "NONID";
     private UserProfile userProfile;
 
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
+
     public String getIp() {
         return ip;
     }

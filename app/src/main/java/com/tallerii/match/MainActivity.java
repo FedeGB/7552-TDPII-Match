@@ -87,6 +87,12 @@ public class MainActivity extends AppCompatActivity implements RequesterListener
 
         String userName = userloginEdit.getText().toString();
         String userPassword = userpassEdit.getText().toString();
+        String serverIp = ((EditText)findViewById(R.id.cm_et_ip)).getText().toString();
+
+        String[] splittedIp = serverIp.split(":");
+
+        SystemData.getInstance().setIp(splittedIp[0]);
+        SystemData.getInstance().setPort(splittedIp[1]);
 
         DataFacade.getInstance().loginUser(userName, userPassword, this);
     }
