@@ -56,7 +56,7 @@ public class MatchActivity extends AppCompatActivity {
         return true;
     }
 
-    public void onEditSettings(View view){
+    public void onGoToPerfilMenu(MenuItem menuItem){
         startActivity(new Intent(this, EditPerfilActivity.class));
     }
 }

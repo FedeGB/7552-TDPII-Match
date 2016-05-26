@@ -44,6 +44,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".ConversationActivity"></activity>
+        <activity android:name=".SelectImageActivity"/>
     </application>
 
 </manifest>

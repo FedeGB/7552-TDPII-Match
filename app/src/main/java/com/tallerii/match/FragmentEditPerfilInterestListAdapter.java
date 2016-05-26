@@ -15,13 +15,13 @@ import java.util.Iterator;
 /**
  * Created by Demian on 24/04/2016.
  */
-public class EditPerfilInterestListAdapter extends ArrayAdapter<InterestCategory> {
+public class FragmentEditPerfilInterestListAdapter extends ArrayAdapter<InterestCategory> {
 
-    public EditPerfilInterestListAdapter(Context context) {
+    public FragmentEditPerfilInterestListAdapter(Context context) {
         super(context, R.layout.edit_perfil_interest_item);
     }
 
-    public EditPerfilInterestListAdapter(Context context, InterestCategory[] interestList) {
+    public FragmentEditPerfilInterestListAdapter(Context context, InterestCategory[] interestList) {
         super(context, R.layout.edit_perfil_interest_item, interestList);
     }
 

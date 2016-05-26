@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.tallerii.match.core.Chat;
+import com.tallerii.match.core.ChatMessage;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;

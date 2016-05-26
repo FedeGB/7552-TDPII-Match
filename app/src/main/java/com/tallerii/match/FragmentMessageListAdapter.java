@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tallerii.match.core.ChatMessage;
+
 /**
  * Created by Demian on 25/05/2016.
  */

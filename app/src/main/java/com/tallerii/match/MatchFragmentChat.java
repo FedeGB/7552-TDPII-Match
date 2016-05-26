@@ -1,8 +1,6 @@
 package com.tallerii.match;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.tallerii.match.core.Chat;
 
 
 public class MatchFragmentChat extends Fragment implements AdapterView.OnItemClickListener {
@@ -53,7 +53,7 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
         if(isPhone){
             Intent i = new Intent(getActivity(), ConversationActivity.class);
             i.putExtra("chat", chatItem);
-            startActivityForResult(i, position);
+            startActivity(i);
         }
     }
 }

@@ -1,8 +1,9 @@
 package com.tallerii.match;
 
-import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.tallerii.match.core.Chat;
 
 public class ConversationActivity extends AppCompatActivity {
 
