@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by Demian on 25/05/2016.
  */
-public class UserProfileManager {
+public class UserProfileManager implements RequesterListener {
     Map<String, UserProfile> userProfileCache = new HashMap<>();
     RequesterListener requesterListener;
 
@@ -29,9 +29,18 @@ public class UserProfileManager {
         if(userProfileCache.containsKey(userId)){
             requesterListener.proccesRequest(userProfileCache.get(userId), "PROFILE");
         } else {
-            //TODO: CALLLBACK!
             userProfileRequester = new HttpUserProfileRequester();
-            userProfileRequester.getSerializedUserProfile(userId);
+            userProfileRequester.getSerializedUserProfile(userId, this);
+        }
+    }
+
+    @Override
+    public void proccesRequest(Object returnedObject, String request) {
+        UserProfile returnedProfile = (UserProfile) returnedObject;
+
+        if(returnedProfile!= null){
+            userProfileCache.put(returnedProfile.getId(), returnedProfile);
+            requesterListener.proccesRequest(returnedProfile, "PROFILE");
         }
     }
 }

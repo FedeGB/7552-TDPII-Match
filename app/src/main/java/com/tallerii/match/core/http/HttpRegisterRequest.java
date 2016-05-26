@@ -1,5 +1,7 @@
 package com.tallerii.match.core.http;
 
+import com.tallerii.match.core.RequesterListener;
+
 import org.json.JSONObject;
 
 /**
@@ -7,9 +9,17 @@ import org.json.JSONObject;
  */
 public class HttpRegisterRequest extends HttpRequester {
 
-    public HttpRegisterRequest(String user, String name, String password){
-        HttpPostConnection httpConnection = new HttpPostConnection(this);
+    RequesterListener requesterListener;
+    String id;
 
+    public HttpRegisterRequest(){
+
+    }
+
+    public void sendRegisterRequest(String user, String name, String password, RequesterListener requesterListener){
+        HttpPostConnection httpConnection = new HttpPostConnection(this);
+        this.requesterListener = requesterListener;
+        id = user;
         if(hasValidConnection()){
             httpConnection.setUri("users");
 
@@ -23,11 +33,11 @@ public class HttpRegisterRequest extends HttpRequester {
 
     @Override
     public void afterError() {
-
+        requesterListener.proccesRequest(false, "LOGIN");
     }
 
     @Override
     protected void responseArrival(JSONObject jsonObject) {
-
+        requesterListener.proccesRequest(true, "LOGIN");
     }
 }
