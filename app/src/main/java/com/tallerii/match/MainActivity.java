@@ -14,11 +14,13 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 
+import com.tallerii.match.core.DataFacade;
+import com.tallerii.match.core.RequesterListener;
 import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.http.HttpLikeRequester;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RequesterListener {
 
     private static final String DEBUG_TAG = "HttpLoginRequestDebug";
     private static final String INFO_TAG = "HttpLoginRequestInfo";
@@ -86,12 +88,19 @@ public class MainActivity extends AppCompatActivity {
         String userName = userloginEdit.getText().toString();
         String userPassword = userpassEdit.getText().toString();
 
-        SystemData.getInstance().logIn(userName, userPassword);
+        DataFacade.getInstance().loginUser(userName, userPassword, this);
+    }
+
+    @Override
+    public void proccesRequest(Object returnedObject, String request) {
+        boolean loged = (boolean) returnedObject;
+
+        if(loged) {
+            startActivity(new Intent(this, MatchActivity.class));
+        }
     }
 
     public void debugMenuOnGoToMatchClick(MenuItem menuItem){
-        startActivity(new Intent(this, MatchActivity.class));
+
     }
-
-
 }

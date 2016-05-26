@@ -18,8 +18,6 @@ public class SystemData {
     private String token = "NONTOKEN";
     private String userId = "NONID";
 
-    private HttpLoginRequester loginRequester;
-
     public String getIp() {
         return ip;
     }
@@ -28,12 +26,13 @@ public class SystemData {
         return port;
     }
 
-    private SystemData() {
-        loginRequester = new HttpLoginRequester(null);
-    }
-
     public String getToken() {
         return token;
+    }
+
+    public void setLogin(String id, String token){
+        setToken(token);
+        this.userId = id;
     }
 
     public void setToken(String token) {
@@ -43,10 +42,6 @@ public class SystemData {
 
     public boolean isLoged() {
         return isLoged;
-    }
-
-    public void logIn(String name, String password){
-        loginRequester.sendLoginRequest(name, password);
     }
 
     public String getUserId() {

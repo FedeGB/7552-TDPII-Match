@@ -3,6 +3,7 @@ package com.tallerii.match.core;
 import com.tallerii.match.core.query.ChatQuery;
 import com.tallerii.match.core.query.HttpQuery;
 import com.tallerii.match.core.query.LikeUserQuery;
+import com.tallerii.match.core.query.LoginQuery;
 import com.tallerii.match.core.query.MatchQuery;
 import com.tallerii.match.core.query.UserProfileQuery;
 
@@ -45,6 +46,11 @@ public class DataFacade {
     public void likeUser(String id, RequesterListener requesterListener, boolean like){
         addQuery(new LikeUserQuery(requesterListener, this, id, like));
     }
+
+    public void loginUser(String name, String pass, RequesterListener requesterListener){
+        addQuery(new LoginQuery(requesterListener, this,pass,name));
+    }
+
 
     private void addQuery(HttpQuery httpQuery){
         httpQueries.add(httpQuery);
