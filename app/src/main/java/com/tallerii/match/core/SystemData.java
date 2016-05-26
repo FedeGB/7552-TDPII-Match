@@ -1,7 +1,6 @@
 package com.tallerii.match.core;
 
 import com.tallerii.match.core.http.HttpLoginRequester;
-import com.tallerii.match.core.http.ResponseListener;
 
 /**
  * Created by Demian on 07/05/2016.

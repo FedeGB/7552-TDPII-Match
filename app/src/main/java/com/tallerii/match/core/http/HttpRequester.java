@@ -36,6 +36,8 @@ public abstract class HttpRequester implements HttpResponseListener {
         endWithError("TimeOut");
     }
 
+    public abstract void afterError();
+
     private void checkAndExtractPayload(JSONObject jsonObject){
         try {
             JSONObject response = jsonObject.getJSONObject("payload");
@@ -47,6 +49,7 @@ public abstract class HttpRequester implements HttpResponseListener {
 
     protected void endWithError(String errorMessage){
         System.out.println(errorMessage);
+        afterError();
     }
 
     protected abstract void responseArrival(JSONObject jsonObject);

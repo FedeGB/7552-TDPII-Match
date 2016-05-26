@@ -1,6 +1,6 @@
-package com.tallerii.match.core;
+package com.tallerii.match.core.query;
 
-import com.tallerii.match.core.HttpQuery;
+import com.tallerii.match.core.DataFacade;
 import com.tallerii.match.core.RequesterListener;
 
 /**

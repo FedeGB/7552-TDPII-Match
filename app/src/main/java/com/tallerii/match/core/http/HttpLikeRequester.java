@@ -1,5 +1,6 @@
 package com.tallerii.match.core.http;
 
+import com.tallerii.match.core.RequesterListener;
 import com.tallerii.match.core.SystemData;
 
 import org.json.JSONObject;
@@ -9,7 +10,10 @@ import org.json.JSONObject;
  */
 public class HttpLikeRequester extends HttpRequester {
 
-    public void sendLikeToUser(String userLikedId, boolean liked){
+    RequesterListener responseListener;
+
+    public void sendLikeToUser(String userLikedId, boolean liked, RequesterListener responseListener){
+        this.responseListener = responseListener;
         HttpPostConnection httpConnection = new HttpPostConnection(this);
         if(hasValidConnection()) {
             SystemData systemData = SystemData.getInstance();
@@ -27,7 +31,12 @@ public class HttpLikeRequester extends HttpRequester {
     }
 
     @Override
-    protected void responseArrival(JSONObject jsonObject) {
+    public void afterError() {
+        responseListener.proccesRequest(null, "LIKE");
+    }
 
+    @Override
+    protected void responseArrival(JSONObject jsonObject) {
+        responseListener.proccesRequest(null, "LIKE");
     }
 }

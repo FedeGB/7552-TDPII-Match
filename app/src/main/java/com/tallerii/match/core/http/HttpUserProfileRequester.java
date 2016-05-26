@@ -24,6 +24,11 @@ public class HttpUserProfileRequester extends HttpRequester {
     }
 
     @Override
+    public void afterError() {
+
+    }
+
+    @Override
     protected void responseArrival(JSONObject jsonObject) {
         try {
             UserProfile userProfile = new UserProfile();

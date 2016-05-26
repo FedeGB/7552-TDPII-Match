@@ -1,6 +1,7 @@
-package com.tallerii.match.core;
+package com.tallerii.match.core.query;
 
-import com.tallerii.match.core.http.HttpUserProfileRequester;
+import com.tallerii.match.core.DataFacade;
+import com.tallerii.match.core.RequesterListener;
 
 /**
  * Created by Demian on 26/05/2016.

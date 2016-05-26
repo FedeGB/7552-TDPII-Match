@@ -19,7 +19,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/fmfc_iv_userimage"
-            android:background="@mipmap/im_no_profile_image" />
+            android:background="@mipmap/im_no_profile_image"
+            android:scaleType="fitXY" />
 
         <TextView
             android:layout_gravity="center_vertical"

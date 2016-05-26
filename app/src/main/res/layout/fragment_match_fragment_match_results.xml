@@ -25,11 +25,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="8"
-        android:id="@+id/imageView3"
+        android:id="@+id/fmfmr_iv_uphoto"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_gravity="center_horizontal"
-        android:background="@mipmap/im_no_profile_image" />
+        android:background="@mipmap/im_no_profile_image"
+        android:scaleType="fitXY" />
 
     <LinearLayout
         android:layout_weight="8"
@@ -44,7 +45,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Nombre"
-            android:id="@+id/textView11"
+            android:id="@+id/fmfmr_tv_uname"
             android:layout_gravity="center_horizontal" />
 
         <TextView
@@ -52,7 +53,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Edad"
-            android:id="@+id/textView12"
+            android:id="@+id/fmfmr_tv_umail"
             android:layout_gravity="center_horizontal" />
 
         <TextView
@@ -60,7 +61,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Distancia"
-            android:id="@+id/textView13"
+            android:id="@+id/fmfmr_tv_udistance"
             android:layout_gravity="center_horizontal" />
 
         <LinearLayout

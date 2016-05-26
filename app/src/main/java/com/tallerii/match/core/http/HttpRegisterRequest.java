@@ -22,6 +22,11 @@ public class HttpRegisterRequest extends HttpRequester {
     }
 
     @Override
+    public void afterError() {
+
+    }
+
+    @Override
     protected void responseArrival(JSONObject jsonObject) {
 
     }

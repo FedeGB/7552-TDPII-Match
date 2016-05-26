@@ -1,4 +1,5 @@
 package com.tallerii.match.core.http;
+import com.tallerii.match.core.RequesterListener;
 import com.tallerii.match.core.SystemData;
 
 import org.json.JSONException;
@@ -10,9 +11,9 @@ import org.json.JSONObject;
 public class HttpLoginRequester extends HttpRequester {
     public static String TAG = "LOGGIN";
 
-    ResponseListener responseListener;
+    RequesterListener responseListener;
 
-    public HttpLoginRequester(ResponseListener responseListener){
+    public HttpLoginRequester(RequesterListener responseListener){
         this.responseListener = responseListener;
     }
 
@@ -27,10 +28,15 @@ public class HttpLoginRequester extends HttpRequester {
     }
 
     @Override
+    public void afterError() {
+
+    }
+
+    @Override
     protected void responseArrival(JSONObject jsonObject) {
         try {
             String token = jsonObject.getString("token");
-            responseListener.httpRequestFinish(HttpLoginRequester.TAG);
+            responseListener.proccesRequest(null, HttpLoginRequester.TAG);
             SystemData.getInstance().setToken(token);
         }  catch (JSONException e) {
             endWithError("Parsing token: " + e.getMessage());

@@ -1,5 +1,6 @@
 package com.tallerii.match.core.http;
 
+import com.tallerii.match.core.RequesterListener;
 import com.tallerii.match.core.SystemData;
 
 import org.json.JSONArray;
@@ -13,7 +14,9 @@ import java.util.ArrayList;
  */
 public class HttpMatchListRequester extends HttpRequester {
 
-    public void getMatchList(){
+    RequesterListener requesterListener;
+    public void getMatchList(RequesterListener requesterListener){
+        this.requesterListener = requesterListener;
         HttpGetConnection httpConnection = new HttpGetConnection(this);
         if(hasValidConnection()){
             SystemData systemData = SystemData.getInstance();
@@ -23,7 +26,14 @@ public class HttpMatchListRequester extends HttpRequester {
             httpConnection.setUri("users/getMatches");
             httpConnection.addVariable("user", userId);
             httpConnection.addHeader("token", token);
+
+            httpConnection.execute();
         }
+    }
+
+    @Override
+    public void afterError() {
+        requesterListener.proccesRequest(new ArrayList<String>(), "MATCH");
     }
 
     @Override
@@ -35,6 +45,8 @@ public class HttpMatchListRequester extends HttpRequester {
                 String match = matchesList.getString(i);
                 userMatches.add(match);
             }
+
+            requesterListener.proccesRequest(userMatches, "MATCH");
         } catch (JSONException e) {
             endWithError("Parsing matchesList: " + e.getMessage());
         }
