@@ -14,6 +14,6 @@ public class MatchQuery extends HttpQuery {
 
     @Override
     public void execute() {
-        dataFacade.getNextMatch(this);
+        dataFacade.matchManager.getNextMatch(this);
     }
 }

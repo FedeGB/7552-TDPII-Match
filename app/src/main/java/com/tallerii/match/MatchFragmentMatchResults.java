@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,20 +19,15 @@ import com.tallerii.match.core.ImageManager;
 import com.tallerii.match.core.RequesterListener;
 import com.tallerii.match.core.UserProfile;
 
-public class MatchFragmentMatchResults extends Fragment implements AdapterView.OnItemClickListener, RequesterListener {
+public class MatchFragmentMatchResults extends Fragment implements RequesterListener, OnClickListener {
 
     UserProfile currentMatchProfile = null;
     View fragmentView;
+    Button likeButton;
+    Button unlikeButton;
 
     public MatchFragmentMatchResults() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getNextMatch();
-
     }
 
     public void getNextMatch(){
@@ -57,20 +54,24 @@ public class MatchFragmentMatchResults extends Fragment implements AdapterView.O
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getNextMatch();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentView = inflater.inflate(R.layout.fragment_match_fragment_match_results, container, false);
 
-        return fragmentView;
-    }
+        likeButton = (Button) fragmentView.findViewById(R.id.fmfmr_b_like);
+        likeButton.setOnClickListener(this);
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        UserProfile userProfile = (UserProfile) parent.getItemAtPosition(position);
-        Intent i = new Intent(getActivity(), PerfilActivity.class);
-        i.putExtra("profile", userProfile);
-        startActivity(i);
+        unlikeButton = (Button) fragmentView.findViewById(R.id.fmfmr_b_unlike);
+        unlikeButton.setOnClickListener(this);
+
+        return fragmentView;
     }
 
     @Override
@@ -78,6 +79,8 @@ public class MatchFragmentMatchResults extends Fragment implements AdapterView.O
         if(request.compareTo("MATCH")== 0){
             String match = (String) returnedObject;
             DataFacade.getInstance().getUserProfile(match, this);
+            likeButton.setEnabled(true);
+            unlikeButton.setEnabled(true);
             return;
         }
 
@@ -85,5 +88,30 @@ public class MatchFragmentMatchResults extends Fragment implements AdapterView.O
            setUserOnMatch((UserProfile) returnedObject);
             return;
         }
+
+        if(request.compareTo("LIKE")== 0){
+            getNextMatch();
+        }
+    }
+
+    public void likeUser(boolean like){
+        if(currentMatchProfile != null) {
+            DataFacade.getInstance().likeUser(currentMatchProfile.getId(), this, like);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.fmfmr_b_like:
+                likeUser(true);
+                break;
+            case R.id.fmfmr_b_unlike:
+                likeUser(false);
+                break;
+        }
+
+        likeButton.setEnabled(false);
+        unlikeButton.setEnabled(false);
     }
 }

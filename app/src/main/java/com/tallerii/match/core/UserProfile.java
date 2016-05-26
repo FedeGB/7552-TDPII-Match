@@ -22,6 +22,12 @@ public class UserProfile implements Serializable{
     private int latitude;
     private int longitude;
 
+    private String id = "";
+
+    public String getId() {
+        return id;
+    }
+
     public String getPhoto() {
         return photo;
     }
@@ -42,7 +48,8 @@ public class UserProfile implements Serializable{
         return sex;
     }
 
-    public UserProfile() {
+    public UserProfile(String id) {
+        this.id = id;
         setDefaultSettings();
     }
 

@@ -31,7 +31,7 @@ public class HttpUserProfileRequester extends HttpRequester {
     @Override
     protected void responseArrival(JSONObject jsonObject) {
         try {
-            UserProfile userProfile = new UserProfile();
+            UserProfile userProfile = new UserProfile(jsonObject.getString("id"));
             userProfile.setName(jsonObject.getString("name"));
             userProfile.setAlias(jsonObject.getString("alias"));
             userProfile.setSex(jsonObject.getString("sex"));

@@ -43,7 +43,7 @@ public class PerfilActivity extends AppCompatActivity {
         LinearLayout llInterest = (LinearLayout) findViewById(R.id.PE_LL_interest);
 
 
-            UserProfile userProfile = new UserProfile();
+            UserProfile userProfile = new UserProfile("s");
 
             ((TextView)(findViewById(R.id.PE_TV_pSex))).setText(userProfile.getSex());
             ((TextView)(findViewById(R.id.PE_TV_alias))).setText(userProfile.getAlias());

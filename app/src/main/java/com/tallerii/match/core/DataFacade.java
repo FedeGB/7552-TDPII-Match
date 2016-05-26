@@ -2,6 +2,9 @@ package com.tallerii.match.core;
 
 import com.tallerii.match.core.query.ChatQuery;
 import com.tallerii.match.core.query.HttpQuery;
+import com.tallerii.match.core.query.LikeUserQuery;
+import com.tallerii.match.core.query.MatchQuery;
+import com.tallerii.match.core.query.UserProfileQuery;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -32,11 +35,15 @@ public class DataFacade {
     }
 
     public void getNextMatch(RequesterListener requesterListener){
-        matchManager.getNextMatch(requesterListener);
+        addQuery(new MatchQuery(requesterListener, this));
     }
 
     public void getUserProfile(String id, RequesterListener requesterListener){
-        userManager.getUserProfile(id, requesterListener);
+        addQuery(new UserProfileQuery(requesterListener, id, this));
+    }
+
+    public void likeUser(String id, RequesterListener requesterListener, boolean like){
+        addQuery(new LikeUserQuery(requesterListener, this, id, like));
     }
 
     private void addQuery(HttpQuery httpQuery){

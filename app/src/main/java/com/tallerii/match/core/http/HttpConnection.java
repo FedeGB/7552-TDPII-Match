@@ -79,6 +79,10 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, InputStream> 
 
             HttpURLConnection httpURLConnection = buildRequestStructure(baseUrl);
 
+            if(httpURLConnection == null){
+                return null;
+            }
+
             httpURLConnection.connect();
             resultStream = new BufferedInputStream(httpURLConnection.getInputStream());
             httpURLConnection.disconnect();

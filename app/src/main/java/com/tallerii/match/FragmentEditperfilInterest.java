@@ -32,7 +32,6 @@ public class FragmentEditperfilInterest extends Fragment implements AdapterView.
         // Inflate the layout for this fragment
         View fragmentView = inflater.inflate(R.layout.fragment_editperfil_fragment_interest, container, false);
 
-        userProfile = new UserProfile();
 
         ListView interestListView = (ListView) fragmentView.findViewById(R.id.fefi_lv_interestList);
         listAdapter = new FragmentEditPerfilInterestListAdapter(getContext());
