@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.tallerii.match.SelectImageActivity">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Aceptar"
+        android:id="@+id/button7"
+        android:onClick="onAcceptButton" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Tomar foto"
+        android:id="@+id/button"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onTakePhotoButtonClick" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@mipmap/im_no_profile_image"
+        android:layout_height="match_parent"
+        android:id="@+id/asi_iv_takeImage"
+        android:scaleType="fitXY" />
+
+</LinearLayout>

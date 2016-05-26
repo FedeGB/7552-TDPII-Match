@@ -108,4 +108,6 @@ public class MainActivity extends AppCompatActivity {
     public void debugMenuOnGoToMatchClick(MenuItem menuItem){
         startActivity(new Intent(this, MatchActivity.class));
     }
+
+
 }

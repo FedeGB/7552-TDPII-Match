@@ -15,8 +15,11 @@ public class MatchActivityFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0:
-                return new MatchFragmentChat();
+            case 0: {
+                MatchFragmentChat matchFragmentChat = new MatchFragmentChat();
+                matchFragmentChat.setIsPhone();
+                return matchFragmentChat;
+            }
             case 1:
                 return new MatchFragmentMatchResults();
             case 2:
