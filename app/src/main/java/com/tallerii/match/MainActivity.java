@@ -101,6 +101,6 @@ public class MainActivity extends AppCompatActivity implements RequesterListener
     }
 
     public void debugMenuOnGoToMatchClick(MenuItem menuItem){
-
+        startActivity(new Intent(this, MatchActivity.class));
     }
 }

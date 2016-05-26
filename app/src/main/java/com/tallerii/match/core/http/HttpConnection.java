@@ -5,10 +5,15 @@ import android.util.Pair;
 
 import com.tallerii.match.core.SystemData;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,7 +23,7 @@ import java.util.Vector;
 /**
  * Created by Demian on 10/04/2016.
  */
-public abstract class HttpConnection extends AsyncTask<Void, Void, InputStream> {
+public abstract class HttpConnection extends AsyncTask<Void, Void, String> {
     private HttpResponseListener listener;
 
     private Vector<Pair<String, String>> customHeaders = new Vector<>();
@@ -70,8 +75,8 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, InputStream> 
     public abstract HttpURLConnection buildRequestStructure(String baseURL);
 
     @Override
-    protected InputStream doInBackground(Void... params) {
-        InputStream resultStream = null;
+    protected String doInBackground(Void... params) {
+        String returnedBody = null;
 
         try {
             SystemData systemData = SystemData.getInstance();
@@ -84,16 +89,29 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, InputStream> 
             }
 
             httpURLConnection.connect();
-            resultStream = new BufferedInputStream(httpURLConnection.getInputStream());
+            InputStream resultStream = new BufferedInputStream(httpURLConnection.getInputStream());
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(resultStream));
+            StringBuilder builder = new StringBuilder();
+            String line;
+
+            JSONObject jsonResp = null;
+
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+
+            returnedBody = builder.toString();
+
             httpURLConnection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return resultStream;
+        return returnedBody;
     }
 
     @Override
-    protected void onPostExecute(InputStream result) {
+    protected void onPostExecute(String result) {
         if(result != null) {
             listener.handleHttpResponse(result, this);
         } else {

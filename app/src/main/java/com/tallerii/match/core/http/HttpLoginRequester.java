@@ -40,6 +40,7 @@ public class HttpLoginRequester extends HttpRequester {
         try {
             String token = jsonObject.getString("token");
             responseListener.proccesRequest(true, HttpLoginRequester.TAG);
+            System.out.println("aca 2");
             SystemData.getInstance().setLogin(id, token);
         }  catch (JSONException e) {
             endWithError("Parsing token: " + e.getMessage());

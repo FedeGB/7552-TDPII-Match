@@ -40,6 +40,7 @@ public class HttpGetConnection extends HttpConnection {
 
             String finalURL = baseURL + uriVariable;
 
+
             HttpURLConnection httpURLConnection = createConnection(finalURL);
             httpURLConnection.setRequestMethod("GET");
 

@@ -19,4 +19,11 @@
         android:name="com.tallerii.match.FragmentEditperfilInterest"
         android:id="@+id/fragment6"
         android:layout_weight="1" />
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.tallerii.match.FragmentEditPerfilInterestDetails"
+        android:id="@+id/fragment7"
+        android:layout_weight="1" />
 </LinearLayout>

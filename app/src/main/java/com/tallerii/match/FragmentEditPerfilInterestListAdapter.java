@@ -42,7 +42,7 @@ public class FragmentEditPerfilInterestListAdapter extends ArrayAdapter<Interest
             TextView tvValue = new TextView(getContext());
             tvValue.setText(detailsIt.next());
 
-            tvValue.setTextAppearance(R.style.NormalTextView);
+            //tvValue.setTextAppearance(R.style.NormalTextView);
             ll.addView(tvValue);
         }
 

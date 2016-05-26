@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.tallerii.match.core.InterestCategory;
+import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.UserProfile;
 
 import java.util.Iterator;
@@ -19,11 +20,21 @@ import java.util.Iterator;
 
 public class FragmentEditperfilInterest extends Fragment implements AdapterView.OnItemClickListener {
 
-    UserProfile userProfile;
     ArrayAdapter<InterestCategory> listAdapter;
+
+    boolean isPhone = true;
+    FragmentEditPerfilInterestDetails fragmentEditPerfilInterestDetails;
 
     public FragmentEditperfilInterest() {
         // Required empty public constructor
+    }
+
+    public void setFragmentEditPerfilInterestDetails(FragmentEditPerfilInterestDetails fragmentEditPerfilInterestDetails) {
+        this.fragmentEditPerfilInterestDetails = fragmentEditPerfilInterestDetails;
+        UserProfile userProfile = SystemData.getInstance().getUserProfile();
+        InterestCategory interestCategory = userProfile.getInterestCategories().get("hobby");
+        fragmentEditPerfilInterestDetails.setInterestCategory(interestCategory);
+        isPhone = false;
     }
 
     @Override
@@ -46,6 +57,8 @@ public class FragmentEditperfilInterest extends Fragment implements AdapterView.
     private void buildInterestList(){
         listAdapter.clear();
 
+        UserProfile userProfile = SystemData.getInstance().getUserProfile();
+
         Iterator<InterestCategory> interestCategoryIterator = userProfile.getInterestCategories().values().iterator();
 
         while (interestCategoryIterator.hasNext()){
@@ -55,12 +68,17 @@ public class FragmentEditperfilInterest extends Fragment implements AdapterView.
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent i = new Intent(getActivity(), EditInterestActivity.class);
-
+        UserProfile userProfile = SystemData.getInstance().getUserProfile();
         String categoryName = view.getTag().toString();
         InterestCategory interestCategory = userProfile.getInterestCategories().get(categoryName);
-        i.putExtra("interest", interestCategory);
-        startActivityForResult(i, position);
+
+        if(isPhone) {
+            Intent i = new Intent(getActivity(), EditInterestActivity.class);
+            i.putExtra("interest", interestCategory);
+            startActivityForResult(i, position);
+        } else {
+            fragmentEditPerfilInterestDetails.setInterestCategory(interestCategory);
+        }
     }
 
     /*

@@ -12,20 +12,9 @@ import java.io.InputStreamReader;
 
 public abstract class HttpRequester implements HttpResponseListener {
     @Override
-    public void handleHttpResponse(InputStream response, HttpConnection connection) {
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(response));
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-
-        JSONObject jsonResp = null;
+    public void handleHttpResponse(String response, HttpConnection connection) {
         try {
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-            }
-            this.checkAndExtractPayload(new JSONObject(stringBuilder.toString()));
-        } catch (IOException e) {
-            endWithError("IOException");
+            this.checkAndExtractPayload(new JSONObject(response));
         } catch (JSONException e) {
             endWithError("CreatingJsonObject: " + e.getMessage());
         }
