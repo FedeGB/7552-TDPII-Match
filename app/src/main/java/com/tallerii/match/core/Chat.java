@@ -1,4 +1,4 @@
-package com.tallerii.match;
+package com.tallerii.match.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Chat implements Serializable {
 
     ArrayList<ChatMessage> messageList = new ArrayList<>();
+    String talkingUserId = "";
 
     public Chat() {
 

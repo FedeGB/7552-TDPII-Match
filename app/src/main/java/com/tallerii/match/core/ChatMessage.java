@@ -1,4 +1,4 @@
-package com.tallerii.match;
+package com.tallerii.match.core;
 
 /**
  * Created by Demian on 25/05/2016.
