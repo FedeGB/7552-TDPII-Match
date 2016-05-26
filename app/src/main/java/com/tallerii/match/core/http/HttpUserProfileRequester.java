@@ -1,6 +1,7 @@
 package com.tallerii.match.core.http;
 
 import com.tallerii.match.core.RequesterListener;
+import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.UserProfile;
 
 import org.json.JSONArray;
@@ -19,6 +20,7 @@ public class HttpUserProfileRequester extends HttpRequester {
         this.requesterListener = requesterListener;
         HttpGetConnection httpConnection = new HttpGetConnection(this);
         if(hasValidConnection()){
+            httpConnection.addHeader("token", SystemData.getInstance().getToken());
             httpConnection.setUri("users");
             httpConnection.addVariable("username", userId);
             httpConnection.execute();

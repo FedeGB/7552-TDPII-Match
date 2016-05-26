@@ -6,6 +6,7 @@ import com.tallerii.match.core.query.LikeUserQuery;
 import com.tallerii.match.core.query.LoginQuery;
 import com.tallerii.match.core.query.MatchQuery;
 import com.tallerii.match.core.query.RegisterQuery;
+import com.tallerii.match.core.query.UpdateProfileQuery;
 import com.tallerii.match.core.query.UserProfileQuery;
 
 import java.util.LinkedList;
@@ -56,6 +57,9 @@ public class DataFacade {
         addQuery(new RegisterQuery(requesterListener, this, user, pass, name));
     }
 
+    public void saveUserProfile(RequesterListener requesterListener){
+        addQuery(new UpdateProfileQuery(requesterListener, this));
+    }
 
     private void addQuery(HttpQuery httpQuery){
         httpQueries.add(httpQuery);

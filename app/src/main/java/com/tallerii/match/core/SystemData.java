@@ -1,5 +1,7 @@
 package com.tallerii.match.core;
 
+import android.graphics.Bitmap;
+
 import com.tallerii.match.core.http.HttpLoginRequester;
 
 /**

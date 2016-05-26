@@ -10,6 +10,7 @@ public class EditPerfilActivity extends AppCompatActivity {
 
     private ViewPager mViewPager = null;
     boolean isTabletDevice = false;
+    FragmentEditPerfilGeneral fragmentEditPerfilGeneral;
 
     private void checkIfIsTabletDevice(){
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -28,7 +29,7 @@ public class EditPerfilActivity extends AppCompatActivity {
         if(isTabletDevice) {
             FragmentEditPerfilInterestDetails fid = (FragmentEditPerfilInterestDetails) getSupportFragmentManager().findFragmentById(R.id.fragment7);
             FragmentEditperfilInterest fi = (FragmentEditperfilInterest) getSupportFragmentManager().findFragmentById(R.id.fragment6);
-
+            fragmentEditPerfilGeneral = (FragmentEditPerfilGeneral) getSupportFragmentManager().findFragmentById(R.id.fragment5);
             fi.setFragmentEditPerfilInterestDetails(fid);
         } else {
             EditPerfilActivityFragmentAdapter editPerfilActivityFragmentAdapter = new EditPerfilActivityFragmentAdapter(getSupportFragmentManager());
@@ -39,8 +40,14 @@ public class EditPerfilActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == Activity.RESULT_OK){
 
+        if(resultCode == Activity.RESULT_OK){
+            if(requestCode == 23){
+
+
+            }
         }
+        System.out.println(requestCode);
+        fragmentEditPerfilGeneral.updateProfilePhoto();
     }
 }

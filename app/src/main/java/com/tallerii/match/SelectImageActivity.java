@@ -10,6 +10,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.tallerii.match.core.ImageManager;
+import com.tallerii.match.core.SystemData;
+import com.tallerii.match.core.UserProfile;
+
 public class SelectImageActivity extends AppCompatActivity {
 
     private boolean photoTaked = false;
@@ -27,8 +31,9 @@ public class SelectImageActivity extends AppCompatActivity {
 
     public void onAcceptButton(View v){
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("bitmap", imageBitmap);
-        setResult(Activity.RESULT_OK,returnIntent);
+        String photo = ImageManager.codeToBase64(imageBitmap);
+        SystemData.getInstance().getUserProfile().setPhoto(photo);
+        setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
 

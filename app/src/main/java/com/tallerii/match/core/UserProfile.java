@@ -17,7 +17,7 @@ public class UserProfile implements Serializable{
     private String alias;
     private String mail;
     private String sex;
-    private String photo;
+    private String photo = "";
 
     private int latitude;
     private int longitude;

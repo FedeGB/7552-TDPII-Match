@@ -13,14 +13,22 @@
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_marginTop="10dp"
-        android:id="@+id/imageView5"
+        android:id="@+id/fefg_iv_profilephoto"
         android:background="@mipmap/im_no_profile_image"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:scaleType="fitXY" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cambiar foto"
         android:id="@+id/fefg_b_cphoto"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guardar cambios"
+        android:id="@+id/fefg_b_save"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>
