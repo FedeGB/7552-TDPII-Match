@@ -1,27 +1,15 @@
 package com.tallerii.match;
 
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.tallerii.match.core.DataFacade;
-import com.tallerii.match.core.RequesterListener;
+import com.tallerii.match.core.ServerData;
+import com.tallerii.match.core.query.QueryListener;
 import com.tallerii.match.core.SystemData;
-import com.tallerii.match.core.http.HttpConnection;
-import com.tallerii.match.core.http.HttpResponseListener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-public class RegisterActivity extends AppCompatActivity implements RequesterListener {
+public class RegisterActivity extends AppCompatActivity implements QueryListener {
 
 
     @Override
@@ -46,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity implements RequesterList
 
         SystemData.getInstance().setIp(splittedIp[0]);
         SystemData.getInstance().setPort(splittedIp[1]);
-        DataFacade.getInstance().registerUser(email, name, password, this);
+        ServerData.getInstance().registerUser(email, name, password, this);
     }
 
     @Override

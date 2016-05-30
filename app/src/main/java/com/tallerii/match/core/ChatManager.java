@@ -1,20 +1,22 @@
 package com.tallerii.match.core;
 
+import com.tallerii.match.core.query.QueryListener;
+
 import java.util.ArrayList;
 
 /**
  * Created by Demian on 25/05/2016.
  */
-public class ChatManager implements RequesterListener {
+public class ChatManager implements QueryListener {
     private ArrayList<Chat> chatArrayList = new ArrayList<>();
     private UserProfileManager userProfileManager;
-    private RequesterListener requesterListener;
+    private QueryListener requesterListener;
 
     public ChatManager(UserProfileManager userProfileManager) {
         this.userProfileManager = userProfileManager;
     }
 
-    public void getChatList(RequesterListener requesterListener) {
+    public void getChatList(QueryListener requesterListener) {
         this.requesterListener = requesterListener;
         userProfileManager.getUserProfile("fiubaTeam@fiuba.com.ar", this);
     }

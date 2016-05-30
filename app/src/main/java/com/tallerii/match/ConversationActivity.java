@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.tallerii.match.core.Chat;
-import com.tallerii.match.core.DataFacade;
+import com.tallerii.match.core.ServerData;
 
 public class ConversationActivity extends AppCompatActivity {
 
@@ -17,7 +17,7 @@ public class ConversationActivity extends AppCompatActivity {
 
         if(extras != null) {
             int chat = extras.getInt("chat");
-            Chat currentChat = DataFacade.getInstance().getChatByIdWithoutQuery(chat);
+            Chat currentChat = ServerData.getInstance().getChatByIdWithoutQuery(chat);
             MatchFragmentConversation matchFragmentConversation = (MatchFragmentConversation)getSupportFragmentManager().findFragmentById(R.id.fragment4);
             if(matchFragmentConversation != null){
                 matchFragmentConversation.setChat(currentChat);

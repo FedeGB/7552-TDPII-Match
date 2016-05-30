@@ -1,0 +1,63 @@
+package com.tallerii.match.core.query.http;
+
+import com.tallerii.match.core.SystemData;
+import com.tallerii.match.core.UserProfile;
+import com.tallerii.match.core.query.http.connections.HttpGetConnection;
+import com.tallerii.match.core.query.http.connections.HttpResponseListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Demian on 22/05/2016.
+ */
+public class HttpMatchListRequester implements HttpResponseListener {
+
+    RequesterListener requesterListener;
+
+    public void getMatchList(RequesterListener requesterListener){
+        this.requesterListener = requesterListener;
+
+        HttpGetConnection httpConnection = new HttpGetConnection(this);
+
+        SystemData systemData = SystemData.getInstance();
+        String userId = systemData.getUserId();
+        String token = systemData.getToken();
+
+        httpConnection.setUri("candidates/" + userId);
+        httpConnection.addHeader("token", token);
+
+        httpConnection.execute();
+    }
+
+    @Override
+    public void handleHttpResponse(JSONObject responseBody) {
+        try {
+            ArrayList<UserProfile> candidatesList = new ArrayList<>();
+            JSONArray matchesList = responseBody.getJSONArray("candidates");
+
+            for (int i = 0; i < matchesList.length(); i++){
+                JSONObject user = matchesList.getJSONObject(i);
+                UserProfile userProfile = new UserProfile(user.getString("id"));
+                //TODO: Completar con lo que falta de UserProfile!
+                userProfile.setName(user.getString("name"));
+                userProfile.setAlias(user.getString("alias"));
+                userProfile.setPhoto(user.getString("photo_profile"));
+
+                candidatesList.add(userProfile);
+            }
+
+            requesterListener.onSuccesRequest(candidatesList);
+        } catch (JSONException e) {
+            handleHttpError(-2, "Error trying to parse UserProfile in \"handleHttpResponse\" on HttpLoginRequester.java");
+        }
+    }
+
+    @Override
+    public void handleHttpError(int errorNumber, String errorMessage) {
+        requesterListener.onFailRequest(errorNumber, errorMessage);
+    }
+}

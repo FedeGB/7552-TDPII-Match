@@ -1,9 +1,7 @@
-package com.tallerii.match.core.http;
+package com.tallerii.match.core.query.http.connections;
 
 import android.util.Pair;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;

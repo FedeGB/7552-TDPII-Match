@@ -1,20 +1,27 @@
 package com.tallerii.match.core.query;
 
-import com.tallerii.match.core.DataFacade;
-import com.tallerii.match.core.RequesterListener;
-
 /**
  * Created by Demian on 26/05/2016.
  */
 public class ChatQuery extends HttpQuery {
+    private QueryListener listener;
 
-    public ChatQuery(RequesterListener listener, DataFacade dataFacade) {
-        super(listener, dataFacade);
+    public ChatQuery(QueryListener listener) {
+        this.listener = listener;
     }
 
     @Override
     public void execute() {
-        dataFacade.chatManager.getChatList(this);
+
     }
 
+    @Override
+    public void onSuccesRequest(Object returnedObject) {
+
+    }
+
+    @Override
+    public void onFailRequest(int errorCode, String errorMessage) {
+
+    }
 }

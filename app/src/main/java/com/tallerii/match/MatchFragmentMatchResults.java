@@ -1,6 +1,5 @@
 package com.tallerii.match;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,18 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.tallerii.match.core.DataFacade;
+import com.tallerii.match.core.ServerData;
 import com.tallerii.match.core.ImageManager;
-import com.tallerii.match.core.RequesterListener;
+import com.tallerii.match.core.query.QueryListener;
 import com.tallerii.match.core.UserProfile;
 
-public class MatchFragmentMatchResults extends Fragment implements RequesterListener, OnClickListener {
+public class MatchFragmentMatchResults extends Fragment implements QueryListener, OnClickListener {
 
     UserProfile currentMatchProfile = null;
     View fragmentView;
@@ -31,7 +28,7 @@ public class MatchFragmentMatchResults extends Fragment implements RequesterList
     }
 
     public void getNextMatch(){
-        DataFacade.getInstance().getNextMatch(this);
+        ServerData.getInstance().getNextMatch(this);
     }
 
     private void setUserOnMatch(UserProfile user){
@@ -89,7 +86,7 @@ public class MatchFragmentMatchResults extends Fragment implements RequesterList
 
     public void likeUser(boolean like){
         if(currentMatchProfile != null) {
-            DataFacade.getInstance().likeUser(currentMatchProfile.getId(), this, like);
+            ServerData.getInstance().likeUser(currentMatchProfile.getId(), this, like);
         }
     }
 

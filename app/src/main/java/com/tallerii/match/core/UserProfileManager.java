@@ -1,6 +1,7 @@
 package com.tallerii.match.core;
 
-import com.tallerii.match.core.http.HttpUserProfileRequester;
+import com.tallerii.match.core.query.http.HttpUserProfileRequester;
+import com.tallerii.match.core.query.QueryListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,9 +9,9 @@ import java.util.Map;
 /**
  * Created by Demian on 25/05/2016.
  */
-public class UserProfileManager implements RequesterListener {
+public class UserProfileManager implements QueryListener {
     Map<String, UserProfile> userProfileCache = new HashMap<>();
-    RequesterListener requesterListener;
+    QueryListener requesterListener;
 
     HttpUserProfileRequester userProfileRequester;
 
@@ -24,7 +25,7 @@ public class UserProfileManager implements RequesterListener {
         userProfileCache.put("fiubaTeam@fiuba.com.ar", fiubaProfile);
     }
 
-    public void getUserProfile(String userId, RequesterListener requesterListener){
+    public void getUserProfile(String userId, QueryListener requesterListener){
         this.requesterListener = requesterListener;
         if(userProfileCache.containsKey(userId)){
             requesterListener.proccesRequest(userProfileCache.get(userId), "PROFILE");

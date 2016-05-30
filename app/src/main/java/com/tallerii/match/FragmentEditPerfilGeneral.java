@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.tallerii.match.core.DataFacade;
+import com.tallerii.match.core.ServerData;
 import com.tallerii.match.core.ImageManager;
-import com.tallerii.match.core.RequesterListener;
+import com.tallerii.match.core.query.QueryListener;
 import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.UserProfile;
 
@@ -21,7 +21,7 @@ import com.tallerii.match.core.UserProfile;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentEditPerfilGeneral extends Fragment implements View.OnClickListener, RequesterListener {
+public class FragmentEditPerfilGeneral extends Fragment implements View.OnClickListener, QueryListener {
 
     View fragmentView;
     Button saveButton;
@@ -67,7 +67,7 @@ public class FragmentEditPerfilGeneral extends Fragment implements View.OnClickL
             case R.id.fefg_b_save:
                 saveButton.setEnabled(false);
                 changePhotoButton.setEnabled(false);
-                DataFacade.getInstance().saveUserProfile(this);
+                ServerData.getInstance().saveUserProfile(this);
                 break;
         }
 

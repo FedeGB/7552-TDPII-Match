@@ -14,13 +14,12 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 
-import com.tallerii.match.core.DataFacade;
-import com.tallerii.match.core.RequesterListener;
+import com.tallerii.match.core.ServerData;
+import com.tallerii.match.core.query.QueryListener;
 import com.tallerii.match.core.SystemData;
-import com.tallerii.match.core.http.HttpLikeRequester;
 
 
-public class MainActivity extends AppCompatActivity implements RequesterListener {
+public class MainActivity extends AppCompatActivity implements QueryListener {
 
     private static final String DEBUG_TAG = "HttpLoginRequestDebug";
     private static final String INFO_TAG = "HttpLoginRequestInfo";
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements RequesterListener
         SystemData.getInstance().setIp(splittedIp[0]);
         SystemData.getInstance().setPort(splittedIp[1]);
 
-        DataFacade.getInstance().loginUser(userName, userPassword, this);
+        ServerData.getInstance().loginUser(userName, userPassword, this);
     }
 
     @Override

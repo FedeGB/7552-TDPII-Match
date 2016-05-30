@@ -6,6 +6,7 @@ import com.tallerii.match.core.query.LikeUserQuery;
 import com.tallerii.match.core.query.LoginQuery;
 import com.tallerii.match.core.query.MatchQuery;
 import com.tallerii.match.core.query.RegisterQuery;
+import com.tallerii.match.core.query.QueryListener;
 import com.tallerii.match.core.query.UpdateProfileQuery;
 import com.tallerii.match.core.query.UserProfileQuery;
 
@@ -15,10 +16,10 @@ import java.util.Queue;
 /**
  * Created by Demian on 26/05/2016.
  */
-public class DataFacade {
-    private static DataFacade ourInstance = new DataFacade();
+public class ServerData {
+    private static ServerData ourInstance = new ServerData();
 
-    public static DataFacade getInstance() {
+    public static ServerData getInstance() {
         return ourInstance;
     }
 
@@ -30,34 +31,34 @@ public class DataFacade {
     Queue<HttpQuery> httpQueries = new LinkedList<>();
     boolean isExecuting = false;
 
-    private DataFacade() {
+    private ServerData() {
     }
 
-    public void getChatList(RequesterListener requesterListener){
+    public void getChatList(QueryListener requesterListener){
         addQuery(new ChatQuery(requesterListener, this));
     }
 
-    public void getNextMatch(RequesterListener requesterListener){
+    public void getNextMatch(QueryListener requesterListener){
         addQuery(new MatchQuery(requesterListener, this));
     }
 
-    public void getUserProfile(String id, RequesterListener requesterListener){
+    public void getUserProfile(String id, QueryListener requesterListener){
         addQuery(new UserProfileQuery(requesterListener, id, this));
     }
 
-    public void likeUser(String id, RequesterListener requesterListener, boolean like){
+    public void likeUser(String id, QueryListener requesterListener, boolean like){
         addQuery(new LikeUserQuery(requesterListener, this, id, like));
     }
 
-    public void loginUser(String name, String pass, RequesterListener requesterListener){
+    public void loginUser(String name, String pass, QueryListener requesterListener){
         addQuery(new LoginQuery(requesterListener, this,pass,name));
     }
 
-    public void registerUser(String user, String name, String pass, RequesterListener requesterListener){
+    public void registerUser(String user, String name, String pass, QueryListener requesterListener){
         addQuery(new RegisterQuery(requesterListener, this, user, pass, name));
     }
 
-    public void saveUserProfile(RequesterListener requesterListener){
+    public void saveUserProfile(QueryListener requesterListener){
         addQuery(new UpdateProfileQuery(requesterListener, this));
     }
 

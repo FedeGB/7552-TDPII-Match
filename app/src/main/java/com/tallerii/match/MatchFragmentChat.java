@@ -10,15 +10,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.tallerii.match.core.Chat;
-import com.tallerii.match.core.ChatMessage;
-import com.tallerii.match.core.DataFacade;
-import com.tallerii.match.core.RequesterListener;
+import com.tallerii.match.core.ServerData;
+import com.tallerii.match.core.query.QueryListener;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 
-public class MatchFragmentChat extends Fragment implements AdapterView.OnItemClickListener, RequesterListener {
+public class MatchFragmentChat extends Fragment implements AdapterView.OnItemClickListener, QueryListener {
 
     private boolean isPhone = false;
     private FragmentChatListAdapter fragmentChatListAdapter;
@@ -46,7 +45,7 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
 
         chat.setAdapter(fragmentChatListAdapter);
 
-        DataFacade.getInstance().getChatList(this);
+        ServerData.getInstance().getChatList(this);
 
         return fragmentView;
     }

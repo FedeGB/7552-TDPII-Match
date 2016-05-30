@@ -1,4 +1,4 @@
-package com.tallerii.match.core.http;
+package com.tallerii.match.core.query.http.connections;
 
 import android.os.AsyncTask;
 import android.util.Pair;
@@ -8,12 +8,9 @@ import com.tallerii.match.core.SystemData;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,6 +20,7 @@ import java.util.Vector;
 /**
  * Created by Demian on 10/04/2016.
  */
+
 public abstract class HttpConnection extends AsyncTask<Void, Void, String> {
     private HttpResponseListener listener;
 
@@ -30,7 +28,6 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, String> {
     protected Vector<Pair<String, String>> requestVariables = new Vector<>();
 
     private String uri;
-    protected int response = -1;
 
     public void setUri(String uri) {
         this.uri = uri;
@@ -45,10 +42,12 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, String> {
         customHeaders.add(header);
     }
 
+    //TODO: CREO QUE CON EL CAMBIO A PASAR POR HEADER LOS DATOS ESTO NO VA MAS
     public void addVariable(String variableName, String value) {
         Pair<String, String> variable = new Pair<>(variableName, value);
         requestVariables.add(variable);
     }
+
 
     protected HttpURLConnection createConnection(String url){
         try {
@@ -89,7 +88,25 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, String> {
             }
 
             httpURLConnection.connect();
-            InputStream resultStream = new BufferedInputStream(httpURLConnection.getInputStream());
+
+
+            //TODO: VER SI ESTO FUNCIONA
+            InputStream result = httpURLConnection.getInputStream();
+            ByteArrayOutputStream b = new ByteArrayOutputStream();
+
+            int val = 0;
+            while (val >= 0){
+                val = result.read();
+                byte readedByte = (byte) val;
+                b.write(readedByte);
+            }
+
+            returnedBody = new String(b.toByteArray());
+            /*
+
+            BufferedInputStream resultStream = new BufferedInputStream(httpURLConnection.getInputStream());
+
+
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(resultStream));
             StringBuilder builder = new StringBuilder();
@@ -102,7 +119,7 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, String> {
             }
 
             returnedBody = builder.toString();
-
+            */
             httpURLConnection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
@@ -112,14 +129,18 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if(result != null) {
-            listener.handleHttpResponse(result, this);
-        } else {
-            listener.httpRequestError(this);
-        }
-    }
 
-    public String getUri() {
-        return uri;
+        if(result == null){
+            listener.handleHttpError(-1, "Client side error in \"doInBackground\" on HttpConnection.java");
+        }
+
+        try {
+            JSONObject responseObject = new JSONObject(result);
+            JSONObject payload = responseObject.getJSONObject("payload");
+
+            listener.handleHttpResponse(payload);
+        } catch (JSONException e){
+            listener.handleHttpError(-2, "Error in \"OnPostExecute\" trying to handle the response error");
+        }
     }
 }

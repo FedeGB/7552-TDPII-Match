@@ -1,13 +1,9 @@
-package com.tallerii.match.core.http;
+package com.tallerii.match.core.query.http.connections;
 
-import android.util.Pair;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Iterator;
 
 /**
  * Created by Demian on 26/05/2016.

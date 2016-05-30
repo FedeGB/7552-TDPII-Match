@@ -1,9 +1,10 @@
-package com.tallerii.match.core.http;
+package com.tallerii.match.core.query.http;
 
 import com.tallerii.match.core.InterestCategory;
-import com.tallerii.match.core.RequesterListener;
 import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.UserProfile;
+import com.tallerii.match.core.query.http.connections.HttpPutConnection;
+import com.tallerii.match.core.query.http.connections.HttpResponseListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,26 +15,22 @@ import java.util.Map;
 /**
  * Created by Demian on 26/05/2016.
  */
-public class HttpEditProfileRequester extends HttpRequester {
+public class HttpEditProfileRequester implements HttpResponseListener {
 
     RequesterListener requesterListener;
-    @Override
-    public void afterError() {
-        requesterListener.proccesRequest(false, "UPDATEPROFILE");
-    }
 
     public void updateProfile(RequesterListener requesterListener){
         this.requesterListener = requesterListener;
+
         HttpPutConnection httpConnection = new HttpPutConnection(this);
-        if(hasValidConnection()) {
-            httpConnection.addHeader("token", SystemData.getInstance().getToken());
-            httpConnection.setUri("users");
 
-            JSONObject body = this.buildObject();
-            httpConnection.addBody(body);
+        httpConnection.addHeader("token", SystemData.getInstance().getToken());
+        httpConnection.setUri("users");
 
-            httpConnection.execute();
-        }
+        JSONObject body = this.buildObject();
+        httpConnection.addBody(body);
+
+        httpConnection.execute();
     }
 
     private JSONObject buildObject(){
@@ -52,14 +49,12 @@ public class HttpEditProfileRequester extends HttpRequester {
 
             for (Map.Entry<String, InterestCategory> entry : userProfile.getInterestCategories().entrySet())
             {
-
                 for(String value : entry.getValue().getDetails()) {
                     JSONObject interest = new JSONObject();
                     interest.put("category", entry.getKey());
                     interest.put("value", value);
                     jsonArray.put(interest);
                 }
-
             }
 
             body.put("interest", jsonArray);
@@ -78,7 +73,12 @@ public class HttpEditProfileRequester extends HttpRequester {
     }
 
     @Override
-    protected void responseArrival(JSONObject jsonObject) {
-        requesterListener.proccesRequest(true, "UPDATEPROFILE");
+    public void handleHttpResponse(JSONObject responseBody) {
+        requesterListener.onSuccesRequest(null);
+    }
+
+    @Override
+    public void handleHttpError(int errorNumber, String errorMessage) {
+        requesterListener.onFailRequest(errorNumber, errorMessage);
     }
 }
