@@ -29,7 +29,7 @@ public class HttpConversationRequester implements HttpResponseListener {
         httpGetConnection.addHeader("user2", userId);
         httpGetConnection.addHeader("token", token);
 
-        httpGetConnection.setUri("/conversations");
+        httpGetConnection.setUri("conversations");
 
         httpGetConnection.execute();
     }

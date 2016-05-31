@@ -1,6 +1,5 @@
 package com.tallerii.match.core;
 
-import com.tallerii.match.core.query.ChatQuery;
 import com.tallerii.match.core.query.HttpQuery;
 import com.tallerii.match.core.query.LikeUserQuery;
 import com.tallerii.match.core.query.LoginQuery;
