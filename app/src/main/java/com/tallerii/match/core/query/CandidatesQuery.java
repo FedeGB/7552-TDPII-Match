@@ -27,6 +27,7 @@ public class CandidatesQuery extends HttpQuery {
         ArrayList<UserProfile> candidatesList = (ArrayList<UserProfile>) returnedObject;
         SystemData systemData = SystemData.getInstance();
         systemData.getCandidatesManager().addToMatchQueue(candidatesList);
+        systemData.getUserManager().addAllToProfileList(candidatesList);
 
         queryListener.onReturnedRequest(QUERY_TAG);
         queryListener.afterRequest(QUERY_TAG);
