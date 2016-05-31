@@ -1,5 +1,6 @@
 package com.tallerii.match.core.query;
 
+import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.UserProfile;
 import com.tallerii.match.core.query.http.HttpUserProfileRequester;
 
@@ -22,8 +23,8 @@ public class UserProfileQuery extends HttpQuery {
 
     @Override
     public void onSuccesRequest(Object returnedObject) {
-        //TODO: METER EN USERPROFILEMANAGER
         UserProfile userProfile = (UserProfile) returnedObject;
+        SystemData.getInstance().getUserManager().addToProfileList(userProfile.getId(), userProfile);
 
         queryListener.onReturnedRequest(QUERY_TAG);
         queryListener.afterRequest(QUERY_TAG);

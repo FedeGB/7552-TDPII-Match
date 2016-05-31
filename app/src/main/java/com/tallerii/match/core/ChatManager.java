@@ -9,7 +9,9 @@ import java.util.ArrayList;
  */
 public class ChatManager {
     private ArrayList<Chat> chatArrayList = new ArrayList<>();
-    private UserProfileManager userProfileManager;
-    private QueryListener requesterListener;
+
+    public void addChat(Chat chat){
+        chatArrayList.add(chat);
+    }
 
 }
