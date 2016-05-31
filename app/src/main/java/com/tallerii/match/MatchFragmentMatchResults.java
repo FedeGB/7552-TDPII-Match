@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.tallerii.match.core.ServerData;
 import com.tallerii.match.core.ImageManager;
+import com.tallerii.match.core.SystemData;
+import com.tallerii.match.core.query.CandidatesQuery;
+import com.tallerii.match.core.query.LikeUserQuery;
 import com.tallerii.match.core.query.QueryListener;
 import com.tallerii.match.core.UserProfile;
 
@@ -27,14 +30,21 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
         // Required empty public constructor
     }
 
-    public void getNextMatch(){
-        ServerData.getInstance().getNextMatch(this);
+    public void getNextMatch() {
+        SystemData systemData = SystemData.getInstance();
+
+        if (systemData.getCandidatesManager().hasCandidate()) {
+            setUserOnMatch(systemData.getCandidatesManager().getNextCandidate());
+        } else {
+            ServerData.getInstance().fetchCandidates(this);
+        }
     }
 
     private void setUserOnMatch(UserProfile user){
         if(user == null){
             return;
         }
+
         this.currentMatchProfile = user;
         ImageView imageView = (ImageView) fragmentView.findViewById(R.id.fmfmr_iv_uphoto);
         Bitmap imagebitmap = ImageManager.decodeFromBase64(user.getPhoto());
@@ -48,6 +58,9 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
 
         TextView userDistance = (TextView) fragmentView.findViewById(R.id.fmfmr_tv_udistance);
         userDistance.setText("0");
+
+        likeButton.setEnabled(true);
+        unlikeButton.setEnabled(true);
     }
 
     @Override
@@ -71,19 +84,6 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
         return fragmentView;
     }
 
-    @Override
-    public void proccesRequest(Object returnedObject, String request) {
-
-        if(request.compareTo("MATCH")== 0){
-           setUserOnMatch((UserProfile) returnedObject);
-            return;
-        }
-
-        if(request.compareTo("LIKE")== 0){
-            getNextMatch();
-        }
-    }
-
     public void likeUser(boolean like){
         if(currentMatchProfile != null) {
             ServerData.getInstance().likeUser(currentMatchProfile.getId(), this, like);
@@ -103,5 +103,24 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
 
         likeButton.setEnabled(false);
         unlikeButton.setEnabled(false);
+    }
+
+    @Override
+    public void onReturnedRequest(String request) {
+        if(request.compareTo(CandidatesQuery.QUERY_TAG) == 0){
+            getNextMatch();
+        }
+    }
+
+    @Override
+    public void onFailRequest(String message, String request) {
+        System.out.println(message);
+    }
+
+    @Override
+    public void afterRequest(String request) {
+        if(request.compareTo(LikeUserQuery.QUERY_TAG)== 0){
+            getNextMatch();
+        }
     }
 }

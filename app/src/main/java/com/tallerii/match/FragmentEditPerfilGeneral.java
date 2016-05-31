@@ -67,14 +67,24 @@ public class FragmentEditPerfilGeneral extends Fragment implements View.OnClickL
             case R.id.fefg_b_save:
                 saveButton.setEnabled(false);
                 changePhotoButton.setEnabled(false);
-                ServerData.getInstance().saveUserProfile(this);
+                ServerData.getInstance().updateUserProfile(this);
                 break;
         }
 
     }
 
     @Override
-    public void proccesRequest(Object returnedObject, String request) {
+    public void onReturnedRequest(String request) {
+
+    }
+
+    @Override
+    public void onFailRequest(String message, String request) {
+
+    }
+
+    @Override
+    public void afterRequest(String request) {
         saveButton.setEnabled(true);
         changePhotoButton.setEnabled(true);
         getActivity().finish();

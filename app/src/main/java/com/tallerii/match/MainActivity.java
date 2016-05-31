@@ -96,16 +96,22 @@ public class MainActivity extends AppCompatActivity implements QueryListener {
         ServerData.getInstance().loginUser(userName, userPassword, this);
     }
 
-    @Override
-    public void proccesRequest(Object returnedObject, String request) {
-        boolean loged = (boolean) returnedObject;
-
-        if(loged) {
-            startActivity(new Intent(this, MatchActivity.class));
-        }
-    }
-
     public void debugMenuOnGoToMatchClick(MenuItem menuItem){
         startActivity(new Intent(this, MatchActivity.class));
+    }
+
+    @Override
+    public void onReturnedRequest(String request) {
+        startActivity(new Intent(this, MatchActivity.class));
+    }
+
+    @Override
+    public void onFailRequest(String message, String request) {
+
+    }
+
+    @Override
+    public void afterRequest(String request) {
+
     }
 }

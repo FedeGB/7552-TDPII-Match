@@ -17,12 +17,13 @@ public class ConversationActivity extends AppCompatActivity {
 
         if(extras != null) {
             int chat = extras.getInt("chat");
-            Chat currentChat = ServerData.getInstance().getChatByIdWithoutQuery(chat);
+
+            /*Chat currentChat = ServerData.getInstance().getChatByIdWithoutQuery(chat);
             MatchFragmentConversation matchFragmentConversation = (MatchFragmentConversation)getSupportFragmentManager().findFragmentById(R.id.fragment4);
             if(matchFragmentConversation != null){
                 matchFragmentConversation.setChat(currentChat);
             }
-
+            */
         }
     }
 }

@@ -17,6 +17,23 @@ public class SystemData {
     private String userId = "NONID";
     private UserProfile userProfile;
 
+
+    private UserProfileManager userManager = new UserProfileManager();
+    private ChatManager chatManager = new ChatManager();
+    private CandidatesManager candidatesManager = new CandidatesManager();
+
+    public UserProfileManager getUserManager() {
+        return userManager;
+    }
+
+    public ChatManager getChatManager() {
+        return chatManager;
+    }
+
+    public CandidatesManager getCandidatesManager() {
+        return candidatesManager;
+    }
+
     public void setIp(String ip) {
         this.ip = ip;
     }

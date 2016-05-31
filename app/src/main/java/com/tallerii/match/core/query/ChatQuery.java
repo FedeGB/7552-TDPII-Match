@@ -17,11 +17,11 @@ public class ChatQuery extends HttpQuery {
 
     @Override
     public void onSuccesRequest(Object returnedObject) {
-
+        setAsFinished();
     }
 
     @Override
     public void onFailRequest(int errorCode, String errorMessage) {
-
+        setAsFinished();
     }
 }

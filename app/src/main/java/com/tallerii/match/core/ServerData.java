@@ -4,7 +4,7 @@ import com.tallerii.match.core.query.ChatQuery;
 import com.tallerii.match.core.query.HttpQuery;
 import com.tallerii.match.core.query.LikeUserQuery;
 import com.tallerii.match.core.query.LoginQuery;
-import com.tallerii.match.core.query.MatchQuery;
+import com.tallerii.match.core.query.CandidatesQuery;
 import com.tallerii.match.core.query.RegisterQuery;
 import com.tallerii.match.core.query.QueryListener;
 import com.tallerii.match.core.query.UpdateProfileQuery;
@@ -18,51 +18,40 @@ import java.util.Queue;
  */
 public class ServerData {
     private static ServerData ourInstance = new ServerData();
-
     public static ServerData getInstance() {
         return ourInstance;
     }
 
-
-    public UserProfileManager userManager = new UserProfileManager();
-    public ChatManager chatManager = new ChatManager(userManager);
-    public MatchManager matchManager = new MatchManager();
-
     Queue<HttpQuery> httpQueries = new LinkedList<>();
     boolean isExecuting = false;
 
-    private ServerData() {
+
+    public void fetchCandidates(QueryListener requesterListener){
+        addQuery(new CandidatesQuery(requesterListener));
     }
 
-    public void getChatList(QueryListener requesterListener){
-        addQuery(new ChatQuery(requesterListener, this));
-    }
-
-    public void getNextMatch(QueryListener requesterListener){
-        addQuery(new MatchQuery(requesterListener, this));
-    }
-
-    public void getUserProfile(String id, QueryListener requesterListener){
-        addQuery(new UserProfileQuery(requesterListener, id, this));
+    public void fetchUserProfile(String id, QueryListener requesterListener){
+        addQuery(new UserProfileQuery(requesterListener, id));
     }
 
     public void likeUser(String id, QueryListener requesterListener, boolean like){
-        addQuery(new LikeUserQuery(requesterListener, this, id, like));
+        addQuery(new LikeUserQuery(requesterListener, id, like));
     }
 
     public void loginUser(String name, String pass, QueryListener requesterListener){
-        addQuery(new LoginQuery(requesterListener, this,pass,name));
+        addQuery(new LoginQuery(requesterListener,pass,name));
     }
 
     public void registerUser(String user, String name, String pass, QueryListener requesterListener){
-        addQuery(new RegisterQuery(requesterListener, this, user, pass, name));
+        addQuery(new RegisterQuery(requesterListener, user, pass, name));
     }
 
-    public void saveUserProfile(QueryListener requesterListener){
-        addQuery(new UpdateProfileQuery(requesterListener, this));
+    public void updateUserProfile(QueryListener requesterListener){
+        addQuery(new UpdateProfileQuery(requesterListener));
     }
 
     private void addQuery(HttpQuery httpQuery){
+        httpQuery.setServerData(this);
         httpQueries.add(httpQuery);
         tryExecute();
     }
@@ -80,9 +69,5 @@ public class ServerData {
         } else {
             isExecuting = false;
         }
-    }
-
-    public Chat getChatByIdWithoutQuery(int id){
-        return chatManager.getChatByIdWithoutQuery(id);
     }
 }

@@ -1,31 +1,39 @@
 package com.tallerii.match.core.query;
 
-import com.tallerii.match.core.ServerData;
+import com.tallerii.match.core.UserProfile;
+import com.tallerii.match.core.query.http.HttpUserProfileRequester;
 
-/**
- * Created by Demian on 26/05/2016.
- */
 public class UserProfileQuery extends HttpQuery {
+    HttpUserProfileRequester httpUserProfileRequester = new HttpUserProfileRequester();
+    public static final String QUERY_TAG = "PROFILE";
+
     String userId;
     QueryListener queryListener;
 
-    public UserProfileQuery(QueryListener queryListener, String userId, ServerData serverData) {
+    public UserProfileQuery(QueryListener queryListener, String userId) {
         this.queryListener = queryListener;
         this.userId = userId;
     }
 
     @Override
     public void execute() {
-        //dataFacade.userManager.getUserProfile(userId, this);
+        httpUserProfileRequester.getSerializedUserProfile(userId, this);
     }
 
     @Override
     public void onSuccesRequest(Object returnedObject) {
+        //TODO: METER EN USERPROFILEMANAGER
+        UserProfile userProfile = (UserProfile) returnedObject;
 
+        queryListener.onReturnedRequest(QUERY_TAG);
+        queryListener.afterRequest(QUERY_TAG);
+        setAsFinished();
     }
 
     @Override
     public void onFailRequest(int errorCode, String errorMessage) {
-
+        queryListener.onFailRequest(errorMessage, QUERY_TAG);
+        queryListener.afterRequest(QUERY_TAG);
+        setAsFinished();
     }
 }

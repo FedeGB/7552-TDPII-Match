@@ -45,7 +45,7 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
 
         chat.setAdapter(fragmentChatListAdapter);
 
-        ServerData.getInstance().getChatList(this);
+        //ServerData.getInstance().getChatList(this);
 
         return fragmentView;
     }
@@ -77,6 +77,7 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
         }
     }
 
+    /*
     @Override
     public void proccesRequest(Object returnedObject, String request) {
         ArrayList<Chat> chatArrayList = (ArrayList<Chat>) returnedObject;
@@ -87,5 +88,20 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
         while (chatIterator.hasNext()) {
             fragmentChatListAdapter.add(chatIterator.next());
         }
+    }*/
+
+    @Override
+    public void onReturnedRequest(String request) {
+
+    }
+
+    @Override
+    public void onFailRequest(String message, String request) {
+
+    }
+
+    @Override
+    public void afterRequest(String request) {
+
     }
 }

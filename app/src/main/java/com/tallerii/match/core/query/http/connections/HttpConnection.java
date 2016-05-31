@@ -90,36 +90,18 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, String> {
             httpURLConnection.connect();
 
 
-            //TODO: VER SI ESTO FUNCIONA
             InputStream result = httpURLConnection.getInputStream();
             ByteArrayOutputStream b = new ByteArrayOutputStream();
 
-            int val = 0;
+            int val = result.read();
             while (val >= 0){
-                val = result.read();
                 byte readedByte = (byte) val;
                 b.write(readedByte);
+                val = result.read();
             }
 
             returnedBody = new String(b.toByteArray());
-            /*
 
-            BufferedInputStream resultStream = new BufferedInputStream(httpURLConnection.getInputStream());
-
-
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(resultStream));
-            StringBuilder builder = new StringBuilder();
-            String line;
-
-            JSONObject jsonResp = null;
-
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
-            }
-
-            returnedBody = builder.toString();
-            */
             httpURLConnection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
@@ -132,6 +114,7 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, String> {
 
         if(result == null){
             listener.handleHttpError(-1, "Client side error in \"doInBackground\" on HttpConnection.java");
+            return;
         }
 
         try {

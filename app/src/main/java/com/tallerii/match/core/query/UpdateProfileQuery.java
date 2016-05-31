@@ -1,16 +1,13 @@
 package com.tallerii.match.core.query;
 
-import com.tallerii.match.core.ServerData;
 import com.tallerii.match.core.query.http.HttpEditProfileRequester;
 
-/**
- * Created by Demian on 26/05/2016.
- */
 public class UpdateProfileQuery extends HttpQuery {
     HttpEditProfileRequester httpEditProfileRequester = new HttpEditProfileRequester();
+    public static final String QUERY_TAG = "UPDATEPROF";
     QueryListener queryListener;
 
-    public UpdateProfileQuery(QueryListener queryListener, ServerData serverData) {
+    public UpdateProfileQuery(QueryListener queryListener) {
        this.queryListener = queryListener;
     }
 
@@ -21,11 +18,15 @@ public class UpdateProfileQuery extends HttpQuery {
 
     @Override
     public void onSuccesRequest(Object returnedObject) {
-
+        queryListener.onReturnedRequest(QUERY_TAG);
+        queryListener.afterRequest(QUERY_TAG);
+        setAsFinished();
     }
 
     @Override
     public void onFailRequest(int errorCode, String errorMessage) {
-
+        queryListener.onFailRequest(errorMessage, QUERY_TAG);
+        queryListener.afterRequest(QUERY_TAG);
+        setAsFinished();
     }
 }

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by Demian on 22/05/2016.
  */
-public class HttpMatchListRequester implements HttpResponseListener {
+public class HttpCandidatesListRequester implements HttpResponseListener {
 
     RequesterListener requesterListener;
 
@@ -52,7 +52,7 @@ public class HttpMatchListRequester implements HttpResponseListener {
 
             requesterListener.onSuccesRequest(candidatesList);
         } catch (JSONException e) {
-            handleHttpError(-2, "Error trying to parse UserProfile in \"handleHttpResponse\" on HttpLoginRequester.java");
+            handleHttpError(-2, "Error trying to parse UserProfile in \"handleHttpResponse\" on HttpCandidatesListRequester.java \n" + e.getMessage());
         }
     }
 

@@ -1,18 +1,16 @@
 package com.tallerii.match.core.query;
 
-import com.tallerii.match.core.ServerData;
 import com.tallerii.match.core.query.http.HttpRegisterRequest;
 
-/**
- * Created by Demian on 26/05/2016.
- */
 public class RegisterQuery extends HttpQuery {
+    HttpRegisterRequest httpRegisterRequest = new HttpRegisterRequest();
+    public static final String QUERY_TAG = "REGISTER";
+
     private String id;
     private String pass;
     private String name;
     private QueryListener queryListener;
 
-    HttpRegisterRequest httpRegisterRequest = new HttpRegisterRequest();
 
     public RegisterQuery(QueryListener queryListener, String id, String pass, String name) {
         this.queryListener = queryListener;
@@ -28,11 +26,15 @@ public class RegisterQuery extends HttpQuery {
 
     @Override
     public void onSuccesRequest(Object returnedObject) {
-
+        queryListener.onReturnedRequest(QUERY_TAG);
+        queryListener.afterRequest(QUERY_TAG);
+        setAsFinished();
     }
 
     @Override
     public void onFailRequest(int errorCode, String errorMessage) {
-
+        queryListener.onFailRequest(errorMessage, QUERY_TAG);
+        queryListener.afterRequest(QUERY_TAG);
+        setAsFinished();
     }
 }

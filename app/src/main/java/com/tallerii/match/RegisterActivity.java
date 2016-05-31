@@ -11,7 +11,6 @@ import com.tallerii.match.core.SystemData;
 
 public class RegisterActivity extends AppCompatActivity implements QueryListener {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +37,17 @@ public class RegisterActivity extends AppCompatActivity implements QueryListener
     }
 
     @Override
-    public void proccesRequest(Object returnedObject, String request) {
-        boolean succesLoged = (boolean) returnedObject;
+    public void onReturnedRequest(String request) {
 
-        if(succesLoged){
-            finish();
-        }
+    }
+
+    @Override
+    public void onFailRequest(String message, String request) {
+
+    }
+
+    @Override
+    public void afterRequest(String request) {
+        finish();
     }
 }
