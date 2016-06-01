@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.tallerii.match.core.Chat;
 import com.tallerii.match.core.ChatMessage;
 import com.tallerii.match.core.ImageManager;
+import com.tallerii.match.core.InterestCategory;
 import com.tallerii.match.core.UserProfile;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class MatchFragmentConversation extends Fragment implements View.OnClickL
         ListView chat = (ListView) fragmentView.findViewById(R.id.fmfc_lv_message_list);
         fragmentMessageListAdapter = new FragmentMessageListAdapter(getContext());
         chat.setAdapter(fragmentMessageListAdapter);
+
         return fragmentView;
     }
 
@@ -98,7 +100,6 @@ public class MatchFragmentConversation extends Fragment implements View.OnClickL
                 contentEditText.setText("");
             }
         }
-        //TODO: QUITAR DE INTENT PORQUE ROMPE EL OBJETO "CHAT"
         //TODO: ARMAR CONSULTA A SERVIDOR PARA ENVIAR MENSAJE!
     }
 

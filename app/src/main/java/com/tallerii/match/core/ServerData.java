@@ -1,9 +1,11 @@
 package com.tallerii.match.core;
 
+import com.tallerii.match.core.query.ConversationQuery;
 import com.tallerii.match.core.query.HttpQuery;
 import com.tallerii.match.core.query.LikeUserQuery;
 import com.tallerii.match.core.query.LoginQuery;
 import com.tallerii.match.core.query.CandidatesQuery;
+import com.tallerii.match.core.query.MatchesQuery;
 import com.tallerii.match.core.query.RegisterQuery;
 import com.tallerii.match.core.query.QueryListener;
 import com.tallerii.match.core.query.UpdateProfileQuery;
@@ -24,6 +26,13 @@ public class ServerData {
     Queue<HttpQuery> httpQueries = new LinkedList<>();
     boolean isExecuting = false;
 
+    public void getMessages(String userId, QueryListener queryListener){
+        addQuery(new ConversationQuery(userId, queryListener));
+    }
+
+    public void fetchUserMatches(QueryListener queryListener){
+        addQuery(new MatchesQuery(queryListener));
+    }
 
     public void fetchCandidates(QueryListener requesterListener){
         addQuery(new CandidatesQuery(requesterListener));

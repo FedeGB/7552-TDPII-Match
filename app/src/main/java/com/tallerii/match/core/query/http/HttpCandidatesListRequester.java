@@ -41,11 +41,27 @@ public class HttpCandidatesListRequester implements HttpResponseListener {
 
             for (int i = 0; i < matchesList.length(); i++){
                 JSONObject user = matchesList.getJSONObject(i);
-                UserProfile userProfile = new UserProfile(user.getString("id"));
-                //TODO: Completar con lo que falta de UserProfile!
-                userProfile.setName(user.getString("name"));
-                userProfile.setAlias(user.getString("alias"));
-                userProfile.setPhoto(user.getString("photo_profile"));
+
+                UserProfile userProfile = new UserProfile(responseBody.getString("id"));
+                userProfile.setName(responseBody.getString("name"));
+                userProfile.setAlias(responseBody.getString("alias"));
+                userProfile.setSex(responseBody.getString("sex"));
+                userProfile.setMail(responseBody.getString("email"));
+                userProfile.setPhoto(responseBody.getString("photo_profile"));
+
+                JSONObject location = responseBody.getJSONObject("location");
+                userProfile.setLatitude(location.getInt("latitude"));
+                userProfile.setLongitude(location.getInt("longitude"));
+
+                JSONArray interestArray = responseBody.getJSONArray("interests");
+
+                for(int j = 0; j < interestArray.length(); j++){
+                    JSONObject interest = interestArray.getJSONObject(j);
+                    String category = interest.getString("category");
+                    String value = interest.getString("value");
+
+                    userProfile.addOnInterestCategory(category, value);
+                }
 
                 candidatesList.add(userProfile);
             }

@@ -17,12 +17,14 @@ public class HttpConversationRequester implements HttpResponseListener {
 
     RequesterListener requesterListener;
     String myId;
+    String userId;
 
     public void getConversationsWith(String userId, RequesterListener requesterListener){
         this.requesterListener = requesterListener;
         HttpGetConnection httpGetConnection = new HttpGetConnection(this);
         SystemData systemData = SystemData.getInstance();
         myId = systemData.getUserId();
+        this.userId = userId;
         String token = systemData.getToken();
 
         httpGetConnection.addHeader("user1", myId);
@@ -38,7 +40,7 @@ public class HttpConversationRequester implements HttpResponseListener {
     public void handleHttpResponse(JSONObject responseBody) {
         try {
             JSONArray messageList = responseBody.getJSONArray("messages");
-            Chat newChat = new Chat(null);
+            Chat newChat = new Chat(userId);
 
             for(int i = 0; i < messageList.length(); i++){
                 JSONObject message = messageList.getJSONObject(i);

@@ -11,10 +11,13 @@ import android.widget.ListView;
 
 import com.tallerii.match.core.Chat;
 import com.tallerii.match.core.ServerData;
+import com.tallerii.match.core.SystemData;
+import com.tallerii.match.core.query.MatchesQuery;
 import com.tallerii.match.core.query.QueryListener;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 
 
 public class MatchFragmentChat extends Fragment implements AdapterView.OnItemClickListener, QueryListener {
@@ -30,7 +33,6 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -45,7 +47,7 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
 
         chat.setAdapter(fragmentChatListAdapter);
 
-        //ServerData.getInstance().getChatList(this);
+        reloadMatches();
 
         return fragmentView;
     }
@@ -62,13 +64,18 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Chat chatItem = fragmentChatListAdapter.getItem(position);
 
+
         if(isPhone){
             Intent i = new Intent(getActivity(), ConversationActivity.class);
-            i.putExtra("chat", position);
+            i.putExtra("chat", chatItem.getUserId());
             startActivity(i);
         } else {
             selectChat(chatItem);
         }
+    }
+
+    public void reloadMatches(){
+        ServerData.getInstance().fetchUserMatches(this);
     }
 
     private void selectChat(Chat chat){
@@ -77,22 +84,21 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
         }
     }
 
-    /*
-    @Override
-    public void proccesRequest(Object returnedObject, String request) {
-        ArrayList<Chat> chatArrayList = (ArrayList<Chat>) returnedObject;
-
-        Iterator<Chat> chatIterator = chatArrayList.iterator();
+    private void updateChatList(){
+        Iterator<Map.Entry<String, Chat>> chatEntry = SystemData.getInstance().getChatManager().getChatIterator();
         fragmentChatListAdapter.clear();
 
-        while (chatIterator.hasNext()) {
-            fragmentChatListAdapter.add(chatIterator.next());
+        while (chatEntry.hasNext()){
+            Map.Entry<String, Chat> nextEntry = chatEntry.next();
+            fragmentChatListAdapter.add(nextEntry.getValue());
         }
-    }*/
+    }
 
     @Override
     public void onReturnedRequest(String request) {
-
+        if(request.compareTo(MatchesQuery.QUERY_TAG) == 0){
+            updateChatList();
+        }
     }
 
     @Override

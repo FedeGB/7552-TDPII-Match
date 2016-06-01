@@ -1,6 +1,12 @@
 package com.tallerii.match.core.query;
 
+import com.tallerii.match.core.Chat;
+import com.tallerii.match.core.ChatManager;
+import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.query.http.HttpGetMatchesRequester;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Demian on 31/05/2016.
@@ -16,6 +22,17 @@ public class MatchesQuery extends HttpQuery {
 
     @Override
     public void onSuccesRequest(Object returnedObject) {
+        ArrayList<String> matches = (ArrayList<String>) returnedObject;
+        Iterator<String> matchesIterator = matches.iterator();
+
+        ChatManager cM = SystemData.getInstance().getChatManager();
+
+        while (matchesIterator.hasNext()){
+            String match = matchesIterator.next();
+            Chat newChat = new Chat(match);
+            cM.addChat(newChat);
+        }
+
         queryListener.onReturnedRequest(QUERY_TAG);
         queryListener.afterRequest(QUERY_TAG);
         setAsFinished();

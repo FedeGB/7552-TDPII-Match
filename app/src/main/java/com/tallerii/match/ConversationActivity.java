@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.tallerii.match.core.Chat;
 import com.tallerii.match.core.ServerData;
+import com.tallerii.match.core.SystemData;
 
 public class ConversationActivity extends AppCompatActivity {
 
@@ -16,14 +17,13 @@ public class ConversationActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
 
         if(extras != null) {
-            int chat = extras.getInt("chat");
+            String idUSerChat = extras.getString("chat");
 
-            /*Chat currentChat = ServerData.getInstance().getChatByIdWithoutQuery(chat);
+            Chat currentChat = SystemData.getInstance().getChatManager().getChat(idUSerChat);
             MatchFragmentConversation matchFragmentConversation = (MatchFragmentConversation)getSupportFragmentManager().findFragmentById(R.id.fragment4);
             if(matchFragmentConversation != null){
                 matchFragmentConversation.setChat(currentChat);
             }
-            */
         }
     }
 }

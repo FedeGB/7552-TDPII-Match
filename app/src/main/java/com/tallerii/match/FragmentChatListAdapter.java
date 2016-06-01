@@ -29,15 +29,17 @@ public class FragmentChatListAdapter extends ArrayAdapter<Chat> {
         Chat currentChat = getItem(position);
         UserProfile userProfile = currentChat.getTalkingUserProfile();
 
-        ImageView imageView = (ImageView) customView.findViewById(R.id.fcci_iv_image);
-        Bitmap photoBitmap = ImageManager.decodeFromBase64(userProfile.getPhoto());
-        imageView.setImageBitmap(photoBitmap);
+        if(userProfile != null) {
+            ImageView imageView = (ImageView) customView.findViewById(R.id.fcci_iv_image);
+            Bitmap photoBitmap = ImageManager.decodeFromBase64(userProfile.getPhoto());
+            imageView.setImageBitmap(photoBitmap);
 
-        TextView userNameTextView = (TextView) customView.findViewById(R.id.fcci_tv_name);
-        userNameTextView.setText(userProfile.getName());
+            TextView userNameTextView = (TextView) customView.findViewById(R.id.fcci_tv_name);
+            userNameTextView.setText(userProfile.getName());
 
-        TextView userMailTextView = (TextView) customView.findViewById(R.id.fcci_tv_mail);
-        userMailTextView.setText(userProfile.getMail());
+            TextView userMailTextView = (TextView) customView.findViewById(R.id.fcci_tv_mail);
+            userMailTextView.setText(userProfile.getMail());
+        }
 
         return customView;
     }
