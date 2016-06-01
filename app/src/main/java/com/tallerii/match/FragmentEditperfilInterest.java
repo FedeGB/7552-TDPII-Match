@@ -31,9 +31,13 @@ public class FragmentEditperfilInterest extends Fragment implements AdapterView.
 
     public void setFragmentEditPerfilInterestDetails(FragmentEditPerfilInterestDetails fragmentEditPerfilInterestDetails) {
         this.fragmentEditPerfilInterestDetails = fragmentEditPerfilInterestDetails;
-        UserProfile userProfile = SystemData.getInstance().getUserProfile();
-        InterestCategory interestCategory = userProfile.getInterestCategories().get("hobby");
-        fragmentEditPerfilInterestDetails.setInterestCategory(interestCategory);
+        String myId = SystemData.getInstance().getUserId();
+        UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(myId);
+
+        if(userProfile != null) {
+            InterestCategory interestCategory = userProfile.getInterestCategories().get("hobby");
+            fragmentEditPerfilInterestDetails.setInterestCategory(interestCategory);
+        }
         isPhone = false;
     }
 
@@ -57,26 +61,30 @@ public class FragmentEditperfilInterest extends Fragment implements AdapterView.
     private void buildInterestList(){
         listAdapter.clear();
 
-        UserProfile userProfile = SystemData.getInstance().getUserProfile();
+        String myId = SystemData.getInstance().getUserId();
+        UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(myId);
+        if(userProfile != null) {
+            Iterator<InterestCategory> interestCategoryIterator = userProfile.getInterestCategories().values().iterator();
 
-        Iterator<InterestCategory> interestCategoryIterator = userProfile.getInterestCategories().values().iterator();
-
-        while (interestCategoryIterator.hasNext()){
-            listAdapter.add(interestCategoryIterator.next());
+            while (interestCategoryIterator.hasNext()) {
+                listAdapter.add(interestCategoryIterator.next());
+            }
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        UserProfile userProfile = SystemData.getInstance().getUserProfile();
+
         String categoryName = view.getTag().toString();
-        InterestCategory interestCategory = userProfile.getInterestCategories().get(categoryName);
 
         if(isPhone) {
             Intent i = new Intent(getActivity(), EditInterestActivity.class);
-            i.putExtra("interest", interestCategory);
+            i.putExtra("interest", categoryName);
             startActivityForResult(i, position);
         } else {
+            String myId = SystemData.getInstance().getUserId();
+            UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(myId);
+            InterestCategory interestCategory = userProfile.getInterestCategories().get(categoryName);
             fragmentEditPerfilInterestDetails.setInterestCategory(interestCategory);
         }
     }

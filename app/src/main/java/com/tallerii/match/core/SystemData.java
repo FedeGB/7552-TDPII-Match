@@ -15,7 +15,6 @@ public class SystemData {
     private String port = "1234";
     private String token = "NONTOKEN";
     private String userId = "NONID";
-    private UserProfile userProfile;
 
 
     private UserProfileManager userManager = new UserProfileManager();
@@ -54,12 +53,8 @@ public class SystemData {
         return token;
     }
 
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
 
     public void setLogin(String id, String token){
-        userProfile = new UserProfile(id);
         setToken(token);
         this.userId = id;
     }

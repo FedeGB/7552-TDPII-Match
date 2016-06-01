@@ -12,12 +12,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tallerii.match.core.InterestCategory;
+import com.tallerii.match.core.SystemData;
+import com.tallerii.match.core.UserProfile;
 
 import java.util.Iterator;
 
 public class EditInterestActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    InterestCategory interestCategory;
+    InterestCategory interestCategory = null;
     ArrayAdapter<String> arrayAdapter;
 
     @Override
@@ -28,23 +30,29 @@ public class EditInterestActivity extends AppCompatActivity implements AdapterVi
         Bundle extras = getIntent().getExtras();
 
         if(extras != null) {
-            interestCategory = (InterestCategory) extras.getSerializable("interest");
+            String interest = extras.getString("interest");
+            String myId = SystemData.getInstance().getUserId();
+            UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(myId);
+            interestCategory = userProfile.getInterestCategories().get(interest);
         }
 
-        TextView title = (TextView) findViewById(R.id.EIA_TV_interest);
-        title.setText(interestCategory.getName());
 
-        ListView detailsListView = (ListView) findViewById(R.id.EIA_LV_details);
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        detailsListView.setAdapter(arrayAdapter);
+        if(interestCategory != null) {
+            TextView title = (TextView) findViewById(R.id.EIA_TV_interest);
+            title.setText(interestCategory.getName());
 
-        Iterator<String> detailsIterator = interestCategory.getDetails().iterator();
+            ListView detailsListView = (ListView) findViewById(R.id.EIA_LV_details);
+            arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+            detailsListView.setAdapter(arrayAdapter);
 
-        while (detailsIterator.hasNext()){
-            arrayAdapter.add(detailsIterator.next());
+            Iterator<String> detailsIterator = interestCategory.getDetails().iterator();
+
+            while (detailsIterator.hasNext()) {
+                arrayAdapter.add(detailsIterator.next());
+            }
+
+            detailsListView.setOnItemClickListener(this);
         }
-
-        detailsListView.setOnItemClickListener(this);
     }
 
     public void OnAddInterestDetail(View view){
@@ -60,7 +68,6 @@ public class EditInterestActivity extends AppCompatActivity implements AdapterVi
 
     public void OnSaveAndExit(View view){
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("interest", interestCategory);
         setResult(Activity.RESULT_OK,returnIntent);
         finish();
     }

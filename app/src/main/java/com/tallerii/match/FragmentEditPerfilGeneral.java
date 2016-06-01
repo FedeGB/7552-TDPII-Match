@@ -38,6 +38,8 @@ public class FragmentEditPerfilGeneral extends Fragment implements View.OnClickL
 
         fragmentView = inflater.inflate(R.layout.fragment_editperfil_fragment_general, container, false);
 
+        updateProfilePhoto();
+
         changePhotoButton = (Button) fragmentView.findViewById(R.id.fefg_b_cphoto);
         changePhotoButton.setOnClickListener(this);
 
@@ -48,13 +50,16 @@ public class FragmentEditPerfilGeneral extends Fragment implements View.OnClickL
     }
 
     public void updateProfilePhoto(){
-        UserProfile userProfile = SystemData.getInstance().getUserProfile();
-        String photo = userProfile.getPhoto();
-        if(photo.compareTo("") != 0) {
-            ImageView photoImageView = (ImageView) fragmentView.findViewById(R.id.fefg_iv_profilephoto);
-            Bitmap userPhoto = ImageManager.decodeFromBase64(photo);
-            photoImageView.setImageBitmap(userPhoto);
-            System.out.println("update");
+        String myId = SystemData.getInstance().getUserId();
+        UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(myId);
+        if(userProfile != null) {
+            String photo = userProfile.getPhoto();
+            if (photo.compareTo("") != 0) {
+                ImageView photoImageView = (ImageView) fragmentView.findViewById(R.id.fefg_iv_profilephoto);
+                Bitmap userPhoto = ImageManager.decodeFromBase64(photo);
+                photoImageView.setImageBitmap(userPhoto);
+                System.out.println("update");
+            }
         }
     }
 

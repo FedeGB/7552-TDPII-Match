@@ -44,10 +44,9 @@ public class EditPerfilActivity extends AppCompatActivity {
         if(resultCode == Activity.RESULT_OK){
             if(requestCode == 23){
 
-
             }
         }
-        System.out.println(requestCode);
+
         fragmentEditPerfilGeneral.updateProfilePhoto();
     }
 }

@@ -34,7 +34,8 @@ public class HttpEditProfileRequester implements HttpResponseListener {
     }
 
     private JSONObject buildObject(){
-        UserProfile userProfile = SystemData.getInstance().getUserProfile();
+        String myId = SystemData.getInstance().getUserId();
+        UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(myId);
         JSONObject body = new JSONObject();
 
         try {
