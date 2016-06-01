@@ -32,7 +32,10 @@ public class SelectImageActivity extends AppCompatActivity {
     public void onAcceptButton(View v){
         Intent returnIntent = new Intent();
         String photo = ImageManager.codeToBase64(imageBitmap);
-        SystemData.getInstance().getUserProfile().setPhoto(photo);
+
+        String myId = SystemData.getInstance().getUserId();
+        SystemData.getInstance().getUserManager().getUserProfile(myId).setPhoto(photo);
+
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
