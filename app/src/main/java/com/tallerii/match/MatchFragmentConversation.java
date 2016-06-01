@@ -17,6 +17,8 @@ import com.tallerii.match.core.Chat;
 import com.tallerii.match.core.ChatMessage;
 import com.tallerii.match.core.ImageManager;
 import com.tallerii.match.core.InterestCategory;
+import com.tallerii.match.core.NullQueryListener;
+import com.tallerii.match.core.ServerData;
 import com.tallerii.match.core.UserProfile;
 
 import java.util.ArrayList;
@@ -99,8 +101,10 @@ public class MatchFragmentConversation extends Fragment implements View.OnClickL
                 addMessage(newChatMessage);
                 contentEditText.setText("");
             }
+            //TODO: ARMAR CONSULTA A SERVIDOR PARA ENVIAR MENSAJE!
+            ServerData.getInstance().sendMessage(currentChat.getUserId(), content, new NullQueryListener());
         }
-        //TODO: ARMAR CONSULTA A SERVIDOR PARA ENVIAR MENSAJE!
+
     }
 
     @Override
