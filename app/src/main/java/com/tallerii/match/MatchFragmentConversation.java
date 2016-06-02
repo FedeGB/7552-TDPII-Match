@@ -101,7 +101,7 @@ public class MatchFragmentConversation extends Fragment implements View.OnClickL
                 addMessage(newChatMessage);
                 contentEditText.setText("");
             }
-            //TODO: ARMAR CONSULTA A SERVIDOR PARA ENVIAR MENSAJE!
+
             ServerData.getInstance().sendMessage(currentChat.getUserId(), content, new NullQueryListener());
         }
 

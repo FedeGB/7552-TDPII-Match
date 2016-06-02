@@ -8,6 +8,7 @@ import com.tallerii.match.core.query.CandidatesQuery;
 import com.tallerii.match.core.query.MatchesQuery;
 import com.tallerii.match.core.query.RegisterQuery;
 import com.tallerii.match.core.query.QueryListener;
+import com.tallerii.match.core.query.SendMessageQuery;
 import com.tallerii.match.core.query.UpdateProfileQuery;
 import com.tallerii.match.core.query.UserProfileQuery;
 
@@ -32,6 +33,10 @@ public class ServerData {
 
     public void fetchUserMatches(QueryListener queryListener){
         addQuery(new MatchesQuery(queryListener));
+    }
+
+    public void sendMessage(String dest, String data, QueryListener queryListener){
+        addQuery(new SendMessageQuery(queryListener, dest, data));
     }
 
     public void fetchCandidates(QueryListener requesterListener){
