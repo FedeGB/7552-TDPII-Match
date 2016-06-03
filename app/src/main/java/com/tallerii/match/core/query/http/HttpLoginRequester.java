@@ -1,4 +1,6 @@
 package com.tallerii.match.core.query.http;
+import android.util.Base64;
+
 import com.tallerii.match.core.query.http.connections.HttpGetConnection;
 import com.tallerii.match.core.query.http.connections.HttpResponseListener;
 
@@ -21,8 +23,10 @@ public class HttpLoginRequester implements HttpResponseListener {
         HttpGetConnection httpConnection = new HttpGetConnection(this);
 
         httpConnection.setUri("users/login");
-        httpConnection.addVariable("user", username);
-        httpConnection.addVariable("password", password);
+
+        String userPass = username + ":" + password;
+        String encodedLog = Base64.encodeToString(userPass.getBytes(), Base64.DEFAULT);
+        httpConnection.addHeader("Authorization", encodedLog);
 
         httpConnection.execute();
     }

@@ -75,7 +75,7 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
     }
 
     public void reloadMatches(){
-        ServerData.getInstance().fetchUserMatches(this);
+        //ServerData.getInstance().fetchUserMatches(this);
     }
 
     private void selectChat(Chat chat){

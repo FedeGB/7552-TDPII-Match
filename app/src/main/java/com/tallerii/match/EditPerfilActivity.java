@@ -35,6 +35,7 @@ public class EditPerfilActivity extends AppCompatActivity {
             EditPerfilActivityFragmentAdapter editPerfilActivityFragmentAdapter = new EditPerfilActivityFragmentAdapter(getSupportFragmentManager());
             mViewPager.setAdapter(editPerfilActivityFragmentAdapter);
             mViewPager.setCurrentItem(0);
+
         }
     }
 
@@ -47,6 +48,9 @@ public class EditPerfilActivity extends AppCompatActivity {
             }
         }
 
-        fragmentEditPerfilGeneral.updateProfilePhoto();
+        //TODO: SI ES TELEFONO ESTO NUNCA SE SETIO
+        if(isTabletDevice) {
+            fragmentEditPerfilGeneral.updateProfilePhoto();
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.tallerii.match.core.query;
 import com.tallerii.match.core.NullQueryListener;
 import com.tallerii.match.core.ServerData;
 import com.tallerii.match.core.SystemData;
+import com.tallerii.match.core.UserProfile;
 import com.tallerii.match.core.query.http.HttpLoginRequester;
 
 public class LoginQuery extends HttpQuery {
@@ -28,6 +29,10 @@ public class LoginQuery extends HttpQuery {
         String userToken = (String) returnedObject;
         SystemData.getInstance().setLogin(user, userToken);
         ServerData.getInstance().fetchUserProfile(user, new NullQueryListener());
+
+        //TODO: VER QUE HACER
+        UserProfile userProfile = new UserProfile(user);
+        SystemData.getInstance().getUserManager().addToProfileList(user, userProfile);
 
         listener.onReturnedRequest(QUERY_TAG);
         listener.afterRequest(QUERY_TAG);

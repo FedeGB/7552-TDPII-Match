@@ -18,8 +18,7 @@ public class HttpUserProfileRequester implements HttpResponseListener {
         HttpGetConnection httpConnection = new HttpGetConnection(this);
 
         httpConnection.addHeader("token", SystemData.getInstance().getToken());
-        httpConnection.setUri("users");
-        httpConnection.addVariable("username", userId);
+        httpConnection.setUri("users" + "/" + userId);
         httpConnection.execute();
     }
 
@@ -51,6 +50,7 @@ public class HttpUserProfileRequester implements HttpResponseListener {
         }  catch (JSONException e) {
             handleHttpError(-2, "Error parsing UserProfile in \"handleHttpResponse\" on HttpUserProfileRequester.java");
         }
+        System.out.println(responseBody.toString());
     }
 
     @Override

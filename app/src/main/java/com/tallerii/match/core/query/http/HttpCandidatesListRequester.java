@@ -28,7 +28,7 @@ public class HttpCandidatesListRequester implements HttpResponseListener {
         String token = systemData.getToken();
 
         httpConnection.setUri("candidates/" + userId);
-        httpConnection.addHeader("token", token);
+        httpConnection.addHeader("Authorization", token);
 
         httpConnection.execute();
     }
@@ -42,18 +42,18 @@ public class HttpCandidatesListRequester implements HttpResponseListener {
             for (int i = 0; i < matchesList.length(); i++){
                 JSONObject user = matchesList.getJSONObject(i);
 
-                UserProfile userProfile = new UserProfile(responseBody.getString("id"));
-                userProfile.setName(responseBody.getString("name"));
-                userProfile.setAlias(responseBody.getString("alias"));
-                userProfile.setSex(responseBody.getString("sex"));
-                userProfile.setMail(responseBody.getString("email"));
-                userProfile.setPhoto(responseBody.getString("photo_profile"));
+                UserProfile userProfile = new UserProfile(user.getString("email"));
+                userProfile.setName(user.getString("name"));
+                userProfile.setAlias(user.getString("alias"));
+                userProfile.setSex(user.getString("sex"));
+                userProfile.setMail(user.getString("email"));
+                userProfile.setPhoto(user.getString("photo_profile"));
 
-                JSONObject location = responseBody.getJSONObject("location");
+                JSONObject location = user.getJSONObject("location");
                 userProfile.setLatitude(location.getInt("latitude"));
                 userProfile.setLongitude(location.getInt("longitude"));
 
-                JSONArray interestArray = responseBody.getJSONArray("interests");
+                JSONArray interestArray = user.getJSONArray("interests");
 
                 for(int j = 0; j < interestArray.length(); j++){
                     JSONObject interest = interestArray.getJSONObject(j);

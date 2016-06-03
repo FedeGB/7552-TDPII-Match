@@ -67,7 +67,7 @@ public class UserProfile implements Serializable{
         name = "Unknow";
         alias = "Unknow";
         mail = "Unknow@Unknow.com";
-        sex = "Unknow";
+        sex = "M";
         latitude = 0;
         longitude = 0;
     }

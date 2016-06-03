@@ -21,11 +21,12 @@ public class HttpLikeRequester implements HttpResponseListener {
         String userSenderId = systemData.getUserId();
         String authToken = systemData.getToken();
 
-        httpConnection.setUri("users");
+        httpConnection.setUri("likes");
 
         httpConnection.addVariable("user1", userSenderId);
         httpConnection.addVariable("user2", userLikedId);
-        httpConnection.addVariable("like", Boolean.toString(liked));
+        //TODO: MANDAR BOOL COMO REALBOOL
+        //httpConnection.addVariable("like", Boolean.toString(liked));
         httpConnection.addHeader("token", authToken);
         httpConnection.execute();
 

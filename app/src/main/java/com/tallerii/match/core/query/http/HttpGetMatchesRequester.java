@@ -23,7 +23,7 @@ public class HttpGetMatchesRequester implements HttpResponseListener {
         HttpGetConnection httpGetConnection = new HttpGetConnection(this);
         httpGetConnection.setUri("users/getMatches");
         httpGetConnection.addVariable("user", myId);
-        httpGetConnection.addHeader("token", token);
+        httpGetConnection.addHeader("Authorization", token);
 
         httpGetConnection.execute();
     }
