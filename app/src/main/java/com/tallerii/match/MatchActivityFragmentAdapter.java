@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentPagerAdapter;
  * Created by Demian on 24/04/2016.
  */
 public class MatchActivityFragmentAdapter extends FragmentPagerAdapter {
+    String titles[] = {"Chats", "Personas", "Ajustes"};
+
     public MatchActivityFragmentAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -31,5 +33,10 @@ public class MatchActivityFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return 3;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titles[position];
     }
 }

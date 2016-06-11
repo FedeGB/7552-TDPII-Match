@@ -1,6 +1,7 @@
 package com.tallerii.match;
 
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -11,10 +12,12 @@ import android.view.MenuItem;
 
 public class MatchActivity extends AppCompatActivity {
     private ViewPager mViewPager = null;
+    private TabLayout mTabLayour = null;
     boolean isTabletDevice = false;
 
     private void checkIfIsTabletDevice(){
         mViewPager = (ViewPager) findViewById(R.id.container);
+        mTabLayour = (TabLayout) findViewById(R.id.am_tl_tab);
         isTabletDevice = (mViewPager == null);
     }
 
@@ -25,9 +28,6 @@ public class MatchActivity extends AppCompatActivity {
 
         checkIfIsTabletDevice();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             // Create the adapter that will return a fragment for each of the three
             // primary sections of the activity.
         if(isTabletDevice) {
@@ -38,14 +38,8 @@ public class MatchActivity extends AppCompatActivity {
             MatchActivityFragmentAdapter matchActivityFragmentAdapter = new MatchActivityFragmentAdapter(getSupportFragmentManager());
             mViewPager.setAdapter(matchActivityFragmentAdapter);
             mViewPager.setCurrentItem(1);
+            mTabLayour.setupWithViewPager(mViewPager);
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_match, menu);
-        return true;
     }
 
     public void onGoToPerfilMenu(MenuItem menuItem){
