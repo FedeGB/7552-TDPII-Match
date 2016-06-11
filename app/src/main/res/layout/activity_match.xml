@@ -11,7 +11,8 @@
     <android.support.design.widget.TabLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:id="@+id/am_tl_tab"/>
+        android:id="@+id/am_tl_tab"
+        android:background="#000000" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"

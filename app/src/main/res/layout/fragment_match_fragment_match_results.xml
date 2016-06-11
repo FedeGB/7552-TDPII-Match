@@ -3,45 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginTop="5dp"
+    android:paddingTop="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
     tools:context="com.tallerii.match.MatchFragmentMatchResults">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/fmr_tv_interesados"
-        android:id="@+id/fmfmr_textView_personName"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_gravity="center_horizontal"
-        android:textStyle="bold|italic"
-        android:textSize="25dp" />
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+    <com.tallerii.match.components.MLRoundedImageView
+        android:layout_width="300dp"
+        android:layout_height="200dp"
         android:layout_weight="8"
         android:id="@+id/fmfmr_iv_uphoto"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
         android:layout_gravity="center_horizontal"
-        android:background="@mipmap/im_no_profile_image"
         android:scaleType="fitXY" />
 
     <LinearLayout
         android:layout_weight="8"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp">
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Nombre"
@@ -50,6 +35,7 @@
 
         <TextView
             android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Edad"
@@ -59,31 +45,44 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Distancia"
             android:id="@+id/fmfmr_tv_udistance"
             android:layout_gravity="center_horizontal" />
 
         <LinearLayout
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_gravity="center_horizontal">
 
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+            <ImageButton
+                android:layout_marginRight="10dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:text="No Like"
-                android:id="@+id/fmfmr_b_unlike" />
+                android:id="@+id/fmfmr_b_unlike"
+                android:background="@drawable/t_down" />
 
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="No Like"
+                android:id="@+id/fmfmr_b_profile"
+                android:background="@drawable/t_medium" />
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
                 android:text="Like"
-                android:id="@+id/fmfmr_b_like" />
+                android:id="@+id/fmfmr_b_like"
+                android:background="@drawable/t_up" />
         </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

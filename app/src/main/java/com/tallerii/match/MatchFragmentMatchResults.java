@@ -1,6 +1,8 @@
 package com.tallerii.match;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,8 +26,9 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
 
     UserProfile currentMatchProfile = null;
     View fragmentView;
-    Button likeButton;
-    Button unlikeButton;
+    ImageButton likeButton;
+    ImageButton unlikeButton;
+    ImageButton mediumButton;
 
     public MatchFragmentMatchResults() {
         // Required empty public constructor
@@ -45,8 +49,8 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
             return;
         }
 
-        this.currentMatchProfile = user;
         ImageView imageView = (ImageView) fragmentView.findViewById(R.id.fmfmr_iv_uphoto);
+        this.currentMatchProfile = user;
         Bitmap imagebitmap = ImageManager.decodeFromBase64(user.getPhoto());
         imageView.setImageBitmap(imagebitmap);
 
@@ -75,11 +79,21 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
         // Inflate the layout for this fragment
         fragmentView = inflater.inflate(R.layout.fragment_match_fragment_match_results, container, false);
 
-        likeButton = (Button) fragmentView.findViewById(R.id.fmfmr_b_like);
+        likeButton = (ImageButton) fragmentView.findViewById(R.id.fmfmr_b_like);
         likeButton.setOnClickListener(this);
 
-        unlikeButton = (Button) fragmentView.findViewById(R.id.fmfmr_b_unlike);
+        unlikeButton = (ImageButton) fragmentView.findViewById(R.id.fmfmr_b_unlike);
         unlikeButton.setOnClickListener(this);
+
+        mediumButton = (ImageButton) fragmentView.findViewById(R.id.fmfmr_b_profile);
+        mediumButton.setOnClickListener(this);
+
+
+        this.setUserOnMatch(UserProfile.buildDefaultProfile());
+
+        ImageView imageView = (ImageView) fragmentView.findViewById(R.id.fmfmr_iv_uphoto);
+        Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.im_no_profile_image);
+        imageView.setImageBitmap(icon);
 
         return fragmentView;
     }
@@ -90,8 +104,22 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
         }
     }
 
+    public void openUserProfile(){
+        getActivity().startActivity(new Intent(getActivity(), PerfilActivity.class));
+    }
+
     @Override
     public void onClick(View v) {
+
+        if(v.getId() == R.id.fmfmr_b_profile) {
+            openUserProfile();
+            return;
+        }
+
+        if (currentMatchProfile.getId().compareTo("default") == 0){
+            return;
+        }
+
         switch (v.getId()){
             case R.id.fmfmr_b_like:
                 likeUser(true);

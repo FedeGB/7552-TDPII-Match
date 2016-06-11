@@ -121,4 +121,16 @@ public class UserProfile implements Serializable{
     public void setLongitude(int longitude) {
         this.longitude = longitude;
     }
+
+    public static UserProfile buildDefaultProfile() {
+        UserProfile userProfile = new UserProfile("default");
+        userProfile.setMail("default@default.d");
+        userProfile.setAlias("default");
+        userProfile.addOnInterestCategory("travel", "asia");
+        userProfile.setLatitude(23);
+        userProfile.setLongitude(43);
+        userProfile.setSex("M");
+
+        return userProfile;
+    }
 }
