@@ -18,11 +18,20 @@ public class UserProfile implements Serializable{
     private String mail;
     private String sex;
     private String photo = "";
+    private int age = 18;
 
     private int latitude;
     private int longitude;
 
     private String id = "";
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public String getId() {
         return id;

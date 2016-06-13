@@ -105,7 +105,7 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
     }
 
     public void openUserProfile(){
-        getActivity().startActivity(new Intent(getActivity(), PerfilActivity.class));
+        getActivity().startActivity(new Intent(getActivity(), ViewPerfilActivity.class));
     }
 
     @Override

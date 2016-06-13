@@ -43,8 +43,12 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".ConversationActivity"></activity>
-        <activity android:name=".SelectImageActivity"/>
+        <activity android:name=".ConversationActivity" />
+        <activity android:name=".SelectImageActivity" />
+        <activity
+            android:name=".ViewPerfilActivity"
+            android:label="@string/title_activity_view_perfil"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

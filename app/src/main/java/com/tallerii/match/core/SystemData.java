@@ -21,6 +21,16 @@ public class SystemData {
     private ChatManager chatManager = new ChatManager();
     private CandidatesManager candidatesManager = new CandidatesManager();
 
+    private UserProfile showingProfile;
+
+    public UserProfile getShowingProfile() {
+        return showingProfile;
+    }
+
+    public void setShowingProfile(UserProfile showingProfile) {
+        this.showingProfile = showingProfile;
+    }
+
     public UserProfileManager getUserManager() {
         return userManager;
     }
