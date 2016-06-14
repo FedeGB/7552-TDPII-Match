@@ -72,6 +72,7 @@ public class ViewPerfilActivity extends AppCompatActivity {
 
         TextView cName = new TextView(this);
         cName.setText(category.getName());
+        //TODO: Agregar soporte para los estilos en apis menores a 21
         //cName.setTextAppearance(R.style.NormalBoldTextView);
         ll.addView(cName);
 

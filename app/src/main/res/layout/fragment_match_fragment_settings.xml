@@ -7,4 +7,114 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Busquedas"
+        android:id="@+id/textView"
+        android:layout_gravity="center_horizontal"
+        android:phoneNumber="false"
+        android:textSize="25dp"
+        android:textStyle="bold|normal"
+        android:singleLine="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_height="wrap_content"
+        android:text="Radio de busqueda"
+        android:id="@+id/textView2"
+        android:layout_gravity="center_horizontal"
+        android:phoneNumber="false"
+        android:textSize="20dp"
+        android:singleLine="false"
+        android:textStyle="bold" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/fmfs_sb_distance"
+        android:layout_gravity="center_horizontal"
+        android:max="20" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="N km"
+        android:id="@+id/fmfs_tv_distance"
+        android:layout_gravity="center_horizontal"
+        android:phoneNumber="false"
+        android:textSize="20dp"
+        android:singleLine="false" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#DDDDDD" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:text="Edad base"
+        android:id="@+id/fmfs_tv_baseAge"
+        android:layout_gravity="center_horizontal"
+        android:phoneNumber="false"
+        android:textSize="20dp"
+        android:singleLine="false"
+        android:textStyle="bold" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/fmfs_sb_base"
+        android:layout_gravity="center_horizontal"
+        android:max="60" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rango"
+        android:id="@+id/fmfs_tv_rangeAge"
+        android:layout_gravity="center_horizontal"
+        android:phoneNumber="false"
+        android:textSize="20dp"
+        android:singleLine="false"
+        android:textStyle="bold" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/fmfs_sb_range"
+        android:layout_gravity="center_horizontal"
+        android:max="50" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="N +- M"
+        android:id="@+id/fmfs_tv_age"
+        android:layout_gravity="center_horizontal"
+        android:phoneNumber="false"
+        android:textSize="20dp"
+        android:singleLine="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="Buscar!"
+        android:id="@+id/button6"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>
