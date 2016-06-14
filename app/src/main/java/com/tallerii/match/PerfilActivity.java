@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tallerii.match.core.InterestCategory;
+import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.UserProfile;
 
 import org.json.*;
@@ -23,13 +24,7 @@ public class PerfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
-    }
 
-    public void getContent(UserProfile userProfile){
-        ((TextView)(findViewById(R.id.PE_TV_pSex))).setText(userProfile.getSex());
-        ((TextView)(findViewById(R.id.PE_TV_alias))).setText(userProfile.getAlias());
-        ((TextView)(findViewById(R.id.PE_TV_email))).setText(userProfile.getMail());
-        ((TextView)(findViewById(R.id.PE_TV_realName))).setText(userProfile.getName());
     }
 }
 

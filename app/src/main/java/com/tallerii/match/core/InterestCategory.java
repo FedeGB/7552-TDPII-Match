@@ -10,7 +10,7 @@ public class InterestCategory implements Serializable {
     private String name;
     private Vector<String> details;
 
-    InterestCategory(String name){
+    public InterestCategory(String name){
         this.name = name;
         details = new Vector<>();
     }

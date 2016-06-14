@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tallerii.match.core.InterestCategory;
+import com.tallerii.match.core.SystemData;
 
 import java.util.Iterator;
 
@@ -45,8 +46,6 @@ public class FragmentEditPerfilInterestListAdapter extends ArrayAdapter<Interest
             //tvValue.setTextAppearance(R.style.NormalTextView);
             ll.addView(tvValue);
         }
-
-        customView.setTag(currentInterest.getName());
 
         return customView;
     }

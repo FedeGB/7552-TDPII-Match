@@ -112,6 +112,7 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
     public void onClick(View v) {
 
         if(v.getId() == R.id.fmfmr_b_profile) {
+            SystemData.getInstance().setShowingProfile(this.currentMatchProfile);
             openUserProfile();
             return;
         }
