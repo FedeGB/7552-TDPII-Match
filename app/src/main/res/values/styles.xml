@@ -19,6 +19,15 @@
         <item name="android:layout_marginLeft">15dp</item>
     </style>
 
+    <style name="InterestCategory" parent="@android:style/TextAppearance.Large">
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textSize">25dp</item>
+    </style>
+
+    <style name="InterestDetail" parent="@android:style/TextAppearance.Large">
+        <item name="android:layout_marginLeft">35dp</item>
+    </style>
+
     <style name="NormalBoldTextView" parent="@android:style/TextAppearance.Large">
         <item name="android:textStyle">bold|italic</item>
     </style>

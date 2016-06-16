@@ -28,11 +28,6 @@ public class LoginQuery extends HttpQuery {
     public void onSuccesRequest(Object returnedObject) {
         String userToken = (String) returnedObject;
         SystemData.getInstance().setLogin(user, userToken);
-        ServerData.getInstance().fetchUserProfile(user, new NullQueryListener());
-
-        //TODO: VER QUE HACER
-        UserProfile userProfile = new UserProfile(user);
-        SystemData.getInstance().getUserManager().addToProfileList(user, userProfile);
 
         listener.onReturnedRequest(QUERY_TAG);
         listener.afterRequest(QUERY_TAG);

@@ -1,6 +1,7 @@
 package com.tallerii.match;
 
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -72,8 +73,13 @@ public class ViewPerfilActivity extends AppCompatActivity {
 
         TextView cName = new TextView(this);
         cName.setText(category.getName());
-        //TODO: Agregar soporte para los estilos en apis menores a 21
-        //cName.setTextAppearance(R.style.NormalBoldTextView);
+
+        if(Build.VERSION.SDK_INT < 23) {
+            cName.setTextAppearance(this, R.style.InterestCategory);
+        } else {
+            cName.setTextAppearance(R.style.InterestCategory);
+        }
+
         ll.addView(cName);
 
 
@@ -81,7 +87,13 @@ public class ViewPerfilActivity extends AppCompatActivity {
         while (details.hasNext()) {
             TextView tvValue = new TextView(this);
             tvValue.setText(details.next());
-            //tvValue.setTextAppearance(R.style.NormalTextView);
+
+            if(Build.VERSION.SDK_INT < 23) {
+                tvValue.setTextAppearance(this, R.style.InterestDetail);
+            } else {
+                tvValue.setTextAppearance(R.style.InterestDetail);
+            }
+            //
             ll.addView(tvValue);
         }
     }

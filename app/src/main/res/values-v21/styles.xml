@@ -7,12 +7,4 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="NormalTextView" parent="@android:style/TextAppearance.Large">
-        <item name="android:layout_marginLeft">15dp</item>
-    </style>
-
-    <style name="NormalBoldTextView" parent="@android:style/TextAppearance.Large">
-        <item name="android:textStyle">bold|italic</item>
-    </style>
-
 </resources>

@@ -36,7 +36,7 @@ public class EditInterestActivity extends AppCompatActivity implements AdapterVi
             interestCategory = userProfile.getInterestCategories().get(interest);
         }
 
-
+        System.out.println("llega");
         if(interestCategory != null) {
             TextView title = (TextView) findViewById(R.id.EIA_TV_interest);
             title.setText(interestCategory.getName());

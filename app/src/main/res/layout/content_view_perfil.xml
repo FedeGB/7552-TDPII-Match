@@ -48,6 +48,23 @@
             android:layout_marginTop="7dp"
             android:textIsSelectable="true" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#DDDDDD" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Intereses"
+            android:id="@+id/textView7"
+            android:layout_gravity="center_horizontal"
+            android:textSize="35dp" />
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_marginTop="7dp"
@@ -56,6 +73,7 @@
             android:layout_height="match_parent">
 
         </LinearLayout>
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

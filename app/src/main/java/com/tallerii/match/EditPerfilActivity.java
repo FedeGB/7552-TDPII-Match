@@ -10,7 +10,9 @@ public class EditPerfilActivity extends AppCompatActivity {
 
     private ViewPager mViewPager = null;
     boolean isTabletDevice = false;
-    FragmentEditPerfilGeneral fragmentEditPerfilGeneral;
+    EditPerfilActivityFragmentAdapter editPerfilActivityFragmentAdapter;
+
+
 
     private void checkIfIsTabletDevice(){
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -26,31 +28,19 @@ public class EditPerfilActivity extends AppCompatActivity {
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        if(isTabletDevice) {
-            FragmentEditPerfilInterestDetails fid = (FragmentEditPerfilInterestDetails) getSupportFragmentManager().findFragmentById(R.id.fragment7);
-            FragmentEditperfilInterest fi = (FragmentEditperfilInterest) getSupportFragmentManager().findFragmentById(R.id.fragment6);
-            fragmentEditPerfilGeneral = (FragmentEditPerfilGeneral) getSupportFragmentManager().findFragmentById(R.id.fragment5);
-            fi.setFragmentEditPerfilInterestDetails(fid);
-        } else {
-            EditPerfilActivityFragmentAdapter editPerfilActivityFragmentAdapter = new EditPerfilActivityFragmentAdapter(getSupportFragmentManager());
-            mViewPager.setAdapter(editPerfilActivityFragmentAdapter);
-            mViewPager.setCurrentItem(0);
-
-        }
+        editPerfilActivityFragmentAdapter = new EditPerfilActivityFragmentAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(editPerfilActivityFragmentAdapter);
+        mViewPager.setCurrentItem(0);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if(resultCode == Activity.RESULT_OK){
             if(requestCode == 23){
 
             }
         }
 
-        //TODO: SI ES TELEFONO ESTO NUNCA SE SETIO
-        if(isTabletDevice) {
-            fragmentEditPerfilGeneral.updateProfilePhoto();
-        }
+        editPerfilActivityFragmentAdapter.getFragmentEditPerfilGeneral().updateProfilePhoto();
     }
 }

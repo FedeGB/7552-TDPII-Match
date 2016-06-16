@@ -63,6 +63,9 @@ public class FragmentEditperfilInterest extends Fragment implements AdapterView.
 
         String myId = SystemData.getInstance().getUserId();
         UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(myId);
+
+
+
         if(userProfile != null) {
             Iterator<InterestCategory> interestCategoryIterator = userProfile.getInterestCategories().values().iterator();
 
@@ -77,27 +80,10 @@ public class FragmentEditperfilInterest extends Fragment implements AdapterView.
 
         String categoryName = view.getTag().toString();
 
-        if(isPhone) {
-            Intent i = new Intent(getActivity(), EditInterestActivity.class);
-            i.putExtra("interest", categoryName);
-            startActivityForResult(i, position);
-        } else {
-            String myId = SystemData.getInstance().getUserId();
-            UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(myId);
-            InterestCategory interestCategory = userProfile.getInterestCategories().get(categoryName);
-            fragmentEditPerfilInterestDetails.setInterestCategory(interestCategory);
-        }
-    }
 
-    /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == Activity.RESULT_OK){
-            InterestCategory interestCategory = (InterestCategory) data.getSerializableExtra("interest");
-            Iterator<String> a = interestCategory.getDetails().iterator();
-            userProfile.getInterestCategories().put(interestCategory.getName(), interestCategory);
-            buildInterestList();
-        }
+        Intent i = new Intent(getActivity(), EditInterestActivity.class);
+        i.putExtra("interest", categoryName);
+        startActivity(i);
+
     }
-    */
 }
