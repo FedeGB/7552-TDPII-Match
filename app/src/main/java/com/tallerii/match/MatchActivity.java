@@ -1,6 +1,10 @@
 package com.tallerii.match;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +20,7 @@ import com.tallerii.match.core.ServerData;
 import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.UserProfile;
 
-public class MatchActivity extends AppCompatActivity {
+public class MatchActivity extends AppCompatActivity implements LocationListener {
     private ViewPager mViewPager = null;
     private TabLayout mTabLayour = null;
     boolean isTabletDevice = false;
@@ -34,7 +38,19 @@ public class MatchActivity extends AppCompatActivity {
 
         checkIfIsTabletDevice();
 
-            // Create the adapter that will return a fragment for each of the three
+
+        try {
+             /* Use the LocationManager class to obtain GPS locations */
+            LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
+            mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+
+        } catch (SecurityException s) {
+            System.out.println("Error excepcion en gps");
+        }
+
+
+        // Create the adapter that will return a fragment for each of the three
             // primary sections of the activity.
         if(isTabletDevice) {
             MatchFragmentChat matchFragmentChat = (MatchFragmentChat) getSupportFragmentManager().findFragmentById(R.id.fragment2);
@@ -55,5 +71,25 @@ public class MatchActivity extends AppCompatActivity {
 
     public void onGoToPerfilMenu(View view){
         startActivity(new Intent(this, EditPerfilActivity.class));
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        SystemData.getInstance().setLongitude(location.getLongitude());
+        SystemData.getInstance().setLatitude(location.getLatitude());
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }

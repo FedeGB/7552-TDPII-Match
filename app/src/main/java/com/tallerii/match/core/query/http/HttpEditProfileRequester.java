@@ -37,6 +37,9 @@ public class HttpEditProfileRequester implements HttpResponseListener {
         UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(myId);
         JSONObject body = new JSONObject();
 
+        userProfile.setLatitude(SystemData.getInstance().getLatitude());
+        userProfile.setLongitude(SystemData.getInstance().getLongitude());
+
         try {
             body.put("username", userProfile.getId());
             body.put("name", userProfile.getName());
@@ -59,6 +62,7 @@ public class HttpEditProfileRequester implements HttpResponseListener {
             body.put("interests", jsonArray);
 
             JSONObject location = new JSONObject();
+
             location.put("latitude", userProfile.getLatitude());
             location.put("longitude", userProfile.getLatitude());
 

@@ -33,8 +33,8 @@ public class HttpUserProfileRequester implements HttpResponseListener {
             userProfile.setPhoto(responseBody.getString("photo_profile"));
 
             JSONObject location = responseBody.getJSONObject("location");
-            userProfile.setLatitude(location.getInt("latitude"));
-            userProfile.setLongitude(location.getInt("longitude"));
+            userProfile.setLatitude(location.getDouble("latitude"));
+            userProfile.setLongitude(location.getDouble("longitude"));
 
             JSONArray interestArray = responseBody.getJSONArray("interests");
 
