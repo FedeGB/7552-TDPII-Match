@@ -1,9 +1,11 @@
 package com.tallerii.match;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,7 +44,7 @@ public class FragmentEditPerfilInterestListAdapter extends ArrayAdapter<Interest
         while (detailsIt.hasNext()){
             TextView tvValue = new TextView(getContext());
             tvValue.setText(detailsIt.next());
-
+            tvValue.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 25);
             //tvValue.setTextAppearance(R.style.NormalTextView);
             ll.addView(tvValue);
         }

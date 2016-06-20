@@ -78,11 +78,11 @@ public class FragmentEditperfilInterest extends Fragment implements AdapterView.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        String categoryName = view.getTag().toString();
-
+        String categoryName = ((InterestCategory) parent.getItemAtPosition(position)).getName();
 
         Intent i = new Intent(getActivity(), EditInterestActivity.class);
         i.putExtra("interest", categoryName);
+
         startActivity(i);
 
     }

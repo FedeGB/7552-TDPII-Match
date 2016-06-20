@@ -11,6 +11,8 @@ import com.tallerii.match.core.SystemData;
  */
 public class EditPerfilActivityFragmentAdapter extends FragmentPagerAdapter {
 
+    String titles[] = {"General", "Intereses"};
+
     FragmentEditPerfilGeneral fragmentEditPerfilGeneral = null;
 
     public EditPerfilActivityFragmentAdapter(FragmentManager fm) {
@@ -39,6 +41,12 @@ public class EditPerfilActivityFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return titles.length;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titles[position];
     }
 }
+

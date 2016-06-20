@@ -27,7 +27,11 @@ public class EditInterestActivity extends AppCompatActivity implements AdapterVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_interest);
 
+        System.out.println("whate");
+
         Bundle extras = getIntent().getExtras();
+
+        System.out.println("llega antes");
 
         if(extras != null) {
             String interest = extras.getString("interest");

@@ -2,6 +2,7 @@ package com.tallerii.match;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,12 +11,14 @@ public class EditPerfilActivity extends AppCompatActivity {
 
     private ViewPager mViewPager = null;
     boolean isTabletDevice = false;
+    private TabLayout mTabLayour = null;
     EditPerfilActivityFragmentAdapter editPerfilActivityFragmentAdapter;
 
 
 
     private void checkIfIsTabletDevice(){
         mViewPager = (ViewPager) findViewById(R.id.container);
+        mTabLayour = (TabLayout) findViewById(R.id.aep_tl_tab);
         isTabletDevice = (mViewPager == null);
     }
 
@@ -31,6 +34,7 @@ public class EditPerfilActivity extends AppCompatActivity {
         editPerfilActivityFragmentAdapter = new EditPerfilActivityFragmentAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(editPerfilActivityFragmentAdapter);
         mViewPager.setCurrentItem(0);
+        mTabLayour.setupWithViewPager(mViewPager);
     }
 
     @Override
