@@ -13,7 +13,7 @@ public class HttpRegisterRequest implements HttpResponseListener {
     RequesterListener requesterListener;
 
     public void sendRegisterRequest(String user, String name, String password, RequesterListener requesterListener){
-        HttpPostConnection httpConnection = new HttpPostConnection(this);
+        HttpPostConnection httpConnection = new HttpPostConnection(this, "HttpRegisterRequest");
         this.requesterListener = requesterListener;
 
         httpConnection.setUri("users");

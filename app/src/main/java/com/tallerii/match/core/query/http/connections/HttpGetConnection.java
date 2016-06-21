@@ -12,8 +12,8 @@ import java.util.Iterator;
  */
 public class HttpGetConnection extends HttpConnection {
 
-    public HttpGetConnection(HttpResponseListener listener) {
-        super(listener);
+    public HttpGetConnection(HttpResponseListener listener, String calledBy) {
+        super(listener, calledBy);
     }
 
     @Override

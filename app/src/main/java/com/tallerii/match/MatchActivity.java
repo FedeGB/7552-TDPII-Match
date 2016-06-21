@@ -19,8 +19,9 @@ import com.tallerii.match.core.NullQueryListener;
 import com.tallerii.match.core.ServerData;
 import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.UserProfile;
+import com.tallerii.match.core.query.QueryListener;
 
-public class MatchActivity extends AppCompatActivity implements LocationListener {
+public class MatchActivity extends AppCompatActivity implements LocationListener, QueryListener {
     private ViewPager mViewPager = null;
     private TabLayout mTabLayour = null;
     boolean isTabletDevice = false;
@@ -64,7 +65,7 @@ public class MatchActivity extends AppCompatActivity implements LocationListener
         }
 
         String user = SystemData.getInstance().getUserId();
-        ServerData.getInstance().fetchUserProfile(user, new NullQueryListener());
+        ServerData.getInstance().fetchUserProfile(user, this);
         UserProfile userProfile = new UserProfile(user);
         SystemData.getInstance().getUserManager().addToProfileList(user, userProfile);
     }
@@ -90,6 +91,21 @@ public class MatchActivity extends AppCompatActivity implements LocationListener
 
     @Override
     public void onProviderDisabled(String provider) {
+
+    }
+
+    @Override
+    public void onReturnedRequest(String request) {
+
+    }
+
+    @Override
+    public void onFailRequest(String message, String request) {
+
+    }
+
+    @Override
+    public void afterRequest(String request) {
 
     }
 }

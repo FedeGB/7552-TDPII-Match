@@ -30,10 +30,13 @@ public class ChangeSearchSettingsQuery extends HttpQuery {
     public void onSuccesRequest(Object returnedObject) {
         queryListener.onReturnedRequest(QUERY_TAG);
         queryListener.afterRequest(QUERY_TAG);
+        setAsFinished();
     }
 
     @Override
     public void onFailRequest(int errorCode, String errorMessage) {
         queryListener.onFailRequest(errorMessage, QUERY_TAG);
+        queryListener.afterRequest(QUERY_TAG);
+        setAsFinished();
     }
 }

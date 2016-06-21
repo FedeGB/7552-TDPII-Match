@@ -62,6 +62,7 @@ public class FragmentEditperfilInterest extends Fragment implements AdapterView.
         listAdapter.clear();
 
         String myId = SystemData.getInstance().getUserId();
+        System.out.println("pidiendo perfil: " + myId);
         UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(myId);
 
 

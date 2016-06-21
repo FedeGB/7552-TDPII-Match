@@ -20,12 +20,12 @@ public class HttpLoginRequester implements HttpResponseListener {
 
     public void sendLoginRequest(String username, String password, RequesterListener requesterListener){
         this.requesterListener = requesterListener;
-        HttpGetConnection httpConnection = new HttpGetConnection(this);
+        HttpGetConnection httpConnection = new HttpGetConnection(this, "HttpLoginRequester");
 
         httpConnection.setUri("users/login");
 
         String userPass = username + ":" + password;
-        String encodedLog = Base64.encodeToString(userPass.getBytes(), Base64.DEFAULT);
+        String encodedLog = "Basic " + Base64.encodeToString(userPass.getBytes(), Base64.DEFAULT);
         httpConnection.addHeader("Authorization", encodedLog);
 
         httpConnection.execute();
@@ -35,6 +35,7 @@ public class HttpLoginRequester implements HttpResponseListener {
     public void handleHttpResponse(JSONObject responseBody) {
         try {
             String token = responseBody.getString("token");
+            System.out.println("http" + token);
             requesterListener.onSuccesRequest(token);
         }  catch (JSONException e) {
             handleHttpError(-2, "Error parsing user on \"handleHttpResponse\" on HttpLoginRequest.java");

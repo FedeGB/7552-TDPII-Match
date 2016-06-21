@@ -11,8 +11,8 @@ import java.net.HttpURLConnection;
 public class HttpPutConnection extends HttpConnection {
     private JSONObject body = new JSONObject();
 
-    public HttpPutConnection(HttpResponseListener listener) {
-        super(listener);
+    public HttpPutConnection(HttpResponseListener listener, String calledBy) {
+        super(listener, calledBy);
     }
 
     public void addBody(JSONObject body){
@@ -23,8 +23,6 @@ public class HttpPutConnection extends HttpConnection {
     public HttpURLConnection buildRequestStructure(String baseURL) {
         try {
             HttpURLConnection httpURLConnection = createConnection(baseURL);
-            httpURLConnection.setReadTimeout(30000);
-            httpURLConnection.setConnectTimeout(30000);
             httpURLConnection.setRequestMethod("PUT");
 
             byte[] array = body.toString().getBytes();

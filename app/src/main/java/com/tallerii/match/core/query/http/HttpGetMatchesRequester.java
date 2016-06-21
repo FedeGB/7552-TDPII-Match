@@ -20,10 +20,9 @@ public class HttpGetMatchesRequester implements HttpResponseListener {
         String myId = SystemData.getInstance().getUserId();
         String token = SystemData.getInstance().getToken();
 
-        HttpGetConnection httpGetConnection = new HttpGetConnection(this);
-        httpGetConnection.setUri("users/getMatches");
-        httpGetConnection.addVariable("user", myId);
-        httpGetConnection.addHeader("Authorization", token);
+        HttpGetConnection httpGetConnection = new HttpGetConnection(this, "HttpGetMatchesRequester");
+        httpGetConnection.setUri("users/" + myId + "/matches");
+        httpGetConnection.addHeader("Token", token);
 
         httpGetConnection.execute();
     }

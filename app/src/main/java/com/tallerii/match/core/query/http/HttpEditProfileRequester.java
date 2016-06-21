@@ -22,9 +22,9 @@ public class HttpEditProfileRequester implements HttpResponseListener {
     public void updateProfile(RequesterListener requesterListener){
         this.requesterListener = requesterListener;
 
-        HttpPutConnection httpConnection = new HttpPutConnection(this);
+        HttpPutConnection httpConnection = new HttpPutConnection(this, "HttpEditProfileRequester");
 
-        httpConnection.addHeader("Authorization", SystemData.getInstance().getToken());
+        httpConnection.addHeader("Token", SystemData.getInstance().getToken());
         httpConnection.setUri("users");
 
         JSONObject body = this.buildObject();
@@ -41,11 +41,12 @@ public class HttpEditProfileRequester implements HttpResponseListener {
         userProfile.setLongitude(SystemData.getInstance().getLongitude());
 
         try {
-            body.put("username", userProfile.getId());
+            body.put("username", userProfile.getMail());
             body.put("name", userProfile.getName());
             body.put("alias", userProfile.getAlias());
             body.put("photo_profile", userProfile.getPhoto());
             body.put("sex", userProfile.getSex());
+            body.put("age", userProfile.getAge());
 
             JSONArray jsonArray = new JSONArray();
 
@@ -64,7 +65,7 @@ public class HttpEditProfileRequester implements HttpResponseListener {
             JSONObject location = new JSONObject();
 
             location.put("latitude", userProfile.getLatitude());
-            location.put("longitude", userProfile.getLatitude());
+            location.put("longitude", userProfile.getLongitude());
 
             body.put("location", location);
 

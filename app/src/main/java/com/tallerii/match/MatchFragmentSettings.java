@@ -1,6 +1,7 @@
 package com.tallerii.match;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,11 +9,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.tallerii.match.core.ServerData;
+import com.tallerii.match.core.SystemData;
+import com.tallerii.match.core.query.ChangeSearchSettingsQuery;
+import com.tallerii.match.core.query.QueryListener;
 
-public class MatchFragmentSettings extends Fragment implements SeekBar.OnSeekBarChangeListener {
+
+public class MatchFragmentSettings extends Fragment implements SeekBar.OnSeekBarChangeListener, View.OnClickListener, QueryListener {
 
     TextView distanceTextView;
     TextView ageTextView;
@@ -23,6 +30,9 @@ public class MatchFragmentSettings extends Fragment implements SeekBar.OnSeekBar
     int distance = 0;
     int baseAge = 0;
     int rangeAge = 0;
+
+    int minAge = 0;
+    int maxAge = 0;
 
     public MatchFragmentSettings() {
         // Required empty public constructor
@@ -45,6 +55,11 @@ public class MatchFragmentSettings extends Fragment implements SeekBar.OnSeekBar
         baseAgeTextView = (TextView) fragmentView.findViewById(R.id.fmfs_tv_baseAge);
         rangeAgeTextView = (TextView) fragmentView.findViewById(R.id.fmfs_tv_rangeAge);
 
+        Button searchButton = (Button) fragmentView.findViewById(R.id.fmfs_b_search);
+        searchButton.setOnClickListener(this);
+
+
+
         return fragmentView;
     }
 
@@ -64,8 +79,8 @@ public class MatchFragmentSettings extends Fragment implements SeekBar.OnSeekBar
 
         distanceTextView.setText(distance + "km");
 
-        int minAge = baseAge - rangeAge;
-        int maxAge = baseAge + rangeAge;
+        minAge = baseAge - rangeAge;
+        maxAge = baseAge + rangeAge;
 
         minAge = Math.max(minAge, 12);
         maxAge = Math.min(maxAge, 80);
@@ -75,6 +90,7 @@ public class MatchFragmentSettings extends Fragment implements SeekBar.OnSeekBar
         rangeAgeTextView.setText("Rango edad: " + rangeAge);
     }
 
+
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
 
@@ -83,5 +99,32 @@ public class MatchFragmentSettings extends Fragment implements SeekBar.OnSeekBar
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        SystemData.getInstance().matchFragmentMatchResults.getNextMatch();
+        //ServerData.getInstance().updateSearchSettings(distance, minAge, maxAge, this);
+    }
+
+    @Override
+    public void onReturnedRequest(String request) {
+        if(request.compareTo(ChangeSearchSettingsQuery.QUERY_TAG) == 0) {
+            SystemData.getInstance().matchFragmentMatchResults.getNextMatch();
+        }
+        System.out.println("put por returned");
+    }
+
+    @Override
+    public void onFailRequest(String message, String request) {
+
+    }
+
+    @Override
+    public void afterRequest(String request) {
+        if(request.compareTo(ChangeSearchSettingsQuery.QUERY_TAG) == 0) {
+            SystemData.getInstance().matchFragmentMatchResults.getNextMatch();
+        }
+        System.out.println("put por after");
     }
 }

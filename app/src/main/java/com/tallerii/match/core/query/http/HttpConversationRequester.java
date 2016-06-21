@@ -21,7 +21,7 @@ public class HttpConversationRequester implements HttpResponseListener {
 
     public void getConversationsWith(String userId, RequesterListener requesterListener){
         this.requesterListener = requesterListener;
-        HttpGetConnection httpGetConnection = new HttpGetConnection(this);
+        HttpGetConnection httpGetConnection = new HttpGetConnection(this, "HttpConversationRequester");
         SystemData systemData = SystemData.getInstance();
         myId = systemData.getUserId();
         this.userId = userId;
@@ -29,7 +29,7 @@ public class HttpConversationRequester implements HttpResponseListener {
 
         httpGetConnection.addHeader("user1", myId);
         httpGetConnection.addHeader("user2", userId);
-        httpGetConnection.addHeader("Authorization", token);
+        httpGetConnection.addHeader("Token", token);
 
         httpGetConnection.setUri("conversations");
 

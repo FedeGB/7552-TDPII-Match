@@ -1,5 +1,6 @@
 package com.tallerii.match.core;
 
+import com.tallerii.match.core.query.ChangeSearchSettingsQuery;
 import com.tallerii.match.core.query.ConversationQuery;
 import com.tallerii.match.core.query.HttpQuery;
 import com.tallerii.match.core.query.LikeUserQuery;
@@ -26,6 +27,10 @@ public class ServerData {
 
     Queue<HttpQuery> httpQueries = new LinkedList<>();
     boolean isExecuting = false;
+
+    public void updateSearchSettings(int distance, int minAge, int maxAge, QueryListener queryListener) {
+        addQuery(new ChangeSearchSettingsQuery(distance, minAge, maxAge, queryListener));
+    }
 
     public void getMessages(String userId, QueryListener queryListener){
         addQuery(new ConversationQuery(userId, queryListener));

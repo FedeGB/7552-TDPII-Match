@@ -14,9 +14,10 @@ import java.util.Iterator;
  */
 public class HttpPostConnection extends HttpConnection {
     private JSONObject body = new JSONObject();
+    boolean hasBody = false;
 
-    public HttpPostConnection(HttpResponseListener listener) {
-        super(listener);
+    public HttpPostConnection(HttpResponseListener listener, String calledBy) {
+        super(listener, calledBy);
         this.addHeader("Content-Type", "application/json");
     }
 
@@ -34,7 +35,9 @@ public class HttpPostConnection extends HttpConnection {
                 variable.put(vInfo.first, vInfo.second);
             }
 
-            body = variable;
+            if(!hasBody) {
+                body = variable;
+            }
 
             byte[] array = body.toString().getBytes();
             httpURLConnection.setDoOutput(true);
@@ -53,5 +56,6 @@ public class HttpPostConnection extends HttpConnection {
 
     public void setBody(JSONObject body){
         this.body = body;
+        hasBody = true;
     }
 }

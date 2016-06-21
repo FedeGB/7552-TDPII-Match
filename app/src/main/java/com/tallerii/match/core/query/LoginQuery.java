@@ -27,6 +27,7 @@ public class LoginQuery extends HttpQuery {
     @Override
     public void onSuccesRequest(Object returnedObject) {
         String userToken = (String) returnedObject;
+        System.out.println("Logeado como " + userToken);
         SystemData.getInstance().setLogin(user, userToken);
 
         listener.onReturnedRequest(QUERY_TAG);

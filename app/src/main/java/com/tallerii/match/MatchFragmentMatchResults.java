@@ -51,8 +51,19 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
 
         ImageView imageView = (ImageView) fragmentView.findViewById(R.id.fmfmr_iv_uphoto);
         this.currentMatchProfile = user;
-        Bitmap imagebitmap = ImageManager.decodeFromBase64(user.getPhoto());
-        imageView.setImageBitmap(imagebitmap);
+
+        String photo = user.getPhoto();
+
+
+
+        if(photo != null) {
+            Bitmap imagebitmap = ImageManager.decodeFromBase64(user.getPhoto());
+
+            if (imagebitmap != null) {
+                imageView.setImageBitmap(imagebitmap);
+            }
+        }
+
 
         TextView userName = (TextView) fragmentView.findViewById(R.id.fmfmr_tv_uname);
         userName.setText(user.getName());
@@ -60,8 +71,8 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
         TextView userMail = (TextView) fragmentView.findViewById(R.id.fmfmr_tv_umail);
         userMail.setText(user.getMail());
 
-        TextView userDistance = (TextView) fragmentView.findViewById(R.id.fmfmr_tv_udistance);
-        userDistance.setText("0");
+        TextView userAge = (TextView) fragmentView.findViewById(R.id.fmfmr_tv_uage);
+        userAge.setText(user.getAge() + " anios");
 
         likeButton.setEnabled(true);
         unlikeButton.setEnabled(true);
@@ -70,7 +81,7 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getNextMatch();
+        //getNextMatch();
     }
 
     @Override
@@ -94,6 +105,8 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
         ImageView imageView = (ImageView) fragmentView.findViewById(R.id.fmfmr_iv_uphoto);
         Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.im_no_profile_image);
         imageView.setImageBitmap(icon);
+
+        SystemData.getInstance().matchFragmentMatchResults = this;
 
         return fragmentView;
     }

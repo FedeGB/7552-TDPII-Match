@@ -4,6 +4,7 @@ import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.query.http.connections.HttpPostConnection;
 import com.tallerii.match.core.query.http.connections.HttpResponseListener;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -15,7 +16,7 @@ public class HttpLikeRequester implements HttpResponseListener {
 
     public void sendLikeToUser(String userLikedId, boolean liked, RequesterListener requesterListener){
         this.requesterListener = requesterListener;
-        HttpPostConnection httpConnection = new HttpPostConnection(this);
+        HttpPostConnection httpConnection = new HttpPostConnection(this, "HttpLikeRequester");
 
         SystemData systemData = SystemData.getInstance();
         String userSenderId = systemData.getUserId();
@@ -23,11 +24,17 @@ public class HttpLikeRequester implements HttpResponseListener {
 
         httpConnection.setUri("likes");
 
-        httpConnection.addVariable("user1", userSenderId);
-        httpConnection.addVariable("user2", userLikedId);
-        //TODO: MANDAR BOOL COMO REALBOOL
-        //httpConnection.addVariable("like", Boolean.toString(liked));
-        httpConnection.addHeader("token", authToken);
+        JSONObject body = new JSONObject();
+
+        try {
+            body.put("user1", userSenderId);
+            body.put("user2", userLikedId);
+            body.put("like", liked);
+        } catch (JSONException e) {
+            this.handleHttpError(-2, "Error building json HTTPLIKEREQUSTER");
+        }
+        httpConnection.setBody(body);
+        httpConnection.addHeader("Token", authToken);
         httpConnection.execute();
 
     }

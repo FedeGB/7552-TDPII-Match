@@ -38,7 +38,7 @@
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Edad"
+            android:text="Mail"
             android:id="@+id/fmfmr_tv_umail"
             android:layout_gravity="center_horizontal" />
 
@@ -47,8 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Distancia"
-            android:id="@+id/fmfmr_tv_udistance"
+            android:text="Edad"
+            android:id="@+id/fmfmr_tv_uage"
             android:layout_gravity="center_horizontal" />
 
         <LinearLayout

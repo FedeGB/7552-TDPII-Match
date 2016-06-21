@@ -24,7 +24,8 @@ public class UserProfileQuery extends HttpQuery {
     @Override
     public void onSuccesRequest(Object returnedObject) {
         UserProfile userProfile = (UserProfile) returnedObject;
-        SystemData.getInstance().getUserManager().addToProfileList(userProfile.getId(), userProfile);
+
+        SystemData.getInstance().getUserManager().addToProfileList(userProfile.getMail(), userProfile);
 
         queryListener.onReturnedRequest(QUERY_TAG);
         queryListener.afterRequest(QUERY_TAG);

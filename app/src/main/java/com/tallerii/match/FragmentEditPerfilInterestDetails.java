@@ -94,7 +94,7 @@ public class FragmentEditPerfilInterestDetails extends Fragment implements View.
         EditText newInterest = (EditText) fragmentView.findViewById(R.id.EIA_ET_newInterest);
         String text = newInterest.getText().toString();
 
-        if(text.length() >= 2) {
+        if(text.length() >= 1) {
             arrayAdapter.add(text);
             interestCategory.addDetail(text);
             newInterest.setText("");

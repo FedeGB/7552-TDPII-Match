@@ -27,14 +27,17 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, String> {
     private Vector<Pair<String, String>> customHeaders = new Vector<>();
     protected Vector<Pair<String, String>> requestVariables = new Vector<>();
 
+    protected String calledHttp = "";
+
     private String uri;
 
     public void setUri(String uri) {
         this.uri = uri;
     }
 
-    public HttpConnection(HttpResponseListener listener){
+    public HttpConnection(HttpResponseListener listener, String calledBy){
         this.listener = listener;
+        this.calledHttp = calledBy;
     }
 
     public void addHeader(String name, String content){
@@ -53,8 +56,8 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, String> {
         try {
             URL PhyscUrl = new URL(url);
             HttpURLConnection httpURLConnection = (HttpURLConnection) PhyscUrl.openConnection();
-            httpURLConnection.setReadTimeout(5000);
-            httpURLConnection.setConnectTimeout(5000);
+            httpURLConnection.setReadTimeout(120000);
+            httpURLConnection.setConnectTimeout(120000);
 
             Iterator<Pair<String, String>> headerIterator = customHeaders.iterator();
             while (headerIterator.hasNext()){
@@ -119,11 +122,13 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, String> {
 
         try {
             JSONObject responseObject = new JSONObject(result);
+
+            System.out.println(result);
             JSONObject payload = responseObject.getJSONObject("payload");
 
             listener.handleHttpResponse(payload);
         } catch (JSONException e){
-            listener.handleHttpError(-2, "Error in \"OnPostExecute\" trying to handle the response error");
+            listener.handleHttpError(-2, "Error in \"OnPostExecute\" trying to handle the response error in " + calledHttp);
         }
     }
 }

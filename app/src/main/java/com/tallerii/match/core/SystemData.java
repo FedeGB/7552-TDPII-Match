@@ -1,5 +1,7 @@
 package com.tallerii.match.core;
 
+import com.tallerii.match.MatchFragmentMatchResults;
+
 /**
  * Created by Demian on 07/05/2016.
  */
@@ -101,4 +103,6 @@ public class SystemData {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    public MatchFragmentMatchResults matchFragmentMatchResults;
 }

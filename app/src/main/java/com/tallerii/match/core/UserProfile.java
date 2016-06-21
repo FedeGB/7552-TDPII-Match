@@ -113,6 +113,10 @@ public class UserProfile implements Serializable{
 
     public void setPhoto(String photo) {
         this.photo = photo;
+
+        if(photo.compareTo("null") == 0) {
+            this.photo = "";
+        }
     }
 
     public double getLatitude() {

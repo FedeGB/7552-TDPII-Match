@@ -14,11 +14,11 @@ public class HttpSendMenssageRequester implements HttpResponseListener {
     RequesterListener requesterListener;
 
     public void sendMessage(String userId, String message, RequesterListener requesterListener){
-        HttpPostConnection httpPostConnection = new HttpPostConnection(this);
+        HttpPostConnection httpPostConnection = new HttpPostConnection(this, "HttpSendMessageRequester");
         String myId = SystemData.getInstance().getUserId();
         String token = SystemData.getInstance().getToken();
 
-        httpPostConnection.addHeader("token", token);
+        httpPostConnection.addHeader("Token", token);
         httpPostConnection.setUri("messages");
         httpPostConnection.addVariable("user1", myId);
         httpPostConnection.addVariable("user2", userId);

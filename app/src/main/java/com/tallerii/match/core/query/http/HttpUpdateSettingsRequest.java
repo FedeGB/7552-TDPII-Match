@@ -15,11 +15,11 @@ public class HttpUpdateSettingsRequest implements HttpResponseListener {
     RequesterListener requesterListener;
 
     public void changeSearchSettings(int minAge,int maxAge, int distance, RequesterListener requesterListener) {
-        HttpPutConnection httpConnection = new HttpPutConnection(this);
+        HttpPutConnection httpConnection = new HttpPutConnection(this, "HttpUpdateSettingsRequest");
 
         this.requesterListener = requesterListener;
 
-        httpConnection.addHeader("Authorization", SystemData.getInstance().getToken());
+        httpConnection.addHeader("Token", SystemData.getInstance().getToken());
         httpConnection.setUri("users");
         JSONObject body = new JSONObject();
         try {
@@ -27,10 +27,10 @@ public class HttpUpdateSettingsRequest implements HttpResponseListener {
             body.put("distance", distance);
 
             JSONObject range = new JSONObject();
-            range.put("minAge", minAge);
-            range.put("maxAge", maxAge);
+            range.put("min", minAge);
+            range.put("max", maxAge);
 
-            body.put("range", range);
+            body.put("ageRange", range);
         } catch (JSONException e) {
             e.printStackTrace();
         }

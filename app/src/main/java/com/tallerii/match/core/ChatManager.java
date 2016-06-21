@@ -34,4 +34,7 @@ public class ChatManager {
         return  chatMap.entrySet().iterator();
     }
 
+    public void clearChatList() {
+        chatMap.clear();
+    }
 }

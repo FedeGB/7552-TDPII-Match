@@ -15,9 +15,9 @@ public class HttpUserProfileRequester implements HttpResponseListener {
 
     public void getSerializedUserProfile(String userId, RequesterListener requesterListener){
         this.requesterListener = requesterListener;
-        HttpGetConnection httpConnection = new HttpGetConnection(this);
+        HttpGetConnection httpConnection = new HttpGetConnection(this, "HttpUserProfileRequester");
 
-        httpConnection.addHeader("token", SystemData.getInstance().getToken());
+        httpConnection.addHeader("Token", SystemData.getInstance().getToken());
         httpConnection.setUri("users" + "/" + userId);
         httpConnection.execute();
     }
@@ -31,6 +31,7 @@ public class HttpUserProfileRequester implements HttpResponseListener {
             userProfile.setSex(responseBody.getString("sex"));
             userProfile.setMail(responseBody.getString("email"));
             userProfile.setPhoto(responseBody.getString("photo_profile"));
+            userProfile.setAge(responseBody.getInt("age"));
 
             JSONObject location = responseBody.getJSONObject("location");
             userProfile.setLatitude(location.getDouble("latitude"));
@@ -50,7 +51,6 @@ public class HttpUserProfileRequester implements HttpResponseListener {
         }  catch (JSONException e) {
             handleHttpError(-2, "Error parsing UserProfile in \"handleHttpResponse\" on HttpUserProfileRequester.java");
         }
-        System.out.println(responseBody.toString());
     }
 
     @Override

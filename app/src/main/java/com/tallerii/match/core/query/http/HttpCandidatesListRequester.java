@@ -21,14 +21,14 @@ public class HttpCandidatesListRequester implements HttpResponseListener {
     public void getMatchList(RequesterListener requesterListener){
         this.requesterListener = requesterListener;
 
-        HttpGetConnection httpConnection = new HttpGetConnection(this);
+        HttpGetConnection httpConnection = new HttpGetConnection(this, "HttpCandidatesListRequester");
 
         SystemData systemData = SystemData.getInstance();
         String userId = systemData.getUserId();
         String token = systemData.getToken();
 
         httpConnection.setUri("candidates/" + userId);
-        httpConnection.addHeader("Authorization", token);
+        httpConnection.addHeader("Token", token);
 
         httpConnection.execute();
     }
@@ -48,11 +48,10 @@ public class HttpCandidatesListRequester implements HttpResponseListener {
                 userProfile.setSex(user.getString("sex"));
                 userProfile.setMail(user.getString("email"));
                 userProfile.setPhoto(user.getString("photo_profile"));
+                userProfile.setAge(user.getInt("age"));
 
-                JSONObject location = user.getJSONObject("location");
-                userProfile.setLatitude(location.getInt("latitude"));
-                userProfile.setLongitude(location.getInt("longitude"));
-
+                //TODO: Distancia!
+                double distance = user.getDouble("distance");
                 JSONArray interestArray = user.getJSONArray("interests");
 
                 for(int j = 0; j < interestArray.length(); j++){

@@ -64,7 +64,7 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Chat chatItem = fragmentChatListAdapter.getItem(position);
 
-
+        //TODO: isPhone!
         if(isPhone){
             Intent i = new Intent(getActivity(), ConversationActivity.class);
             i.putExtra("chat", chatItem.getUserId());
@@ -75,7 +75,7 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
     }
 
     public void reloadMatches(){
-        //ServerData.getInstance().fetchUserMatches(this);
+        ServerData.getInstance().fetchUserMatches(this);
     }
 
     private void selectChat(Chat chat){
