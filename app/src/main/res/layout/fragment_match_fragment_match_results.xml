@@ -8,8 +8,6 @@
     android:paddingRight="20dp"
     tools:context="com.tallerii.match.MatchFragmentMatchResults">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <com.tallerii.match.components.MLRoundedImageView
         android:layout_width="300dp"
         android:layout_height="200dp"

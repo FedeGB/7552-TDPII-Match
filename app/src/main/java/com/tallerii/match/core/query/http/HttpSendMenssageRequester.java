@@ -15,6 +15,8 @@ public class HttpSendMenssageRequester implements HttpResponseListener {
 
     public void sendMessage(String userId, String message, RequesterListener requesterListener){
         HttpPostConnection httpPostConnection = new HttpPostConnection(this, "HttpSendMessageRequester");
+        this.requesterListener = requesterListener;
+
         String myId = SystemData.getInstance().getUserId();
         String token = SystemData.getInstance().getToken();
 

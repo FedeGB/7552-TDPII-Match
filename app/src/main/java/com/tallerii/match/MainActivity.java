@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements QueryListener {
         String apiUser = prefs.getString(getString(R.string.api_username));
         String apiPass = prefs.getString(getString(R.string.api_password));
         if(!apiToken.isEmpty() && !apiUser.isEmpty() && !apiPass.isEmpty()) {
-            // TODO: volver hacer login y verificar credencial? O
             Intent intent = new Intent(this, MatchActivity.class);
             startActivity(intent);
         }

@@ -5,8 +5,6 @@
     android:orientation="vertical"
     tools:context="com.tallerii.match.MatchFragmentConversation">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
