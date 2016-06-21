@@ -82,7 +82,7 @@ public class MatchFragmentSettings extends Fragment implements SeekBar.OnSeekBar
         minAge = baseAge - rangeAge;
         maxAge = baseAge + rangeAge;
 
-        minAge = Math.max(minAge, 12);
+        minAge = Math.max(minAge, 18);
         maxAge = Math.min(maxAge, 80);
 
         ageTextView.setText("Entre " + minAge + " y " + maxAge + " anios");
