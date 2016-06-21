@@ -58,6 +58,8 @@
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
         android:layout_gravity="center_horizontal"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:layout_weight="1"
         android:id="@+id/fmfc_lv_message_list" />
 </LinearLayout>

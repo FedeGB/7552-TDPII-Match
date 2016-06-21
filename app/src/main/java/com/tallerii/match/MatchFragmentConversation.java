@@ -102,6 +102,8 @@ public class MatchFragmentConversation extends Fragment implements View.OnClickL
                 contentEditText.setText("");
             }
 
+            //TODO: PADDING A LOS MENSAJES!
+
             ServerData.getInstance().sendMessage(currentChat.getUserId(), content, new NullQueryListener());
         }
 

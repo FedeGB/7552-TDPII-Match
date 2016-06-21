@@ -2,14 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp"
     android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
         android:layout_gravity="right"
         android:id="@+id/fcmi_ly_mcontent">
 
@@ -36,6 +38,7 @@
             android:id="@+id/txtMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18dp"
             android:textColor="@android:color/black"
             android:text="awasdas"/>
         </LinearLayout>
