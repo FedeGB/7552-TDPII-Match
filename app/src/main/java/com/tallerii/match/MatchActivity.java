@@ -21,6 +21,8 @@ import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.UserProfile;
 import com.tallerii.match.core.query.QueryListener;
 
+import java.util.Timer;
+
 public class MatchActivity extends AppCompatActivity implements LocationListener, QueryListener {
     private ViewPager mViewPager = null;
     private TabLayout mTabLayour = null;
@@ -68,6 +70,7 @@ public class MatchActivity extends AppCompatActivity implements LocationListener
         ServerData.getInstance().fetchUserProfile(user, this);
         UserProfile userProfile = new UserProfile(user);
         SystemData.getInstance().getUserManager().addToProfileList(user, userProfile);
+
     }
 
     public void onGoToPerfilMenu(View view){

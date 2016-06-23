@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by dlopez on 31/05/2016.
  */
@@ -40,21 +42,24 @@ public class HttpConversationRequester implements HttpResponseListener {
     public void handleHttpResponse(JSONObject responseBody) {
         try {
             JSONArray messageList = responseBody.getJSONArray("messages");
-            Chat newChat = new Chat(userId);
+
+            ArrayList<ChatMessage> chatMessages = new ArrayList<>();
 
             for(int i = 0; i < messageList.length(); i++){
                 JSONObject message = messageList.getJSONObject(i);
                 String date = message.getString("date");
                 String content = message.getString("data");
                 String sender = message.getString("sender");
+                String messageId = message.getString("id");
+
 
                 boolean sendByMe = (sender.compareTo(myId) == 0);
 
-                ChatMessage chatMessage = new ChatMessage(sendByMe, content, date);
-                newChat.addMessageToChat(chatMessage);
+                ChatMessage chatMessage = new ChatMessage(sendByMe, content, date, messageId);
+                chatMessages.add(chatMessage);
             }
 
-            requesterListener.onSuccesRequest(newChat);
+            requesterListener.onSuccesRequest(chatMessages);
         } catch (JSONException e){
             handleHttpError(-2, "Error parsing conversation in \"handleHttpResponse\" in HttpConversationRequester.java");
         }

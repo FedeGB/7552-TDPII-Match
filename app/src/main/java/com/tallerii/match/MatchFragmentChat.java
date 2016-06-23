@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.tallerii.match.core.Chat;
 import com.tallerii.match.core.ServerData;
 import com.tallerii.match.core.SystemData;
+import com.tallerii.match.core.TimeEvent;
 import com.tallerii.match.core.query.MatchesQuery;
 import com.tallerii.match.core.query.QueryListener;
 
@@ -26,6 +27,8 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
     private FragmentChatListAdapter fragmentChatListAdapter;
     MatchFragmentConversation matchFragmentConversation = null;
 
+    TimeEvent messagesFetchEvent = new TimeEvent(this);
+
     public MatchFragmentChat() {
         // Required empty public constructor
     }
@@ -33,6 +36,7 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        messagesFetchEvent.getHandler().postDelayed(messagesFetchEvent, 1000);
     }
 
     @Override
@@ -47,7 +51,7 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
 
         chat.setAdapter(fragmentChatListAdapter);
 
-        reloadMatches();
+        updateChatList();
 
         return fragmentView;
     }
@@ -72,10 +76,6 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
         } else {
             selectChat(chatItem);
         }
-    }
-
-    public void reloadMatches(){
-        ServerData.getInstance().fetchUserMatches(this);
     }
 
     private void selectChat(Chat chat){

@@ -19,21 +19,25 @@ import com.tallerii.match.core.ImageManager;
 import com.tallerii.match.core.InterestCategory;
 import com.tallerii.match.core.NullQueryListener;
 import com.tallerii.match.core.ServerData;
+import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.UserProfile;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MatchFragmentConversation extends Fragment implements View.OnClickListener {
+public class MatchFragmentConversation extends Fragment implements View.OnClickListener, Observer {
 
     private FragmentMessageListAdapter fragmentMessageListAdapter;
     private View fragmentView;
     Chat currentChat = null;
+    ListView chat;
 
     public MatchFragmentConversation() {
         // Required empty public constructor
@@ -49,7 +53,7 @@ public class MatchFragmentConversation extends Fragment implements View.OnClickL
         Button sendMessageButton = (Button) fragmentView.findViewById(R.id.fmfc_b_sendmessage);
         sendMessageButton.setOnClickListener(this);
 
-        ListView chat = (ListView) fragmentView.findViewById(R.id.fmfc_lv_message_list);
+        chat = (ListView) fragmentView.findViewById(R.id.fmfc_lv_message_list);
         fragmentMessageListAdapter = new FragmentMessageListAdapter(getContext());
         chat.setAdapter(fragmentMessageListAdapter);
 
@@ -61,16 +65,20 @@ public class MatchFragmentConversation extends Fragment implements View.OnClickL
         ArrayList<ChatMessage> messageList = chat.getMessageList();
         Iterator<ChatMessage> chatMessageIterator = messageList.iterator();
 
-        UserProfile userProfile = chat.getTalkingUserProfile();
+        String userId = chat.getUserId();
+        UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(userId);
 
-        ImageView imageView = (ImageView) fragmentView.findViewById(R.id.fmfc_iv_userimage);
-        Bitmap imageBitmap = ImageManager.decodeFromBase64(userProfile.getPhoto());
-        imageView.setImageBitmap(imageBitmap);
+        if(userProfile != null) {
+            ImageView imageView = (ImageView) fragmentView.findViewById(R.id.fmfc_iv_userimage);
+            Bitmap imageBitmap = ImageManager.decodeFromBase64(userProfile.getPhoto());
+            imageView.setImageBitmap(imageBitmap);
 
-        TextView listView = (TextView) fragmentView.findViewById(R.id.fmfc_tv_username);
-        listView.setText(userProfile.getName());
+            TextView listView = (TextView) fragmentView.findViewById(R.id.fmfc_tv_username);
+            listView.setText(userProfile.getName());
+        }
 
         currentChat = chat;
+        chat.addObserver(this);
 
         while (chatMessageIterator.hasNext()){
             addMessage(chatMessageIterator.next());
@@ -79,30 +87,18 @@ public class MatchFragmentConversation extends Fragment implements View.OnClickL
 
     public void addMessage(ChatMessage chatMessage){
         fragmentMessageListAdapter.add(chatMessage);
+        chat.setSelection(fragmentMessageListAdapter.getCount() - 1);
     }
 
     public void onSendMessageClick(){
         EditText contentEditText = (EditText) fragmentView.findViewById(R.id.fmfc_et_content);
         String content = contentEditText.getText().toString();
 
-
-        Calendar calander = Calendar.getInstance();
-        int cDay = calander.get(Calendar.DAY_OF_MONTH);
-        int cMonth = calander.get(Calendar.MONTH) + 1;
-        int cYear = calander.get(Calendar.YEAR);
-
-        String date = Integer.toString(cDay) + "/" + Integer.toString(cMonth) + "/" + Integer.toString(cYear);
-
-        ChatMessage newChatMessage = new ChatMessage(true, content, date);
-
         if(currentChat != null){
             if(content.compareTo("") != 0) {
-                currentChat.addMessageToChat(newChatMessage);
-                addMessage(newChatMessage);
                 contentEditText.setText("");
+                ServerData.getInstance().sendMessage(currentChat.getUserId(), content, new NullQueryListener());
             }
-
-            ServerData.getInstance().sendMessage(currentChat.getUserId(), content, new NullQueryListener());
         }
 
     }
@@ -110,5 +106,17 @@ public class MatchFragmentConversation extends Fragment implements View.OnClickL
     @Override
     public void onClick(View v) {
         onSendMessageClick();
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        ChatMessage newChatMessage = (ChatMessage) data;
+        addMessage(newChatMessage);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        currentChat.deleteObserver(this);
     }
 }

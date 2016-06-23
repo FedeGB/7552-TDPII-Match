@@ -35,7 +35,6 @@ public class HttpLoginRequester implements HttpResponseListener {
     public void handleHttpResponse(JSONObject responseBody) {
         try {
             String token = responseBody.getString("token");
-            System.out.println("http" + token);
             requesterListener.onSuccesRequest(token);
         }  catch (JSONException e) {
             handleHttpError(-2, "Error parsing user on \"handleHttpResponse\" on HttpLoginRequest.java");

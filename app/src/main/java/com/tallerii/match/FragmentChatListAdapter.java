@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.tallerii.match.core.Chat;
 import com.tallerii.match.core.ImageManager;
+import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.UserProfile;
 
 /**
@@ -27,7 +28,8 @@ public class FragmentChatListAdapter extends ArrayAdapter<Chat> {
         View customView = layoutInflater.inflate(R.layout.fragment_chat_conver_item, parent, false);
 
         Chat currentChat = getItem(position);
-        UserProfile userProfile = currentChat.getTalkingUserProfile();
+
+        UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(currentChat.getUserId());
 
         if(userProfile != null) {
             ImageView imageView = (ImageView) customView.findViewById(R.id.fcci_iv_image);

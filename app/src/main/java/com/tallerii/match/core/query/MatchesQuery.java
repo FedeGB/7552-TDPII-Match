@@ -5,6 +5,7 @@ import com.tallerii.match.core.ChatManager;
 import com.tallerii.match.core.NullQueryListener;
 import com.tallerii.match.core.ServerData;
 import com.tallerii.match.core.SystemData;
+import com.tallerii.match.core.UserProfileManager;
 import com.tallerii.match.core.query.http.HttpGetMatchesRequester;
 
 import java.util.ArrayList;
@@ -29,14 +30,21 @@ public class MatchesQuery extends HttpQuery {
 
         ChatManager cM = SystemData.getInstance().getChatManager();
 
-        cM.clearChatList();
-
         while (matchesIterator.hasNext()){
             String match = matchesIterator.next();
-            Chat newChat = new Chat(match);
-            cM.addChat(newChat);
+
+            if(!cM.hasChat(match)) {
+                Chat newChat = new Chat(match);
+                cM.addChat(newChat);
+            }
 
             ServerData.getInstance().getMessages(match, new NullQueryListener());
+
+            UserProfileManager userProfileManager = SystemData.getInstance().getUserManager();
+
+            if(!userProfileManager.hasUserProfile(match)) {
+                ServerData.getInstance().fetchUserProfile(match, new NullQueryListener());
+            }
         }
 
         queryListener.onReturnedRequest(QUERY_TAG);

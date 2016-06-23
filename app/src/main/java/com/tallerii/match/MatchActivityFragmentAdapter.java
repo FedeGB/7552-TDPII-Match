@@ -10,6 +10,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class MatchActivityFragmentAdapter extends FragmentPagerAdapter {
     String titles[] = {"Chats", "Personas", "Ajustes"};
 
+    private MatchFragmentMatchResults mfmr = new MatchFragmentMatchResults();
+    private MatchFragmentChat mfc = new MatchFragmentChat();
+    private MatchFragmentSettings mfs = new MatchFragmentSettings();
+
     public MatchActivityFragmentAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -18,14 +22,13 @@ public class MatchActivityFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0: {
-                MatchFragmentChat matchFragmentChat = new MatchFragmentChat();
-                matchFragmentChat.setIsPhone();
-                return matchFragmentChat;
+                mfc.setIsPhone();
+                return mfc;
             }
             case 1:
-                return new MatchFragmentMatchResults();
+                return mfmr;
             case 2:
-                return new MatchFragmentSettings();
+                return mfs;
         }
         return null;
     }

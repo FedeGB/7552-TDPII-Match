@@ -18,12 +18,8 @@ public class ChatManager {
         chatMap.put(chat.userId, chat);
     }
 
-    public void addChat(ArrayList<Chat> chatList) {
-        Iterator<Chat> chatIterator = chatList.iterator();
-
-        while (chatIterator.hasNext()){
-            addChat(chatIterator.next());
-        }
+    public void mergeChat(ArrayList<ChatMessage> chatMessages, String userId) {
+        chatMap.get(userId).mergeMessages(chatMessages);
     }
 
     public Chat getChat(String userId){
@@ -32,6 +28,10 @@ public class ChatManager {
 
     public Iterator<Map.Entry<String, Chat>> getChatIterator(){
         return  chatMap.entrySet().iterator();
+    }
+
+    public boolean hasChat(String chat) {
+        return chatMap.containsKey(chat);
     }
 
     public void clearChatList() {

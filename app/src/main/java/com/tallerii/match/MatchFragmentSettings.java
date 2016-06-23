@@ -18,6 +18,8 @@ import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.query.ChangeSearchSettingsQuery;
 import com.tallerii.match.core.query.QueryListener;
 
+import java.util.Timer;
+
 
 public class MatchFragmentSettings extends Fragment implements SeekBar.OnSeekBarChangeListener, View.OnClickListener, QueryListener {
 
