@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tallerii.match.core.ServerData;
 import com.tallerii.match.core.ImageManager;
@@ -26,6 +28,10 @@ public class FragmentEditPerfilGeneral extends Fragment implements View.OnClickL
     View fragmentView;
     Button saveButton;
     Button changePhotoButton;
+
+    TextView nameTextView;
+    TextView aliasTextView;
+    TextView ageTextView;
 
     public FragmentEditPerfilGeneral() {
         // Required empty public constructor
@@ -46,7 +52,42 @@ public class FragmentEditPerfilGeneral extends Fragment implements View.OnClickL
         saveButton = (Button) fragmentView.findViewById(R.id.fefg_b_save);
         saveButton.setOnClickListener(this);
 
+        nameTextView = (TextView) fragmentView.findViewById(R.id.fefg_tv_name);
+        ageTextView = (TextView) fragmentView.findViewById(R.id.fefg_tv_age);
+        aliasTextView = (TextView) fragmentView.findViewById(R.id.fefg_tv_alias);
+
+        ImageButton editAgeButton = (ImageButton) fragmentView.findViewById(R.id.fefg_b_age);
+        editAgeButton.setOnClickListener(this);
+
+        ImageButton editAliasButton = (ImageButton) fragmentView.findViewById(R.id.fefg_b_alias);
+        editAliasButton.setOnClickListener(this);
+
+        updateUserAge();
+        updateUserAlias();
+        updateUserName();
+
         return fragmentView;
+    }
+
+    public void updateUserName() {
+        String myId = SystemData.getInstance().getUserId();
+        UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(myId);
+
+        nameTextView.setText(userProfile.getName());
+    }
+
+    public void updateUserAlias() {
+        String myId = SystemData.getInstance().getUserId();
+        UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(myId);
+
+        aliasTextView.setText(userProfile.getAlias());
+    }
+
+    public void updateUserAge() {
+        String myId = SystemData.getInstance().getUserId();
+        UserProfile userProfile = SystemData.getInstance().getUserManager().getUserProfile(myId);
+
+        ageTextView.setText(userProfile.getAge() + " anios");
     }
 
     public void updateProfilePhoto(){
@@ -75,6 +116,20 @@ public class FragmentEditPerfilGeneral extends Fragment implements View.OnClickL
                 changePhotoButton.setEnabled(false);
                 ServerData.getInstance().updateUserProfile(this);
                 break;
+            case R.id.fefg_b_age: {
+                Intent i = new Intent(getContext(), EditTextActivity.class);
+                i.putExtra("Title", "Edit age");
+                i.putExtra("Code", 1);
+                startActivityForResult(i, 0);
+                break;
+            }
+            case R.id.fefg_b_alias: {
+                Intent i = new Intent(getContext(), EditTextActivity.class);
+                i.putExtra("Title", "Edit alias");
+                i.putExtra("Code", 2);
+                startActivityForResult(i, 0);
+                break;
+            }
         }
 
     }

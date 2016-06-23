@@ -8,8 +8,8 @@
     tools:context="com.tallerii.match.FragmentEditPerfilGeneral">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_width="300dp"
+        android:layout_height="250dp"
         android:layout_marginTop="10dp"
         android:id="@+id/fefg_iv_profilephoto"
         android:background="@mipmap/im_no_profile_image"
@@ -22,6 +22,66 @@
         android:text="Cambiar foto"
         android:id="@+id/fefg_b_cphoto"
         android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="NOMBRE"
+        android:textSize="25dp"
+        android:id="@+id/fefg_tv_name"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="EDAD"
+            android:textSize="23dp"
+            android:layout_marginRight="50dp"
+            android:id="@+id/fefg_tv_age" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fefg_b_age"
+            android:background="@android:drawable/ic_menu_edit" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="ALIAS"
+            android:textSize="23dp"
+            android:layout_marginRight="50dp"
+            android:id="@+id/fefg_tv_alias" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fefg_b_alias"
+            android:background="@android:drawable/ic_menu_edit" />
+    </LinearLayout>
 
     <Button
         android:layout_width="match_parent"

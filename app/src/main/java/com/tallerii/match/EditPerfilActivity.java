@@ -39,12 +39,11 @@ public class EditPerfilActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode == 23){
 
-            }
-        }
-
-        editPerfilActivityFragmentAdapter.getFragmentEditPerfilGeneral().updateProfilePhoto();
+        FragmentEditPerfilGeneral editPerfilGeneral =  editPerfilActivityFragmentAdapter.getFragmentEditPerfilGeneral();
+        editPerfilGeneral.updateProfilePhoto();
+        editPerfilGeneral.updateUserName();
+        editPerfilGeneral.updateUserAlias();
+        editPerfilGeneral.updateUserAge();
     }
 }
