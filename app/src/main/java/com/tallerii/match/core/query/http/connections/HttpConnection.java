@@ -124,6 +124,14 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, String> {
             JSONObject responseObject = new JSONObject(result);
 
             System.out.println(result);
+
+            int errorNum = responseObject.getInt("errorNum");
+            if(errorNum != 0) {
+                String errorMessage = responseObject.getString("message");
+                listener.handleHttpError(errorNum, errorMessage);
+                return;
+            }
+
             JSONObject payload = responseObject.getJSONObject("payload");
 
             listener.handleHttpResponse(payload);

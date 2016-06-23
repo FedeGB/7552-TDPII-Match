@@ -98,6 +98,7 @@ public class MatchFragmentChat extends Fragment implements AdapterView.OnItemCli
     public void onReturnedRequest(String request) {
         if(request.compareTo(MatchesQuery.QUERY_TAG) == 0){
             updateChatList();
+            messagesFetchEvent.getHandler().postDelayed(messagesFetchEvent, 1000);
         }
     }
 

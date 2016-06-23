@@ -24,6 +24,5 @@ public class TimeEvent implements Runnable {
     @Override
     public void run() {
         ServerData.getInstance().fetchUserMatches(listener);
-        handler.postDelayed(this, DELAY_TIME);
     }
 }
