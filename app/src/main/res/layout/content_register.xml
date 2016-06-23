@@ -34,16 +34,17 @@
         android:layout_marginTop="0sp"
         android:layout_gravity="center"
         android:singleLine="true"
-        android:hint="@string/user_firstname"/>
+        android:hint="Nombre y Apellido"/>
 
     <EditText
-        android:id="@+id/user_lastname"
+        android:id="@+id/user_age"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginTop="0sp"
         android:layout_gravity="center"
+        android:inputType="number"
         android:singleLine="true"
-        android:hint="@string/user_lastname"/>
+        android:hint="Edad"/>
 
     <EditText
         android:id="@+id/user_pass"
@@ -54,6 +55,18 @@
         android:singleLine="true"
         android:hint="@string/user_pass"
         android:inputType="textPassword"/>
+
+    <Switch
+        android:layout_width="250dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
+        android:text="Sexo"
+        android:id="@+id/user_sex"
+        android:textSize="20dp"
+        android:textOn="Hombre"
+        android:textOff="Mujer"
+        android:layout_gravity="center_horizontal" />
 
     <EditText
         android:id="@+id/cr_et_ip"
@@ -72,4 +85,5 @@
         android:layout_gravity="center"
         android:hint="@string/button_signup"
         android:onClick="sendSignUp"/>
+
 </LinearLayout>

@@ -60,8 +60,8 @@ public class ServerData {
         addQuery(new LoginQuery(requesterListener,pass,name));
     }
 
-    public void registerUser(String user, String name, String pass, QueryListener requesterListener){
-        addQuery(new RegisterQuery(requesterListener, user, pass, name));
+    public void registerUser(String user, String name, String pass, int age, String sex, QueryListener requesterListener){
+        addQuery(new RegisterQuery(requesterListener, age, sex, user, pass, name));
     }
 
     public void updateUserProfile(QueryListener requesterListener){

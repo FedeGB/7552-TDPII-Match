@@ -9,19 +9,23 @@ public class RegisterQuery extends HttpQuery {
     private String id;
     private String pass;
     private String name;
+    private int age;
+    private String sex;
     private QueryListener queryListener;
 
 
-    public RegisterQuery(QueryListener queryListener, String id, String pass, String name) {
+    public RegisterQuery(QueryListener queryListener, int age, String sex, String id, String pass, String name) {
         this.queryListener = queryListener;
         this.id = id;
         this.pass = pass;
         this.name = name;
+        this.age = age;
+        this.sex = sex;
     }
 
     @Override
     public void execute() {
-        httpRegisterRequest.sendRegisterRequest(id, name, pass, this);
+        httpRegisterRequest.sendRegisterRequest(id, name, age, sex, pass, this);
     }
 
     @Override
