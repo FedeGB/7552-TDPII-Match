@@ -123,7 +123,7 @@ public abstract class HttpConnection extends AsyncTask<Void, Void, String> {
         try {
             JSONObject responseObject = new JSONObject(result);
 
-            System.out.println(result);
+            //System.out.println(result);
 
             int errorNum = responseObject.getInt("errorNum");
             if(errorNum != 0) {

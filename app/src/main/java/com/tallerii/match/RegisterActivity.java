@@ -1,6 +1,7 @@
 package com.tallerii.match;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity implements QueryListener
     }
 
     public void sendSignUp(View view) {
+
         EditText useremailEdit = (EditText) findViewById(R.id.user_email);
         EditText userfirstEdit = (EditText) findViewById(R.id.user_firstname);
         EditText userageEdit = (EditText) findViewById(R.id.user_age);
@@ -82,6 +84,8 @@ public class RegisterActivity extends AppCompatActivity implements QueryListener
     @Override
     public void onFailRequest(String message, String request) {
 
+        Snackbar.make(this.findViewById(android.R.id.content).getRootView(), request, Snackbar.LENGTH_LONG)
+                .show();
     }
 
     @Override

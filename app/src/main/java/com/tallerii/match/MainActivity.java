@@ -106,7 +106,8 @@ public class MainActivity extends AppCompatActivity implements QueryListener {
 
     @Override
     public void onFailRequest(String message, String request) {
-
+        Snackbar.make(this.findViewById(android.R.id.content).getRootView(), request, Snackbar.LENGTH_LONG)
+                .show();
     }
 
     @Override

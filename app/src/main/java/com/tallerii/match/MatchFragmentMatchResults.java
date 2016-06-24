@@ -40,7 +40,9 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
         if (systemData.getCandidatesManager().hasCandidate()) {
             setUserOnMatch(systemData.getCandidatesManager().getNextCandidate());
         } else {
-            ServerData.getInstance().fetchCandidates(this);
+            likeButton.setEnabled(false);
+            unlikeButton.setEnabled(false);
+            setNotCandidates();
         }
     }
 
@@ -81,7 +83,7 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getNextMatch();
+
     }
 
     @Override
@@ -107,6 +109,8 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
         imageView.setImageBitmap(icon);
 
         SystemData.getInstance().matchFragmentMatchResults = this;
+
+        getNextMatch();
 
         return fragmentView;
     }
@@ -152,6 +156,17 @@ public class MatchFragmentMatchResults extends Fragment implements QueryListener
         if(request.compareTo(CandidatesQuery.QUERY_TAG) == 0){
             getNextMatch();
         }
+    }
+
+    private void setNotCandidates() {
+        TextView userName = (TextView) fragmentView.findViewById(R.id.fmfmr_tv_uname);
+        userName.setText("No se encontraron");
+
+        TextView userMail = (TextView) fragmentView.findViewById(R.id.fmfmr_tv_umail);
+        userMail.setText("candidatos, reajuste");
+
+        TextView userAge = (TextView) fragmentView.findViewById(R.id.fmfmr_tv_uage);
+        userAge.setText("busque nuevamente");
     }
 
     @Override

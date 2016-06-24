@@ -60,7 +60,7 @@ public class MatchFragmentSettings extends Fragment implements SeekBar.OnSeekBar
         Button searchButton = (Button) fragmentView.findViewById(R.id.fmfs_b_search);
         searchButton.setOnClickListener(this);
 
-
+        rebuildView();
 
         return fragmentView;
     }
@@ -79,6 +79,10 @@ public class MatchFragmentSettings extends Fragment implements SeekBar.OnSeekBar
                 break;
         }
 
+        rebuildView();
+    }
+
+    private void rebuildView() {
         distanceTextView.setText(distance + "km");
 
         minAge = baseAge - rangeAge;
@@ -86,6 +90,8 @@ public class MatchFragmentSettings extends Fragment implements SeekBar.OnSeekBar
 
         minAge = Math.max(minAge, 18);
         maxAge = Math.min(maxAge, 80);
+
+        maxAge = Math.max(minAge, maxAge);
 
         ageTextView.setText("Entre " + minAge + " y " + maxAge + " anios");
         baseAgeTextView.setText("Edad base: " + baseAge);
@@ -105,28 +111,27 @@ public class MatchFragmentSettings extends Fragment implements SeekBar.OnSeekBar
 
     @Override
     public void onClick(View v) {
-        SystemData.getInstance().matchFragmentMatchResults.getNextMatch();
-        //ServerData.getInstance().updateSearchSettings(distance, minAge, maxAge, this);
+        ServerData.getInstance().updateSearchSettings(distance, minAge, maxAge, this);
     }
 
     @Override
     public void onReturnedRequest(String request) {
         if(request.compareTo(ChangeSearchSettingsQuery.QUERY_TAG) == 0) {
-            SystemData.getInstance().matchFragmentMatchResults.getNextMatch();
+            System.out.println("actualizo ok");
+            ServerData.getInstance().fetchCandidates(this);
         }
-        System.out.println("put por returned");
     }
 
     @Override
     public void onFailRequest(String message, String request) {
-
+        if(request.compareTo(ChangeSearchSettingsQuery.QUERY_TAG) == 0) {
+            System.out.println(message);
+            ServerData.getInstance().fetchCandidates(this);
+        }
     }
 
     @Override
     public void afterRequest(String request) {
-        if(request.compareTo(ChangeSearchSettingsQuery.QUERY_TAG) == 0) {
-            SystemData.getInstance().matchFragmentMatchResults.getNextMatch();
-        }
-        System.out.println("put por after");
+        SystemData.getInstance().matchFragmentMatchResults.getNextMatch();
     }
 }
