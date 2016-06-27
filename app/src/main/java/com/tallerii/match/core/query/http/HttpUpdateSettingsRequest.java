@@ -33,11 +33,11 @@ public class HttpUpdateSettingsRequest implements HttpResponseListener {
             body.put("ageRange", range);
 
             JSONObject location = new JSONObject();
-            //location.put("latitude", SystemData.getInstance().getLatitude());
-            //location.put("longitude", SystemData.getInstance().getLongitude());
+            location.put("latitude", SystemData.getInstance().getLatitude());
+            location.put("longitude", SystemData.getInstance().getLongitude());
 
-            location.put("latitude", 0);
-            location.put("longitude", 0);
+            //location.put("latitude", 0);
+            //location.put("longitude", 0);
 
             body.put("location", location);
         } catch (JSONException e) {
