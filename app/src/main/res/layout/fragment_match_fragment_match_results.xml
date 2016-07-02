@@ -6,7 +6,8 @@
     android:paddingTop="20dp"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    tools:context="com.tallerii.match.MatchFragmentMatchResults">
+    tools:context="com.tallerii.match.MatchFragmentMatchResults"
+    android:background="@color/material_deep_teal_200">
 
     <com.tallerii.match.components.MLRoundedImageView
         android:layout_width="300dp"

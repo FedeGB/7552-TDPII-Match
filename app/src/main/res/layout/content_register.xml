@@ -66,7 +66,8 @@
         android:textSize="20dp"
         android:textOn="Hombre"
         android:textOff="Mujer"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:checked="false" />
 
     <EditText
         android:id="@+id/cr_et_ip"
