@@ -8,8 +8,7 @@
     android:paddingRight="30dp"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_main"
-    android:background="@color/material_deep_teal_500">
+    tools:showIn="@layout/activity_main">
 
     <EditText
         android:id="@+id/user_email"

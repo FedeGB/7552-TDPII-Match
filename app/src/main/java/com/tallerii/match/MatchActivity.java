@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,12 +22,15 @@ import com.tallerii.match.core.SystemData;
 import com.tallerii.match.core.UserProfile;
 import com.tallerii.match.core.query.QueryListener;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Timer;
 
-public class MatchActivity extends AppCompatActivity implements LocationListener, QueryListener {
+public class MatchActivity extends AppCompatActivity implements LocationListener, QueryListener, Observer {
     private ViewPager mViewPager = null;
     private TabLayout mTabLayour = null;
     boolean isTabletDevice = false;
+    FloatingActionButton loadingButton;
 
     private void checkIfIsTabletDevice(){
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -35,12 +39,21 @@ public class MatchActivity extends AppCompatActivity implements LocationListener
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ServerData.getInstance().deleteObserver(this);
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match);
 
         checkIfIsTabletDevice();
-
+        ServerData.getInstance().addObserver(this);
+        loadingButton = (FloatingActionButton) findViewById(R.id.fab2);
+        loadingButton.setVisibility(View.INVISIBLE);
 
         try {
              /* Use the LocationManager class to obtain GPS locations */
@@ -109,6 +122,19 @@ public class MatchActivity extends AppCompatActivity implements LocationListener
 
     @Override
     public void afterRequest(String request) {
+
+    }
+
+
+    @Override
+    public void update(Observable observable, Object data) {
+        boolean isExecuting = (boolean) data;
+
+        if(isExecuting) {
+            loadingButton.setVisibility(View.VISIBLE);
+        } else {
+            loadingButton.setVisibility(View.INVISIBLE);
+        }
 
     }
 }

@@ -56,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity implements QueryListener
             sex = "M";
         }
 
-        String serverIp = ((EditText)findViewById(R.id.cr_et_ip)).getText().toString();
+        String serverIp = "201.235.20.44:8004";
 
         String[] splittedIp = serverIp.split(":");
 

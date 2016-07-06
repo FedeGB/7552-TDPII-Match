@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import android.os.Bundle;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,9 @@ import com.tallerii.match.core.ServerData;
 import com.tallerii.match.core.query.QueryListener;
 import com.tallerii.match.core.SystemData;
 
+import java.util.Observable;
+import java.util.Observer;
+
 
 public class MainActivity extends AppCompatActivity implements QueryListener {
 
@@ -29,9 +33,12 @@ public class MainActivity extends AppCompatActivity implements QueryListener {
 
     private View view;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         PreferencesManager prefs = new PreferencesManager(this);
         String apiToken = prefs.getString(getString(R.string.api_credential));
@@ -87,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements QueryListener {
 
         String userName = userloginEdit.getText().toString();
         String userPassword = userpassEdit.getText().toString();
-        String serverIp = ((EditText)findViewById(R.id.cm_et_ip)).getText().toString();
+        String serverIp = "201.235.20.44:8004";
 
         String[] splittedIp = serverIp.split(":");
 
@@ -133,4 +140,5 @@ public class MainActivity extends AppCompatActivity implements QueryListener {
     public void afterRequest(String request) {
 
     }
+
 }

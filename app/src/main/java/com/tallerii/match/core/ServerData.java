@@ -14,12 +14,13 @@ import com.tallerii.match.core.query.UpdateProfileQuery;
 import com.tallerii.match.core.query.UserProfileQuery;
 
 import java.util.LinkedList;
+import java.util.Observable;
 import java.util.Queue;
 
 /**
  * Created by Demian on 26/05/2016.
  */
-public class ServerData {
+public class ServerData extends Observable {
     private static ServerData ourInstance = new ServerData();
     public static ServerData getInstance() {
         return ourInstance;
@@ -87,5 +88,7 @@ public class ServerData {
         } else {
             isExecuting = false;
         }
+        notifyObservers(isExecuting);
+        setChanged();
     }
 }
